@@ -12,12 +12,17 @@ class Post(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	main_photo = models.ImageField('사진', blank=True,upload_to='main_photo/%Y/%m/%d/')
-	def __str__(self):
-		return self.title
 
 	def __self__(self):
-		return self.author.username
-		
+		return self.title
+
+	def delete(self, *args, **kwargs):
+		self.main_photo.delete()
+		for photo in self.photo_set.all():
+			photo.file.delete()
+			photo.delete()
+		super(Post, self).delete(*args, **kwargs)
+
 class Address(models.Model):
 	post = models.ForeignKey('Post', verbose_name='post related',
 		related_name='%(app_label)s_%(class)ss')
@@ -29,7 +34,7 @@ class Photo(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.pos.title
+        return self.post.title
 
 class Comment(models.Model):
 	post = models.ForeignKey('Post', verbose_name='post related',
