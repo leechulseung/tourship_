@@ -91,10 +91,10 @@
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6 px-0 mt-3 mt-md-0">
                                 <!-- Button trigger modal -->
                                 <div class="card-block">
-                                    <a id="modalStart" href="{% url 'news:modal' %}" name="{{post.id}}"></a>
+                                    <a>
                                         <h4 class="card-title">{{post.title}}</h4>
                                         <p class="card-text">{{post.content}}</p>
-                                    
+                                    </a>
                                 </div>
                                 <!-- /Button trigger modal -->
                             </div>
@@ -440,9 +440,9 @@
     </main>
 
      <!-- Modal content -->
-     <div class="modal fade bd-example-modal-lg show post-modal-show" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+     <div id="post-modal" class="modal fade bd-example-modal-lg show " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
-            <div class="post-modal-content">
+            <div class="modal-content post-modal-content">
             <!-- Modal content-->
             </div>
         </div>
