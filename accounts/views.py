@@ -49,8 +49,11 @@ def login(request):
 def index(request):
 	if request.method == 'POST':
 		form = PostForm(request.POST,request.FILES)
+		print('잘되는지 확인')
 		if form.is_valid():
 			post = form.save()
+			print(post.location)
+			print(post.title)
 			Photo.objects.create(post=post, photo=form.cleaned_data['photo'])
 	elif request.method == 'GET':
 		form = PostForm()

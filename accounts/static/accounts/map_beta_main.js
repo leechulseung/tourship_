@@ -13,6 +13,37 @@ var map = new daum.maps.Map(mapContainer, mapOptions);
 var geocoder = new daum.maps.services.Geocoder();
 var ps = new daum.maps.services.Places(map);
 
+// 지도에 확대 축소 컨트롤을 생성한다
+var zoomControl = new daum.maps.ZoomControl();
+
+// 지도의 우측에 확대 축소 컨트롤을 추가한다
+map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
+
+(function(daum, jQuery){
+
+    var user_markers = [];
+    // var userMaker = new new daum.maps.Marker();
+
+    addMarker(mapOptions.center);
+    setMarker(map);
+
+    function addMarker(position){
+        var userMaker = new daum.maps.Marker({
+            position: position
+        });
+
+        userMaker.setMap(map);
+        user_markers.push(userMaker);
+    }
+
+    function setMarker(map){
+        for(var i = 0; i < user_markers.length; i++){
+            user_markers[i].setMap(map);
+        }
+    }
+
+})(window.daum, window.jQuery);
+
 // 오제웅 Start
 (function(daum, jQuery){
     
@@ -43,22 +74,17 @@ var ps = new daum.maps.services.Places(map);
     function callAddress(result, status) {
         if (status === daum.maps.services.Status.OK) {
             $('#id_address')[0].value = result[0].address.address_name;
-            // if(result[0].road_address == null){
-            //     $('#form__road__address')[0].value = '도로명 주소가 없습니다.';
-            // }else{
-            //     $('#form__road__address')[0].value = result[0].road_address.address_name;
-            // }
         }
     }
 
     function handleClick(e) {
         var latlng = e.latLng;
-        var message = null;
+        var getLatgetLng = null;
         
         callModal();
-        message = '위도 ' + latlng.getLat() + ' 경도 ' + latlng.getLng();
-        // $('#result1')[0].innerHTML = message;
-        
+        getLatgetLng = latlng.getLat() + ',' + latlng.getLng();
+        $('#getLatgetLng').attr("value", getLatgetLng);
+
         daum.maps.event.removeListener(map, 'click', handleClick);
         daum.maps.event.removeListener(map, 'mousemove', handleMove);
         geocoder.coord2Address(latlng.getLng(), latlng.getLat(), callAddress);
@@ -492,14 +518,9 @@ var ps = new daum.maps.services.Places(map);
 // 주소-좌표 변환 객체를 생성합니다
 var geocoder = new daum.maps.services.Geocoder();
 
-// HTML5의 geolocation으로 사용할 수 있는지 확인합니다
-if (navigator.geolocation) {
-    
-    // GeoLocation을 이용해서 접속 위치를 얻어옵니다
-    navigator.geolocation.getCurrentPosition(function(position) {
-        
+function successCallback(position) {
         var lat = position.coords.latitude, // 위도
-            lon = position.coords.longitude; // 경도
+        lon = position.coords.longitude; // 경도
         
         var locPosition = new daum.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
             
@@ -511,38 +532,24 @@ if (navigator.geolocation) {
     
         // 지도의 중심좌표를 내 현재위치로 변경합니다
         map.setCenter(locPosition);
-
-        // 지도의 확대 레벨을 낮춥니다
-        map.setLevel(level -9,  {
-            animate: {
-                duration: 400
-            }
-        });
         
-        // searchDetailAddrFromCoords(locPosition, function(result, status) {    
-        //     if (status === daum.maps.services.Status.OK) {
-        //         var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
-        //         detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
-            
-        //         var message = '<div class="bAddr">' + '<span class="title">법정동 주소정보</span>' + detailAddr + '</div>';
-                
-        //         var resultDiv = document.getElementById('result2'); 
-                    
-        //         resultDiv.innerHTML = message;
-        //     }
-        // });
-    });
-}
-else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
-    
-    var locPosition = new daum.maps.LatLng(36.52935, 128.45029);
-    alert("현재 위치를 알 수 없습니다.");
+        // 지도의 확대 레벨을 낮춥니다
+        map.setLevel(level -13,  {
+            // animate: {
+            //     duration: 600
+            // }
+        });
 }
 
-function searchDetailAddrFromCoords(locPosition, callback) {
-    // 좌표로 법정동 상세 주소 정보를 요청합니다
-    geocoder.coord2Address(locPosition.getLng(), locPosition.getLat(), callback);
+function errorCallback(error) { 
+    alert("Error: " + error.message); 
 }
+
+
+document.getElementById("getLocation").onclick = function () { 
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+};
+
 })(window.daum, window.jQuery);
 
 

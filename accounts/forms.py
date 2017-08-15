@@ -14,19 +14,21 @@ class PostForm(forms.ModelForm):
 
 	class Meta:
 		model = Post
-		fields = ['title','tourday','content','privacy']
+		fields = ['title','tourday','content','privacy','location']
 		today = timezone.now()
 		widgets={
 		'title': forms.TextInput(attrs={'class':'form-control','placeholder':'제목을 입력하세요.'}),
         'tourday': DateInput(attrs={'class':'form-control','value':today.strftime("%Y-%m-%d")}),
         'content': forms.Textarea(attrs={'class':'form-control mt-2','placeholder':'내용을 입력하세요.'}),
         'privacy': forms.Select(attrs={'class':'form-control'}),
+        'location': forms.HiddenInput(attrs={'id':'getLatgetLng','value':''}),
         }
 
 	def save(self):
 		post = super().save()
 		addr = self.cleaned_data['address']
 		address = Address.objects.create(post=post, address=addr)
+		print("세이브")
 		return post
 
 class LoginForm(AuthenticationForm):
@@ -35,6 +37,7 @@ class LoginForm(AuthenticationForm):
 			'class':'form-control',
 			'placeholder':'email@tourpin.com',
 			}))
+
 	password = forms.CharField(widget=
 		forms.PasswordInput(attrs={
 			'class':'form-control',
