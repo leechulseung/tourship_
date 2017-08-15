@@ -55,7 +55,7 @@ def index(request): #게시글 등록
 			if form.is_valid(): #다중사진
 				files = request.FILES.getlist('file')# list형태로 입력받은 파일들을 files에 저장
 				for f in files:#입력받은 리스트(사진) 순회
-					Photo.objects.create(pos=post, file=f)
+					Photo.objects.create(post=post, file=f)
 	elif request.method == 'GET':
 		form = PostForm()
 	return render(request, 'accounts/index.html', {

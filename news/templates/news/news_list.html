@@ -35,7 +35,6 @@
             </div>
 
             {% for post in post_list %}
-            {{ post.user }}
             {% if post.photo_set.count == 0 %}
             <!-- 사진이 하나 일 때 -->
             <div>
@@ -72,7 +71,7 @@
                                         </div>
                                         <a class="dropdown-item" href="#"><i class="fa fa-user-times" aria-hidden="true"></i> 차단하기 </a>
                                         <a class="dropdown-item" href="/newspeed1_edit.html"><i class="fa fa-pencil" aria-hidden="true"></i> 수정하기 </a>
-                                        <a class="dropdown-item" href="#"><i class="fa fa-trash-o" aria-hidden="true"></i> 삭제하기 </a>
+                                        <a class="dropdown-item" href="{% url 'news:post_destroy' post.id %}"><i class="fa fa-trash-o" aria-hidden="true"></i> 삭제하기 </a>
                                     </div>
                                 </div>
                             </div>
@@ -86,7 +85,7 @@
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6 px-0 mt-3 mt-md-0" data-toggle="modal" data-target=".bd-example-modal-lg2">
                                 <div class="card">
                                     <a href="#" class="tourbook__main__container d-flex justify-content-center">
-                                        <img class="tourbook__main__img card-img-top height-fix" src="/media/{{ post.main_photo }}" alt>
+                                        <img class="tourbook__main__img card-img-top height-fix" src="{{ post.main_photo.url }}" alt>
                                     </a>
                                 </div>
                             </div>
@@ -146,7 +145,7 @@
                                         </div>
                                         <a class="dropdown-item" href="#"><i class="fa fa-user-times" aria-hidden="true"></i> 차단하기 </a>
                                         <a class="dropdown-item" href="/newspeed1_edit.html"><i class="fa fa-pencil" aria-hidden="true"></i> 수정하기 </a>
-                                        <a class="dropdown-item" href="#"><i class="fa fa-trash-o" aria-hidden="true"></i> 삭제하기 </a>
+                                        <a class="dropdown-item" href="{% url 'news:post_destroy' post.id %}"><i class="fa fa-trash-o" aria-hidden="true"></i> 삭제하기 </a>
                                     </div>
                                 </div>
                             </div>
@@ -160,14 +159,14 @@
                             <div class="col-12 col-sm-12 col-md-6 col-lg-4 px-0 mt-3 mt-md-0" data-toggle="modal" data-target=".bd-example-modal-lg2">
                                 <div class="card">
                                     <a href="#" class="tourbook__main__container d-flex justify-content-center">
-                                        <img class="tourbook__main__img card-img-top height-fix" src="/media/{{ post.main_photo }}" alt>
+                                        <img class="tourbook__main__img card-img-top height-fix" src="{{ post.main_photo.url }}" alt>
                                     </a>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-12 col-md-6 col-lg-4 px-0 mt-3 mt-md-0">
                                 <div class="card">
                                     <a href="#" class="tourbook__main__container d-flex justify-content-center">
-                                        <img class="tourbook__main__img card-img-top height-fix" src="/media/{{ post.photo_set.all.0.file }}" alt>
+                                        <img class="tourbook__main__img card-img-top height-fix" src="{{ post.photo_set.all.0.file.url }}" alt>
                                     </a>
                                 </div>
                             </div>
@@ -227,7 +226,7 @@
                                         </div>
                                         <a class="dropdown-item" href="#"><i class="fa fa-user-times" aria-hidden="true"></i> 차단하기 </a>
                                         <a class="dropdown-item" href="/newspeed1_edit.html"><i class="fa fa-pencil" aria-hidden="true"></i> 수정하기 </a>
-                                        <a class="dropdown-item" href="#"><i class="fa fa-trash-o" aria-hidden="true"></i> 삭제하기 </a>
+                                        <a class="dropdown-item" href="{% url 'news:post_destroy' post.id %}"><i class="fa fa-trash-o" aria-hidden="true"></i> 삭제하기 </a>
                                     </div>
                                 </div>
                             </div>
@@ -241,7 +240,7 @@
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6 px-0 mt-3 mt-md-0" data-toggle="modal" data-target=".bd-example-modal-lg2">
                                 <div class="card">
                                     <a href="#" class="tourbook__main__container d-flex justify-content-center">
-                                        <img class="tourbook__main__img card-img-top height-fix" src="/media/{{ post.main_photo }}" alt>
+                                        <img class="tourbook__main__img card-img-top height-fix" src="{{ post.main_photo.url }}" alt>
                                     </a>
                                 </div>
                             </div>
@@ -251,12 +250,12 @@
                                     <div class="col-12 col-sm-12 col-md-6 col-lg-6 flex-row px-0">
                                         <div class="card">
                                             <a href="#" class="tourbook__side__container d-flex justify-content-center">
-                                                <img class="tourbook__side__img card-img-top height-fix" src="/media/{{ post.photo_set.all.0.file }}" alt>
+                                                <img class="tourbook__side__img card-img-top height-fix" src="{{ post.photo_set.all.0.file.url }}" alt>
                                             </a>
                                         </div>
                                         <div class="card">
                                             <a href="#" class="tourbook__side__container d-flex justify-content-center">
-                                                <img class="tourbook__side__img card-img-top height-fix" src="/media/{{ post.photo_set.all.1.file }}" alt>
+                                                <img class="tourbook__side__img card-img-top height-fix" src="{{ post.photo_set.all.1.file.url }}" alt>
                                             </a>
                                         </div>
                                     </div>
@@ -280,7 +279,7 @@
             <!-- 사진이 세개 일 때 -->
             {% endif %}
 
-            {% if post.photo_set.count == 3 %}
+            {% if post.photo_set.count >= 3 %}
             <!-- 사진이 네개 일 때 -->
             <div>
                 <section class="posts pt-4">
@@ -316,7 +315,7 @@
                                         </div>
                                         <a class="dropdown-item" href="#"><i class="fa fa-user-times" aria-hidden="true"></i> 차단하기 </a>
                                         <a class="dropdown-item" href="/newspeed1_edit.html"><i class="fa fa-pencil" aria-hidden="true"></i> 수정하기 </a>
-                                        <a class="dropdown-item" href="#"><i class="fa fa-trash-o" aria-hidden="true"></i> 삭제하기 </a>
+                                        <a class="dropdown-item" href="{% url 'news:post_destroy' post.id %}"><i class="fa fa-trash-o" aria-hidden="true"></i> 삭제하기 </a>
                                     </div>
                                 </div>
                             </div>
@@ -330,7 +329,7 @@
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6 px-0 mt-3 mt-md-0" data-toggle="modal" data-target=".bd-example-modal-lg2">
                                 <div class="card">
                                     <a href="#" class="tourbook__main__container d-flex justify-content-center">
-                                        <img class="tourbook__main__img card-img-top height-fix" src="/media/{{ post.main_photo }}" alt>
+                                        <img class="tourbook__main__img card-img-top height-fix" src="{{ post.main_photo.url }}" alt>
                                     </a>
                                 </div>
                             </div>
@@ -340,19 +339,19 @@
                                     <div class="col-12 col-sm-12 col-md-6 col-lg-6 flex-row px-0">
                                         <div class="card">
                                             <a href="#" class="tourbook__side__container d-flex justify-content-center">
-                                                <img class="tourbook__side__img card-img-top height-fix" src="/media/{{ post.photo_set.all.0.file }}" alt>
+                                                <img class="tourbook__side__img card-img-top height-fix" src="{{ post.photo_set.all.0.file.url }}" alt>
                                             </a>
                                         </div>
                                         <div class="card">
                                             <a href="#" class="tourbook__side__container d-flex justify-content-center">
-                                                <img class="tourbook__side__img card-img-top height-fix" src="/media/{{ post.photo_set.all.1.file }}" alt>
+                                                <img class="tourbook__side__img card-img-top height-fix" src="{{ post.photo_set.all.1.file.url }}" alt>
                                             </a>
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-12 col-md-6 col-lg-6 flex-row px-0">
                                         <div class="card">
                                             <a href="#" class="tourbook__side__container d-flex justify-content-center">
-                                                <img class="tourbook__side__img card-img-top height-fix" src="/media/{{ post.photo_set.all.2.file }}" alt>
+                                                <img class="tourbook__side__img card-img-top height-fix" src="{{ post.photo_set.all.2.file.url }}" alt>
                                             </a>
                                         </div>
                                         <!-- Button trigger modal -->
