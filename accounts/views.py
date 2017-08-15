@@ -59,6 +59,7 @@ def index(request): #게시글 등록
 				files = request.FILES.getlist('file')# list형태로 입력받은 파일들을 files에 저장
 				for f in files:#입력받은 리스트(사진) 순회
 					Photo.objects.create(post=post, file=f)
+				return redirect('index')
 	elif request.method == 'GET':
 		form = PostForm()
 

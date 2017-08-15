@@ -551,10 +551,15 @@
 
 <!--스크립트 시작-->
 {% block script %}
-  
+  <script>
+      var userLocations = {'locations':{{locations|safe}},
+        'userid':{{user.id}},
+       };
+       console.log(userLocations.locations);
+  </script>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=06220f2994a97769a8f7ba53ca9f39b8&libraries=services,clusterer"></script>
   <script type="text/javascript" src="{% static 'accounts/map_beta_main.js' %}"></script>
-  
+
 {% endblock script %}
 
 

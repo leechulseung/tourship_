@@ -19,14 +19,26 @@ var zoomControl = new daum.maps.ZoomControl();
 // 지도의 우측에 확대 축소 컨트롤을 추가한다
 map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
 
+// console.log(this.locations);
 (function(daum, jQuery){
 
     var user_markers = [];
-    // var userMaker = new new daum.maps.Marker();
+    var user = userLocations;
+    var shit = [];
 
-    addMarker(mapOptions.center);
+    $(document).on("click", "#memory-add", function(){
+        setMarker(map);
+    });
+
+    for(var i = 0; i < user.locations.length; i++){
+        shit.push(user.locations[i].split(","));
+    }
+
+    for(var i = 0; i < shit.length; i++){
+        addMarker(new daum.maps.LatLng(shit[i][0], shit[i][1]));
+    }
+    
     setMarker(map);
-    console.log(locations);
 
     function addMarker(position){
         var userMaker = new daum.maps.Marker({
