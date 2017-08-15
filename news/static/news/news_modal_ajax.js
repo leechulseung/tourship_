@@ -32,8 +32,8 @@ $(document).on('click','.modalStart', function(e) {
         	'csrfmiddlewaretoken': csrf
         },
     	success: function (data, textStatus, jqXHR) {
-            $('.post-modal-show').find('.post-modal-content').html(data);
-            $('.post-modal-show').modal('show');
+            $('#post-modal').find('.post-modal-content').html(data);
+            $('#post-modal').modal('show');
         },
     });
 });
