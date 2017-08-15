@@ -48,6 +48,9 @@ def login(request):
 
 def index(request): #게시글 등록
 	forms = Multi_PhotoForm(request.POST, request.FILES)#다중사진
+	user_list= request.user.post_set.all()
+	locations = [c.location for c in user_list]
+	print(locations)
 	if request.method == 'POST':
 		form = PostForm(request.user,request.POST,request.FILES)
 		if form.is_valid():
@@ -58,9 +61,11 @@ def index(request): #게시글 등록
 					Photo.objects.create(post=post, file=f)
 	elif request.method == 'GET':
 		form = PostForm()
+
 	return render(request, 'accounts/index.html', {
 		'form':form,
 		'forms':forms,
+		'locations':locations,
 		})
 
 

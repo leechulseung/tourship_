@@ -26,6 +26,7 @@ map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
 
     addMarker(mapOptions.center);
     setMarker(map);
+    console.log(locations);
 
     function addMarker(position){
         var userMaker = new daum.maps.Marker({
