@@ -35,6 +35,7 @@
             </div>
 
             {% for post in post_list %}
+            {{ post.user }}
             {% if post.photo_set.count == 0 %}
             <!-- 사진이 하나 일 때 -->
             <div>
