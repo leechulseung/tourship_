@@ -1,0 +1,88 @@
+/* Common Settings */
+html {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+* {
+	font-family: 'SeoulNamsanM', sans-serif;
+	letter-spacing: -0.02em;
+}
+
+/* Icon */
+.btn__feedback {
+  background-color: #FFFFFF;
+}
+
+.btn__feedback:focus {
+  background-color: #FFFFFF;
+  outline: none;
+  border: none;
+}
+
+.btn__help {
+  background-color: #FFFFFF;
+}
+
+.btn__help:focus {
+  background-color: #FFFFFF;
+  outline: none;
+  border: none;
+}
+
+.icon-section {
+  background-color: #FFFFFF;
+}
+
+/* Setting Menu */
+.setting__title {
+  color: #666666;
+  margin-bottom: 30px;
+}
+
+/* 회원 가입 */
+/* 로고 */
+.logo img {
+  max-width: 100%;
+  width:300px;
+}
+
+.logo p{
+  display:inline-block;
+}
+
+/* 최소 너비 528픽셀일 때 아래 속성 적용  */
+@media screen and (min-width: 528px) {
+  .logo p{
+    position: absolute;
+    display:inline-block;
+    top:94.2px;
+  }
+}
+
+.form-control:focus {
+  border-color: #666666; /* 입력창에 입력할 때 border 색상을 회색으로 설정 */
+}
+
+.form-control-feedback {
+  color: #d9534f;
+}
+
+/* 회원 가입 버튼 */
+.btn__join_us {
+  color: #FFFFFF;
+  background-color: #3D74AA;
+  border-radius: 100px;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn__join_us:hover {
+  color: #3D74AA;
+  border: 1px solid #3D74AA;
+  background-color: #FFFFFF;
+}
+
+.btn__join_us:active {
+  color: #3D74AA;
+  background-color: #FFFFFF;
+}

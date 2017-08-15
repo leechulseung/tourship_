@@ -1,0 +1,99 @@
+/* Common Settings */
+
+
+html {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+* {
+	font-family: 'SeoulNamsanM', sans-serif;
+}
+
+button {
+    border:none;
+	cursor: pointer;/*버튼 위에 올렸을때 커서모양이 바뀐다.*/
+	line-height: initial;
+	padding:0;
+}
+
+button:focus {
+	outline: none;
+}/*버튼을 눌렀을 시(:focus) 생기는 테두리를 없앤다 outline : 테두리*/
+
+/*main*/
+.basic_map {
+    z-index:8;
+    position: relative;
+}
+
+.top-list-bt{
+    border-color: #3C74AA;
+    color: #3C74AA;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+.top-list-bt:hover {
+    border-color: #3C74AA;
+    background-color: #3C74AA;
+    color: #fff;
+}
+
+.top-list {
+    background-color: #FF8080;
+    border-color:#FF8080;
+}
+
+.top-list button {
+    color: #fff;
+}
+
+
+
+/*로그인창 모달*/
+
+.modal-header {
+    display: inline-block;
+}
+
+.login_logo {/*로그인창 가운데 로고 설정*/
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.7rem;
+    color: #3C74AA;
+}
+
+.login {
+    color: #ccc;
+    font-weight: 700;
+}
+.form-check , .form-check-input{
+    color: #ccc;
+    font-size: .7rem;
+}/*체크박스*/
+
+.log_bt {
+    width: 90px;
+    height: 40px;
+    color: #3C74AA;
+    font-size: 1rem;
+    font-weight: 700;
+    background-color: #fff;
+    border : 1px solid #3C74AA;
+    border-radius: 100px;
+}
+/*Login 버튼*/
+
+.log_bt:focus , .log_bt:hover {
+    background-color: #3C74AA;
+    color: #FFF;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.errorlist{
+    font-size: 12px;
+    color: red;
+    margin-left: 15px;
+}

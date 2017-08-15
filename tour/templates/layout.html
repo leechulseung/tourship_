@@ -1,0 +1,149 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title lang="ko">{% block title %}tourpship{% endblock title %}</title>
+  <!-- fonts -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- bootstrap css -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <!-- navbar css -->
+  <link rel="stylesheet" href="{% static 'navbar.css' %}">
+
+  {% block style %}
+
+  {% endblock style %}
+</head>
+<body>
+{% block nav %}
+  <header class="header fixed-top">
+  {% if not user.is_authenticated  %}
+    <!-- navbar -->
+    <nav class="navbar navbar-toggleable-md navbar-light bg-tourpin d-flex flex-row-reverse">
+        <div class="logIn">
+          <!-- 로그인 -->
+          <button class="header__button" type="button" id="logInButton" data-toggle="modal" data-target="#myModal">
+            <a class="navbar-brand navbar-white" href="#">LOG IN</a>
+          </button>
+        </div>
+        <div class="joinUs">
+          <!-- 회원 가입 -->
+           <a class="navbar-brand navbar-white" href="{% url 'joinus' %}">JOIN US</a>
+        </div>
+    </nav>
+  {% else %}
+    <nav class="navbar navbar-toggleable-md navbar-light bg-tourpin">
+      <!-- 여행자 등급 -->
+      <a class="navbar-brand navbar-white" href="{% url 'index' %}">PILOT</a>
+      <!-- 여행자 정보 -->
+      <ul class="navbar-nav mr-auto">
+        <!-- 여행자 이름 -->
+        <li class="nav-item active">
+          <a class="nav-link navbar-white px-0 py-1 mr-3" href="#">장근열 여행자님<span class="sr-only">(여행자님 어서오세요! 현재 등급은 파일럿 입니다!)</span></a>
+        </li>
+        <!-- 여행자 상태 -->
+        <li class="nav-item ing">
+          <a class="nav-link navbar-white px-0 py-1 mr-3" href="#">여행중</a>
+          <a class="nav-link navbar-white px-0 py-1 mr-3" href="#" style="display: none;">휴식중</a>
+        </li>
+      </ul>
+      <!-- 알림 -->
+      <div class="notice dropdown">
+        <!-- 번개 아이콘 -->
+        <button class="header__button navbar-white px-0 py-1 mr-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="알림">
+          <i class="fa fa-bolt text-white"></i>
+        </button>
+        <!-- 알림 드롭 다운 -->
+        <div class="header__dropdown dropdown-menu mr-auto" aria-labelledby="dropdownMenuButton">
+          <ul class="header__ul text-left">
+            <a href="#">
+              <li class="dropdown-item">
+                <button type="button" class="close" aria-label="Close"><span class="close-btn" aria-hidden="true">&times;</span></button>
+                <img class="mr-3" src="assets/img/my.jpg" alt>
+                <p class="img_block">오제웅 여행자님이 게시글에 댓글을 남기셨습니다.</p>
+              </li>
+            </a>
+            <a href="#">
+              <li class="dropdown-item">
+                <button type="button" class="close" aria-label="Close"><span class="close-btn" aria-hidden="true">&times;</span></button>
+                <img class="mr-3" src="assets/img/my.jpg" alt>
+                <p class="img_block">오제웅 여행자님이 게시글에 댓글을 남기셨습니다.</p>
+              </li>
+            </a>
+            <a href="#">
+              <li class="dropdown-item">
+                <button type="button" class="close" aria-label="Close"><span class="close-btn" aria-hidden="true">&times;</span></button>
+                <img class="mr-3" src="assets/img/my.jpg" alt="#">오제웅 여행자님이 추억을 등록하였습니다.
+              </li>
+            </a>
+            <a href="#">
+              <li class="dropdown-item">
+                <img class="mr-3" src="assets/img/my.jpg" alt="#">오제웅 여행자님과 친구가 되었습니다.
+                <button type="button" class="close" aria-label="Close"><span class="close-btn" aria-hidden="true">&times;</span></button>
+              </li>
+            </a>
+            <a href="#">
+              <li class="dropdown-item">
+                <button type="button" class="close" aria-label="Close"><span class="close-btn" aria-hidden="true">&times;</span></button>
+               <img class="mr-3" src="assets/img/my.jpg" alt="#">오제웅 여행자님이 친구를 요청하였습니다.
+              </li>
+            </a>
+            <!-- 더 보기 -->
+            <a href="#">
+              <li class="dropdown-plus text-center">
+                더 보기..
+              </li>
+            </a>
+          </ul>
+        </div>
+      </div>
+      <!-- 메뉴 -->
+      <div class="menu dropdown">
+        <!-- 메뉴 바 아이콘 -->
+        <button class="header__button navbar-white px-0 py-1 mr-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          MENU <i class="fa fa-bars text-white"></i>
+        </button>
+        <!-- 메뉴 드롭다운 -->
+        <div class="header__dropdown dropdown-menu mr-auto" aria-labelledby="dropdownMenuButton">
+          <ul class="header__ul text-right p-0 m-0">
+            <!-- 투어핀 메인 -->
+            <li><a class="dropdown-item" href="{% url 'index' %}">main</a></li>
+            <!-- 뉴스피드 -->
+            <li><a class="dropdown-item" href="{% url 'news:news_list' %}">newspeed</a></li>
+            <!-- 그룹 페이지 -->
+            <li><a class="dropdown-item" href="{% url 'group:tourship' %}">tourship</a></li>
+            <!-- 친구 확인 -->
+            <li><a class="dropdown-item" href="{% url 'friend_list' %}">friends</a></li>
+            <!-- 환경 설정 -->
+            <li><a class="dropdown-item" href="{% url 'preference' %}">set-up</a></li>
+            <!-- 로그 아웃 -->
+            <li><a class="dropdown-item" href="{% url 'logout' %}">logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  {% endif %}
+  <!-- Header -->
+    <!-- // navbar -->
+  </header>
+{% endblock nav %}
+  <!-- // Header -->
+{% block content %}
+
+{% endblock content %}
+
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!--tether-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <!-- bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"   integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+    <script src='{% static "toggle.js" %}'></script>
+
+    {% block script %}
+    {% endblock script %}
+</body>
+</html>

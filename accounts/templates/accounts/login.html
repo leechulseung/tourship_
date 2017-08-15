@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+{% load socialaccount %}
+{% load static %}
+
+<!--스타일 시작 -->
+{% block style %}
+	<link rel="stylesheet" href="{% static 'accounts/before_login_main.css' %}">
+{% endblock style %}
+<!--// 스타일 끝 -->
+
+{% block content %}
+	<main class="main mt-5">
+    <div id="map" style="width:100%;height:93.333333vh;">
+      <div class="basic_map pt-3">
+        <div class="d-flex justify-content-end">
+          <div class="mr-auto p-2">
+            <img src="/assets/img/logo3.png" style="width: 20%;"></img>
+          </div>
+          <div class="p-2">
+            <!-- top 10 버튼 및 목록-->
+              <div class="dropdown mr-5 pr-4">
+                <button class="btn btn-secondary top-list-bt" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  TOP 10
+                </button>
+                <div class="dropdown-menu top-list" aria-labelledby="dropdownMenu2">
+                  <button class="dropdown-item" type="button"><strong>1. </strong>제주도</button>
+                  <button class="dropdown-item" type="button"><strong>2. </strong> 부산</button>
+                  <button class="dropdown-item" type="button"><strong>3. </strong> 강원도</button>
+                  <button class="dropdown-item" type="button"><strong>4. </strong> 제주도</button>
+                  <button class="dropdown-item" type="button"><strong>5. </strong> 부산</button>
+                  <button class="dropdown-item" type="button"><strong>6. </strong> 강원도</button>
+                  <button class="dropdown-item" type="button"><strong>7. </strong> 제주도</button>
+                  <button class="dropdown-item" type="button"><strong>8. </strong> 부산</button>
+                  <button class="dropdown-item" type="button"><strong>9. </strong> 강원도</button>
+                  <button class="dropdown-item" type="button"><strong>10. </strong> 강원도</button>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- // main -->
+
+      <!-- 로그인창 모달 -->
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h5 class="modal-title login_logo pl-3" id="exampleModalLabel">TOURPIN</h5>
+            </div>
+            <div id="loginerror"></div>
+              <div class="modal-body form-group mb-0 pb-2">
+                <form method="post">
+                  {% csrf_token %}
+                    {{ form.non_field_errors }}
+                  <label class="login" for="exampleInputEmail1 ">ID / Email</label>
+                  {{ form.username }}
+                  {% for error in form.username.errors %}
+                    <p>{{ error }}</p>
+                  {% endfor %}
+              </div>
+              <div class=" modal-body form-group mb-0 pb-1">
+                  <label class="login" for="exampleInputPassword1">PW</label>
+                  {{ form.password }}
+                  {% for error in form.password.errors %}
+                    <p>{{ error }}</p>
+                  {% endfor %}
+              </div>
+              <div class="form-check ml-3 mr-sm-2 mb-sm-0 pb-4">
+                <label class="form-check-label">
+                  <input class="form-check-input " type="checkbox"> 아이디를 기억하시겠습니까?
+                </label>
+              </div>
+            <div class="modal-footer">
+              <a href="joinus.html"><button type="button" class="log_bt btn-primary">Join us</button></a>
+              <button type="sumit" class="log_bt btn-primary" data-dismiss="modal" id="login">Login</button>
+            </div>
+          </form>
+          </div>
+        </div>
+      </div>
+{% endblock content %}
+
+{% block script %}
+    <!-- Daum 지도 API 라이브러리 불러오기 -->
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=06220f2994a97769a8f7ba53ca9f39b8&libraries=services,clusterer"></script>
+    <script type="text/javascript" src="{% static 'accounts/map_beta_before_main.js' %}"></script>
+    <script type="text/javascript" src="{% static 'accounts/login_ajax.js' %}"></script>
+{% endblock script %}

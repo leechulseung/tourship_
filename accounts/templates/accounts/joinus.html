@@ -1,0 +1,155 @@
+{% extends "layout.html" %}
+
+{% load static %}
+
+<!--css 스타일 -->
+{% block style %}
+	<link rel="stylesheet" href="{% static 'accounts/joinus.css' %}">
+{% endblock style %}
+
+<!-- 네비 오버라이드 -->
+{% block nav %}
+	  <header class="header fixed-top">
+    <!-- navbar -->
+    <nav class="navbar navbar-toggleable-md navbar-light bg-tourpin">
+      <!-- 로그인 -->
+      <a class="navbar-brand navbar-white" href="/before_login_main.html">HOME</a>
+    </nav>
+    <!-- // navbar -->
+  </header>
+{% endblock nav %}
+
+<!--내용시작-->
+{% block content %}
+	<div class="container pt-5 mt-5">
+    <!-- 로고 -->
+    <div class="logo ml-md-2 ml-lg-5">
+      <img src="{% static 'accounts/logo3.png' %}" alt="Tourpin로고">
+      <p>&#42; 는 필수 입력사항입니다.</p>
+    </div>
+    <!-- 가입 정보 입력 사항 -->
+    <form class="join form-group">
+      <!-- ID(E-Mail) 입력 -->
+      <div class="id form-group row ml-sm-2 ml-md-4 ml-lg-5 mr-sm-2 mr-md-4 mr-lg-5 pl-md-4 pl-lg-5 pr-md-4 pr-lg-5">
+        <label for="inputEmail3" class="col-form-label font-weight-bold col-12 col-sm-5 col-md-4 col-lg-3">&#42;&nbsp;&nbsp;ID(Email)</label>
+        <div class="id__input col-12 col-sm-7 col-md-8">
+          <input type="email" class="form-control" id="inputEmail3" placeholder="pilot@tourpin.com">
+          <!-- 입력 오류 시 뜨는 문구 -->
+          <div class="form-control-feedback">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+        </div>
+      </div>
+      <!-- 비밀번호 입력-->
+      <div class="pw form-group row ml-sm-2 ml-md-4 ml-lg-5 mr-sm-2 mr-md-4 mr-lg-5 pl-md-4 pl-lg-5 pr-md-4 pr-lg-5">
+        <label for="inputPassword3" class="col-form-label font-weight-bold col-12 col-sm-5 col-md-4 col-lg-3">&#42;&nbsp;&nbsp;PASSWORD</label>
+        <div class="pw__input col-12 col-sm-7 col-md-8">
+          <input type="password" class="form-control" id="inputPassword3" placeholder="&#42;&#42;&#42;&#42;&#42;&#42;&#42;&#42;">
+          <!-- 비밀번호 입력 시 조건 -->
+          <small id="passwordHelp" class="form-text text-muted">&#40; 영문&#43;숫자&#44; 8자 이상 &#41;</small>
+          <!-- 입력 오류 시 뜨는 문구 -->
+          <div class="form-control-feedback">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+        </div>
+      </div>
+      <!-- 비밀번호 재확인 -->
+      <div class="re_pw form-group row ml-sm-2 ml-md-4 ml-lg-5 mr-sm-2 mr-md-4 mr-lg-5 pl-md-4 pl-lg-5 pr-md-4 pr-lg-5">
+        <label for="inputPassword3" class="col-form-label font-weight-bold col-12 col-sm-5 col-md-4 col-lg-3">&#42;&nbsp;&nbsp;PASSWORD 확인</label>
+        <div class="re_pw__input col-12 col-sm-7 col-md-8">
+          <input type="password" class="form-control" id="inputPassword3" placeholder="&#42;&#42;&#42;&#42;&#42;&#42;&#42;&#42;">
+          <!-- 입력 오류 시 뜨는 문구 -->
+          <div class="form-control-feedback">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+        </div>
+      </div>
+      <!-- 이름 입력 -->
+      <div class="name form-group row ml-sm-2 ml-md-4 ml-lg-5 mr-sm-2 mr-md-4 mr-lg-5 pl-md-4 pl-lg-5 pr-md-4 pr-lg-5">
+        <label for="example-text-input" class="col-form-label font-weight-bold col-12 col-sm-5 col-md-4 col-lg-3">&#42;&nbsp;&nbsp;NAME</label>
+        <div class="name__input col-12 col-sm-7 col-md-8">
+          <input class="form-control" type="text" placeholder="tourpin" id="example-text-input">
+          <!-- 입력 오류 시 뜨는 문구 -->
+          <div class="form-control-feedback">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+        </div>
+      </div>
+      <!-- 주소 입력 -->
+      <div class="address form-group row ml-sm-2 ml-md-4 ml-lg-5 mr-sm-2 mr-md-4 mr-lg-5 pl-md-4 pl-lg-5 pr-md-4 pr-lg-5">
+        <!-- 나라, 지역 선택-->
+        <label for="example-text-input" class="col-form-label font-weight-bold col-12 col-sm-5 col-md-4 col-lg-3">&nbsp;&nbsp;&nbsp;ADDRESS</label>
+        <div class="address__select row col-12 col-sm-7 col-md-8">
+          <!-- 나라 선택 -->
+          <select class="form-control col-12 col-sm-5 col-md-4 col-xl-3 mb-2 mb-sm-0 ml-3 mr-sm-0" id="user_country">
+            <option disabled selected="selected" class="bg-faded text-white">나라</option>
+            <option>대한민국</option>
+            <option>한국</option>
+            <option>남한</option>
+          </select>
+          <!-- 지역 선택 -->
+          <select class="form-control col-12 col-sm-5 col-md-4 col-xl-3 mb-2 mb-sm-0 ml-3" id="user_hometown">
+            <option disabled selected="selected" class="bg-faded text-white">지역</option>
+            <option>서울</option>
+            <option>인제</option>
+            <option>강화</option>
+          </select>
+        </div>
+        <!-- 상세 주소 입력 -->
+        <label for="example-text-input" class="col-form-label font-weight-bold col-12 col-sm-5 col-md-4 col-lg-3"></label>
+        <div class="detailedAddress__input col-12 col-sm-7 col-md-8 mt-sm-2">
+          <input class="form-control" type="text" placeholder="상세 주소" id="example-text-input">
+          <!-- 입력 오류시 뜨는 문구 -->
+          <div class="form-control-feedback">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+        </div>
+      </div>
+      <!-- 생년월일 선택 -->
+      <div class="birthdate form-group row ml-sm-2 ml-md-4 ml-lg-5 mr-sm-2 mr-md-4 mr-lg-5 pl-md-4 pl-lg-5 pr-md-4 pr-lg-5">
+        <label for="example-date-input" class="col-form-label font-weight-bold col-12 col-sm-5 col-md-4 col-lg-3">&#42;&nbsp;&nbsp;BIRTHDATE</label>
+        <div class="birthdate__input col-12 col-sm-7 col-md-8">
+          <input class="form-control" type="date" value="2017-08-18" id="example-date-input">
+          <!-- 입력 오류 시 뜨는 문구 -->
+          <div class="form-control-feedback">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+        </div>
+      </div>
+      <!-- 성별 선택 -->
+      <div class="gender form-group row ml-sm-2 ml-md-4 ml-lg-5 mr-sm-2 mr-md-4 mr-lg-5 pl-md-4 pl-lg-5 pr-md-4 pr-lg-5">
+        <label for="gender-text-input" class="col-form-label font-weight-bold col-12 col-sm-5 col-md-4 col-lg-3">&#42;&nbsp;&nbsp;GENDER</label>
+        <div class="gender__select col-12 col-sm-7 col-md-8">
+          <select class="form-control col-sm-4 col-md-3 col-lg-2" id="user_gender">
+            <option disabled selected="selected" class="bg-faded text-white">성별</option>
+            <option>남성</option>
+            <option>여성</option>
+          </select>
+          <!-- 입력 오류 시 뜨는 문구 -->
+          <div class="form-control-feedback">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+        </div>
+      </div>
+      <!-- 전화번호 입력 -->
+      <div class="p_number form-group row ml-sm-2 ml-md-4 ml-lg-5 mr-sm-2 mr-md-4 mr-lg-5 pl-md-4 pl-lg-5 pr-md-4 pr-lg-5">
+        <label for="example-tel-input" class="col-form-label font-weight-bold col-12 col-sm-5 col-md-4 col-lg-3">&nbsp;&nbsp;&nbsp;P.NUMBER</label>
+        <div class="p_number__input col-12 col-sm-7 col-md-8">
+          <input class="form-control" type="tel" placeholder="01012345678" id="example-tel-input">
+          <!-- 전화번호 입력 시 조건-->
+          <small id="emailHelp" class="form-text text-muted">&lsquo; &ndash; &rsquo; 없이 입력하세요.</small>
+          <!-- 입력 오류 시 뜨는 문구 -->
+          <div class="form-control-feedback">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+        </div>
+      </div>
+      <!-- 프로필 사진 등록 -->
+      <div class="p_image form-group row ml-sm-2 ml-md-4 ml-lg-5 mr-sm-2 mr-md-4 mr-lg-5 pl-md-4 pl-lg-5 pr-md-4 pr-lg-5">
+        <label for="exampleInputFile" class="col-form-label font-weight-bold col-12 col-sm-5 col-md-4 col-lg-3">&nbsp;&nbsp;&nbsp;Profile Image</label>
+        <div class="p_image__select col-12 col-sm-7 col-md-8">
+          <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
+          <small id="fileHelp" class="form-text text-muted">프로필 사진으로 등록할 이미지 파일을 첨부해주세요.</small>
+          <!-- 입력 오류 시 뜨는 문구 -->
+          <div class="form-control-feedback">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</div>
+        </div>
+      </div>
+      <!-- 회원 가입 버튼 -->
+      <div class="d-flex flex-row-reverse mr-sm-1 mr-md-3 mr-lg-5 pr-lg-5">
+        <button type="button" class="btn__join_us font-weight-bold px-sm-4 py-2">
+          JOIN US
+        </button>
+      </div>
+    </form>
+  </div>
+  <!-- // 회원 가입 -->
+{% endblock content %}
+
+<!--스크리트 시작-->
+{% block script %}
+	
+{% endblock script %}

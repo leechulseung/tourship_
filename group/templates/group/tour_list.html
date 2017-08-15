@@ -1,0 +1,125 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block title %}
+	그룹페이지
+{% endblock title %}
+<!--스타일 적용-->
+{% block style %}
+	<link rel="stylesheet" href="{% static 'group/group_page.css' %}">
+{% endblock style %}
+
+<!--내용 시작-->
+{% block content %}
+	<main id="main" class="container mt-5">
+        <!-- My group header -->
+        <header class="my_group__header row justify-content-between pt-5">
+            <h1 class="my_group__title">
+    			<a href="#">TourShip</a>
+    		</h1>
+            <div class="my_group__search mx-0 mx-sm-1 mx-md-3 mx-lg-5 my-2">
+                <form class="form-inline">
+                    <input class="form-control" type="text" placeholder="그룹검색">
+                    <button class="btn my_group__btn_blue mx-1" type="submit">Search</button>
+                </form>
+            </div>
+            <div class="my_group__makeship px-3 py-2">
+                <a href="./group_page_makeship.html">MAKE SHIP</a>
+            </div>
+        </header>
+        <!-- //My group header -->
+        <!-- My group tourship -->
+        <section class="my_group__tourship mt-5">
+            <header class="tourship__header">
+                <h2 class="tourship__title px-3">
+        			My TourShip
+        		</h2>
+                <ul class="tourship__nav nav px-2 mt-2">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="./group_tourbook.html"><i class="fa fa-star tourship__star"></i>My Group</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Group1</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Group2</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Group3</a>
+                    </li>
+                </ul>
+            </header>
+        </section>
+        <!-- // My group tourship -->
+        <!-- My group best -->
+        <section class="my_group__best mt-5">
+            <header class="best__header">
+                <h2 class="best__title px-3">
+        			Best TourShip 10
+        		</h2>
+                <div class="best__container row">
+                    <h4 class="best__nav title pl-3">
+                    	<a class="nav-link active" href="#">TourShip</a>
+                    </h4>
+                    <div class="best__people">
+                        <ul class="m-0 p-0 pl-2">
+                            <li>
+                                <a href="#">오제웅님 외 10명</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+            <article class="best__picture mb-5">
+                <div class="card px-3">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-6 px-0">
+                                    <div class="card">
+                                        <a href="#" class="best__main__container d-flex justify-content-center align-items-center">
+                                            <img class="best__main__image card-img-top height-fix" src="http://cfile27.uf.tistory.com/image/202F1C464DD57EB6158D14" alt="Card image cap">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-12 col-lg-6">
+                                    <div class="row">
+                                        <div class="col-12 col-md-6 px-0">
+                                            <div class="card">
+                                                <a href="#" class="best__side__container d-flex justify-content-center align-items-center">
+                                                    <img class="best__side__image card-img-top height-fix" src="http://www.petzine.co.kr/news/photo/201701/885_2223_5221.jpg" alt="Card image cap">
+                                                </a>
+                                            </div>
+                                            <div class="card">
+                                                <a href="#" class="best__side__container d-flex justify-content-center align-items-center">
+                                                    <img class="best__side__image card-img-top height-fix" src="http://www.mypetnews.net/news/photo/201312/447_288_511.jpg" alt="Card image cap">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6 px-0">
+                                            <div class="card">
+                                                <a href="#" class="best__side__container d-flex justify-content-center align-items-center">
+                                                    <img class="best__side__image card-img-top height-fix" src="http://cfile27.uf.tistory.com/image/202F1C464DD57EB6158D14" alt="Card image cap">
+                                                </a>
+                                            </div>
+                                            <div class="card">
+                                                <a href="#" class="best__side__container d-flex justify-content-center align-items-center">
+                                                    <img class="best__side__image card-img-top height-fix" src="http://cfile27.uf.tistory.com/image/202F1C464DD57EB6158D14" alt="Card image cap">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-block">
+                    <h4 class="card-title">그룹이름</h4>
+                    <p class="card-text">그룹설명그룹설명그룹설명그룹설명그룹설명그룹설명그룹설명그룹설명그룹설명그룹설명그룹설명</p>
+                    <a href="#" class="btn__group__join px-4 py-2">그룹가입</a>
+                </div>
+            </article>
+        </section>
+        <!-- //My group best -->
+    </main>
+{% endblock content %}

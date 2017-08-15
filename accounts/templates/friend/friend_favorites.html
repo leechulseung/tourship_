@@ -1,0 +1,88 @@
+{% extends "layout.html" %}
+{% load static %}
+<!--스타일 적용-->
+{% block title %}
+	Tour Friend
+{% endblock title %}
+
+{% block style %}
+	<link rel="stylesheet" href="{% static 'friend/friend.css' %}">
+{% endblock style %}
+
+<!--내용 시작-->
+{% block content %}
+	<main id="main mt-5">
+        <section class="container pt-5">
+            <header class="friend__header row justify-content-between pt-5">
+                <h1 class="friend__header__logo">Tour Friend</h1>
+                <form class="friend__header__form px-2">
+                    <input type="text" class="friend__header__search form-control" id="tour__search" placeholder="여행자 검색">
+                </form>
+                <button type="submit" class="friend__header__btn px-3 py-1">Search</button>
+            </header>
+            
+            <section class="friend__body">
+                <header class="friend__body__header pt-4">
+                    <nav class="frined__body__nav nav">
+                      <a class="nav-link all-light-gray-font" href="{% url 'friend_list' %}">친구목록</a>
+                      <a class="nav-link active all-light-gray-font" href="{% url 'friend_favorites' %}">즐겨찾기</a>
+                      <a class="nav-link all-light-gray-font" href="{% url 'block_list' %}">차단관리</a>
+                    </nav>
+                </header>
+                
+                <article class="friend__body__list pt-4">
+                    <div class="pt-4">
+                        <h2>즐겨찾기 리스트</h2>
+                        <article class="friend__me__request row">
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 pt-2 px-1">
+                                <div class="card row all__friend__card mx-0">
+                                  <img class="card-img-top" src="/assets/img/my.jpg" alt="Card image cap">
+                                  <div class="card-block row justify-content-center align-items-center">
+                                    <div>
+                                      <h4 class="card-title all-gray-font"><a href="#">박기철 여행자님</a></h4>
+                                      <button class="all-red-button py-2 px-4">즐겨찾기 취소</button>
+                                    </div>
+                                  </div>
+                                </div>
+                                
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 pt-2 px-1">
+                                <div class="card row all__friend__card mx-0">
+                                  <img class="card-img-top" src="/assets/img/logo.PNG" alt="Card image cap">
+                                  <div class="card-block row justify-content-center align-items-center">
+                                    <div>
+                                      <h4 class="card-title all-gray-font"><a href="#">박기철 여행자님</a></h4>
+                                      <button class="all-red-button py-2 px-4">즐겨찾기 취소</button>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 pt-2 px-1">
+                                <div class="card row all__friend__card mx-0">
+                                  <img class="card-img-top" src="/assets/img/logo.PNG" alt="Card image cap">
+                                  <div class="card-block row justify-content-center align-items-center">
+                                    <div>
+                                      <h4 class="card-title all-gray-font"><a href="#">박기철 여행자님</a></h4>
+                                      <button class="all-red-button py-2 px-4">즐겨찾기 취소</button>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 pt-2 px-1">
+                                <div class="card row all__friend__card mx-0">
+                                  <img class="card-img-top" src="/assets/img/logo.PNG" alt="Card image cap">
+                                  <div class="card-block row justify-content-center align-items-center">
+                                    <div>
+                                      <h4 class="card-title all-gray-font"><a href="#">박기철 여행자님</a></h4>
+                                      <button class="all-red-button py-2 px-4">즐겨찾기 취소</button>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </article>
+            </section>
+        </section>
+    </main>
+{% endblock content %}

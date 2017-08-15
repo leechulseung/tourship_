@@ -1,0 +1,126 @@
+/* navbar 통일안 */
+@font-face {
+    font-family:'SeoulNamsanM';
+    src:url('/static/font/SeoulNamsanM/SeoulNamsanM.eot');
+    src:url('/static/font/SeoulNamsanM/SeoulNamsanM.eot?#iefix') format('embedded-opentype'), /* IE 6,7,8 적용, embedded-opentype -> IE 8,9 적용 */
+        url('/static/font/SeoulNamsanM/SeoulNamsanM.woff') format('woff'), /* IE 제외한 나머지 (크롬 등등) */
+        url('/static/font/SeoulNamsanM/SeoulNamsanM.ttf') format('truetype');
+}
+
+a {
+  color: inherit; /* 상위 선택자 *로부터 색 상속 */
+}
+
+a:hover,
+a:focus {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  border: none;
+  cursor: pointer; /* 버튼에 커서를 올리면 손가락모양으로 바뀐다. */
+}
+
+button:focus {
+  outline: none; /* 버튼에 커서를 클릭하면 바깥줄에 아무것도 적용하지 않는다. */
+  border: none;
+}
+
+ul, ol {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* navbar 색상 */
+.bg-tourpin {
+    background-color: #3D74AA;
+}
+
+/* 번개&메뉴바 아이콘 색상*/
+.header__button {
+    background-color: inherit;
+    color: #fff;
+}
+
+/* navbar 플렉스 배치 방향 */
+.navbar-nav, .navbar {
+    flex-direction: row;
+}
+
+.navbar-white {
+    color: #fff !important;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+/* 알림 드롭다운 */
+.notice .dropdown-menu {
+  right: 0;
+  left: inherit;
+  background-color: #3D74AA;
+  border:none;
+}
+
+.notice .dropdown-item {
+    font-size: 0.9rem;
+    color: #FFFFFF;
+    width:400px;
+    display:block;
+    padding: 10px;
+    white-space: inherit;
+    height:100px;
+}
+
+.notice .dropdown-plus {
+    font-size: 0.9rem;
+    color: #FFFFFF;
+    padding: 10px;
+    height:40px;
+}
+
+.notice li:hover,
+.notice li:focus,
+.notice li:active{
+    font-size: 0.9rem;
+    font-weight:bold;
+    color: #3D74AA;
+    background-color: #fff;
+}
+
+.notice li img{
+    width:80px;
+    height:80px;
+    border: 1px solid #fff;
+    float: left;
+}
+
+/* 메뉴 드롭다운 */
+.menu .dropdown-menu {
+  right: 0;
+  left: inherit;
+  background-color: #3D74AA;
+  border:none;
+}
+
+.menu .dropdown-item {
+    font-size: 1.1rem;
+    color: #FFFFFF;
+}
+
+.menu .dropdown-item:hover,
+.menu .dropdown-item:focus,
+.menu .dropdown-item:active{
+    font-size: 1.1rem;
+    font-weight:bold;
+    color: #3D74AA !important;
+    transition: all 0.2s ease-in-out;
+    background-color:#fff;
+}
+
+/* 최대 너비 420픽셀 이하일 때 */
+@media (max-width: 400px) {
+    .navbar a, .header__button, button.navbar-white {
+        font-size: .7rem;
+    }
+}
