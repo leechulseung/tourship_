@@ -8,6 +8,9 @@ class Post(models.Model):
         related_name='%(app_label)s_%(class)ss')
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
+	main_photo = models.ImageField('사진', blank=True,upload_to='main_photo/%Y/%m/%d/')
+	def __str__(self):
+		return self.title
 
 class Address(models.Model):
 	post = models.ForeignKey('Post', verbose_name='post related',
@@ -15,9 +18,12 @@ class Address(models.Model):
 	address = models.TextField('주소')
 
 class Photo(models.Model):
-	post = models.ForeignKey('Post', verbose_name='post related',
-		related_name='%(app_label)s_%(class)ss')
-	photo = models.ImageField('사진', upload_to='newspeed/%Y/%m/%d/')
+    pos = models.ForeignKey('Post')
+    file = models.ImageField('사진', blank=True, upload_to='sub_photo/%Y/%m/%d/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.pos.title
 
 class Comment(models.Model):
 	post = models.ForeignKey('Post', verbose_name='post related',

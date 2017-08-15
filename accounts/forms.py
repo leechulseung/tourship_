@@ -114,11 +114,11 @@ class DateInput(forms.DateInput):
 
 class PostForm(forms.ModelForm):
 	address = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'주소를 입력하세요.'}))
-	photo = forms.FileField(widget=forms.ClearableFileInput(attrs={'class':'123','multiple': True}),required=False)
+
 
 	class Meta:
 		model = Post
-		fields = ['title','tourday','content','privacy']
+		fields = ['title','tourday','content','privacy','main_photo']
 		today = timezone.now()
 		widgets={
 		'title': forms.TextInput(attrs={'class':'form-control','placeholder':'제목을 입력하세요.'}),
@@ -155,4 +155,12 @@ class LoginForm(AuthenticationForm):
 			self.user_cache = authenticate(username=username, password=password)
 			if self.user_cache is None:
 				raise forms.ValidationError("아이디 또는 비밀번호를 다시 확인하세요")
+
+class Multi_PhotoForm(forms.ModelForm):
+    class Meta:
+        model = Photo
+        fields = ['file']
+        widgets = {
+            'file' : forms.ClearableFileInput(attrs={'multiple': True})
+        }
 
