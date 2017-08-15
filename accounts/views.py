@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from .forms import PostForm
+from django.shortcuts import render,redirect
+from .forms import PostForm, Multi_PhotoForm
 from news.models import Photo
 from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -12,7 +12,7 @@ from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.templatetags.socialaccount import get_providers
 
 #Form
-from .forms import LoginForm
+from .forms import LoginForm,SignUpForm
 
 import json
 
@@ -46,25 +46,35 @@ def login(request):
 		'providers':providers, 'form':form
 		})
 
-def index(request):
+def index(request): #게시글 등록
+	forms = Multi_PhotoForm(request.POST, request.FILES)#다중사진
 	if request.method == 'POST':
-		form = PostForm(request.POST,request.FILES)
-		print('잘되는지 확인')
+		form = PostForm(request.user,request.POST,request.FILES)
 		if form.is_valid():
-			post = form.save()
-			print(post.location)
-			print(post.title)
-			Photo.objects.create(post=post, photo=form.cleaned_data['photo'])
+			post = form.save(commit=False)
+			if form.is_valid(): #다중사진
+				files = request.FILES.getlist('file')# list형태로 입력받은 파일들을 files에 저장
+				for f in files:#입력받은 리스트(사진) 순회
+					Photo.objects.create(post=post, file=f)
 	elif request.method == 'GET':
 		form = PostForm()
 	return render(request, 'accounts/index.html', {
-		'form':form
+		'form':form,
+		'forms':forms,
 		})
 
 
+@user_passes_test(lambda user : not user.is_authenticated, login_url='index')
 def joinus(request):
-
-	return render(request, 'accounts/joinus.html')
+	form = SignUpForm(request.POST or None, request.FILES or None)
+	if form.is_valid():
+		if request.FILES:
+			fiels = request.FILES.get('photo',None)
+		form.save()
+		return redirect('login')
+	return render(request, 'accounts/joinus.html',{
+		'form':form
+		})
 
 def preference(request):
 	return render(request, 'accounts/preference.html')

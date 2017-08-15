@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+
 class Post(models.Model):
 	author = models.ForeignKey(settings.AUTH_USER_MODEL)
 	title = models.CharField('제목',max_length=120)
@@ -10,6 +11,9 @@ class Post(models.Model):
 	location = models.TextField('위도/경도')
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
+	main_photo = models.ImageField('사진', blank=True,upload_to='main_photo/%Y/%m/%d/')
+	def __str__(self):
+		return self.title
 
 	def __self__(self):
 		return self.author.username
@@ -20,9 +24,12 @@ class Address(models.Model):
 	address = models.TextField('주소')
 
 class Photo(models.Model):
-	post = models.ForeignKey('Post', verbose_name='post related',
-		related_name='%(app_label)s_%(class)ss')
-	photo = models.ImageField('사진', upload_to='newspeed/%Y/%m/%d/')
+    post = models.ForeignKey('Post')
+    file = models.ImageField('사진', blank=True, upload_to='sub_photo/%Y/%m/%d/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.pos.title
 
 class Comment(models.Model):
 	post = models.ForeignKey('Post', verbose_name='post related',
