@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .forms import PostForm
 from news.models import Photo
 from django.conf import settings
@@ -12,7 +12,7 @@ from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.templatetags.socialaccount import get_providers
 
 #Form
-from .forms import LoginForm
+from .forms import LoginForm,SignUpForm
 
 import json
 
@@ -59,9 +59,17 @@ def index(request):
 		})
 
 
+@user_passes_test(lambda user : not user.is_authenticated, login_url='index')
 def joinus(request):
-
-	return render(request, 'accounts/joinus.html')
+	form = SignUpForm(request.POST or None, request.FILES or None)
+	if form.is_valid():
+		if request.FILES:
+			fiels = request.FILES.get('photo',None)
+		form.save()
+		return redirect('login')
+	return render(request, 'accounts/joinus.html',{
+		'form':form
+		})
 
 def preference(request):
 	return render(request, 'accounts/preference.html')
