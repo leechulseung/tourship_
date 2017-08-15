@@ -1,0 +1,396 @@
+/* Common Settings */
+@font-face {
+    font-family:'SeoulNamsanM';
+    src:url('/assets/font/SeoulNamsanM/SeoulNamsanM.eot');
+    src:url('/assets/font/SeoulNamsanM/SeoulNamsanM.eot?#iefix') format('embedded-opentype'), /* IE 6,7,8 적용, embedded-opentype -> IE 8,9 적용 */
+        url('/assets/font/SeoulNamsanM/SeoulNamsanM.woff') format('woff'), /* IE 제외한 나머지 (크롬 등등) */
+        url('/assets/font/SeoulNamsanM/SeoulNamsanM.ttf') format('truetype');
+}
+
+html {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+* {
+  font-family: 'SeoulNamsanM', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.btn:focus, .btn:active {
+  box-shadow: none;
+}
+
+.bg-faded {
+  background-color: #666666 !important; /* bg-faded 클래스를 적용하면 배경색상을 회색으로 설정 */
+}
+
+/* 피드백 & 도움말 */
+.btn__feedback {
+  background-color: #FFFFFF;
+  color: #3D74AA;
+}
+
+.btn__feedback:focus {
+  background-color: #FFFFFF;
+  color: #3D74AA;
+  outline: none;
+  border: none;
+}
+
+.btn__help {
+  background-color: #FFFFFF;
+  color: #3D74AA;
+}
+
+.btn__help:focus {
+  background-color: #FFFFFF;
+  color: #3D74AA;
+  outline: none;
+  border: none;
+}
+
+/* 환경 설정 메뉴 탭 */
+.setting__title {
+  color: #666666;
+  margin-bottom: 30px;
+}
+
+@media (max-width: 400px) { /* 최대 너비 400픽셀 이하일 때 아래 속성 적용 */
+  .setting__menu {
+    font-size: .7rem;
+  }
+}
+
+/* ENTER & SAVE 버튼 */
+.btn__enter, .btn__save {
+  color: #FFFFFF;
+  background-color: #3D74AA;
+  border-radius: 100px;
+  font-size: 1.3rem;
+}
+
+.btn__enter:hover, .btn__enter:active,
+.btn__save:hover, .btn__save:active {
+  border: 1px solid #3D74AA;
+  color: #3D74AA;
+  background-color: #FFFFFF;
+  border-radius: 100px;
+}
+
+/* YES & CANCEL 버튼*/
+.btn__yes {
+  color: #FFFFFF;
+  background-color: #3D74AA;
+  border-radius: 100px;
+  padding: 0 31px 0 31px;
+  font-size: 1.3rem;
+}
+
+.btn__yes:hover {
+  color: #3D74AA;
+  background-color: #FFFFFF;
+  border-radius: 100px;
+  border: 1px solid #3D74AA;
+}
+
+.btn__cancel {
+  color: #FFFFFF;
+  background-color: #3D74AA;
+  border-radius: 100px;
+  padding: 0 10px 0 10px;
+  font-size: 1.3rem;
+}
+
+.btn__cancel:hover {
+  color: #3D74AA;
+  background-color: #FFFFFF;
+  border-radius: 100px;
+  border: 1px solid #3D74AA;
+}
+
+/* 환경 설정 전 비밀번호 재확인 */
+@media (max-width: 400px) { /* 최대 너비 400픽셀 이하일 때 아래 속성 적용 */
+  .container {
+    font-size: .7rem;
+  }
+  .icon-section {
+    font-size: 1.5rem;
+  }
+  .form-check-input {
+    width: 1rem !important;
+    height: 1rem !important;
+  }
+}
+
+input[type="email"]:disabled {
+  background: #BCBDBC; /* 비활성화된 email타입의 input마다 #BCBDBC색 적용 */
+}
+
+.form-control:focus {
+  border-color: #3D74AA; /* 입력창에 입력할 때 border 색상을 회색으로 설정 */
+}
+
+/* 회원 정보 수정 */
+@media (max-width: 400px) { /* 최대 너비 400픽셀 이하일 때 아래 속성 적용 */
+  .icon-section {
+    font-size: 1.5rem;
+  }
+  .form-check-input {
+    width: 1rem !important;
+    height: 1rem !important;
+  }
+}
+
+.form-control:focus {
+  border-color: #666666; /* 입력창에 입력할 때 border 색상을 회색으로 설정 */
+}
+
+.form-control-feedback {
+  color: #d9534f;
+}
+
+input[type="email"]:disabled {
+  background: #BCBDBC;
+}
+
+input[type="text"]:disabled {
+  background: #BCBDBC;
+}
+
+/* 꾸미기 설정 */
+@media (max-width: 400px) { /* 최대 너비 400픽셀 이하일 때 아래 속성 적용 */
+  .container {
+    font-size: .7rem;
+  }
+  .icon-section {
+    font-size: 1.5rem;
+  }
+  .form-label {
+    padding-top: 12.25px;
+  }
+  .form-check-input {
+    width: 1rem !important;
+    height: 1rem !important;
+    margin-top: 12.25px;
+  }
+}
+
+.pin_shape option:nth-child(1){
+  background-image: url(assets/img/pin_setting/base_pin.png);
+}
+
+.form-control:focus {
+  border-color: #666666; /* 입력창에 입력할 때 border 색상을 회색으로 설정 */
+}
+
+.form-check-input {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.form-check-input:hover,
+.form-check-input:focus {
+  border: none;
+  outline: none;
+}
+
+/* 알림 및 보안 설정 */
+@media (max-width: 400px) { /* 최대 너비 400픽셀 이하일 때 아래 속성 적용 */
+  .container {
+    font-size: .7rem;
+  }
+  .icon-section {
+    font-size: 1.5rem;
+  }
+  .form-check-input {
+    width: 1rem !important;
+    height: 1rem !important;
+  }
+  .col-form-label {
+    padding-top: 12.25px;
+  }
+}
+
+/* 알림 설정 on/off 버튼*/
+.onoffswitch {
+  position: relative; width: 90px;
+  -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+  display: none;
+}
+.onoffswitch-label {
+  display: block; overflow: hidden; cursor: pointer;
+  border: 2px solid #999999; border-radius: 20px;
+}
+.onoffswitch-inner {
+  display: block; width: 200%; margin-left: -100%;
+  transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+  display: block; float: left; width: 50%; height: 30px; padding: 0; line-height: 30px;
+  font-size: 15px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+  box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+  content: "ON";
+  padding-left: 10px;
+  background-color: #3493C2; color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+  content: "OFF";
+  padding-right: 10px;
+  background-color: #BCBDBC; color: #666666;
+  text-align: right;
+}
+.onoffswitch-switch {
+  display: block; width: 25px; margin: 6px;
+  background: #FFFFFF;
+  position: absolute; top: 0; bottom: 10px;
+  height: 23px;
+  right: 56px;
+  border: 2px solid #999999; border-radius: 100%;
+  transition: all 0.3s ease-in 0s;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+  margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+  right: 0px;
+}
+
+/* 지도 활성화 on/off 버튼*/
+.onoffswitch2 {
+  position: relative; width: 90px;
+  -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox2 {
+  display: none;
+}
+.onoffswitch-label2 {
+  display: block; overflow: hidden; cursor: pointer;
+  border: 2px solid #999999; border-radius: 20px;
+}
+.onoffswitch-inner2 {
+  display: block; width: 200%; margin-left: -100%;
+  transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner2:before, .onoffswitch-inner2:after {
+  display: block; float: left; width: 50%; height: 30px; padding: 0; line-height: 30px;
+  font-size: 15px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+  box-sizing: border-box;
+}
+.onoffswitch-inner2:before {
+  content: "ON";
+  padding-left: 10px;
+  background-color: #3493C2; color: #FFFFFF;
+}
+.onoffswitch-inner2:after {
+  content: "OFF";
+  padding-right: 10px;
+  background-color: #BCBDBC; color: #666666;
+  text-align: right;
+}
+.onoffswitch-switch2 {
+  display: block; width: 25px; margin: 6px;
+  background: #FFFFFF;
+  position: absolute; top: 0; bottom: 10px;
+  right: 56px;
+  height: 23px;
+  border: 2px solid #999999; border-radius: 100%;
+  transition: all 0.3s ease-in 0s;
+}
+.onoffswitch-checkbox2:checked + .onoffswitch-label2 .onoffswitch-inner2 {
+  margin-left: 0;
+}
+.onoffswitch-checkbox2:checked + .onoffswitch-label2 .onoffswitch-switch2 {
+  right: 0px;
+}
+
+.form-check-input {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.form-check-input:hover,
+.form-check-input:focus {
+  border: none;
+  outline: none;
+}
+
+/* 회원 탈퇴 */
+/* 최대 너비 400픽셀일 때 아래 속성 적용  */
+@media (max-width: 400px) {
+  .withdrawl {
+    font-size: 1.06rem !important;
+  }
+  .text_zero {
+    font-size: 2.14rem !important;
+  }
+  .text_first {
+    font-size: 1.96rem !important;
+  }
+  .text_second {
+    font-size: 0.88rem !important;
+  }
+  .text_third {
+    font-size: 0.8rem !important;
+  }
+  .text_fourth {
+    font-size: 0.62rem !important;
+  }
+}
+
+
+@media screen and (min-width: 401px) and (max-width: 576px) {
+  .withdrawl {
+    font-size: 1.33rem !important;
+  }
+  .text_zero {
+    font-size: 2.67rem !important;
+  }
+  .text_first {
+    font-size: 2.44rem !important;
+  }
+  .text_second {
+    font-size: 1.11rem !important;
+  }
+  .text_third {
+    font-size: 1rem !important;
+  }
+  .text_fourth {
+    font-size: 0.78rem !important;
+  }
+}
+
+.withdrawl {
+  font-size: 1.6rem;
+  color: #000000;
+}
+
+.text_zero {
+  font-size: 3.2rem;
+  color: inherit;
+}
+
+.text_first {
+  font-size: 2.93rem;
+  color: inherit;
+  text-shadow: 2px 1px 6px #666666;
+}
+
+.text_second {
+  font-size: 1.33rem;
+  color: inherit;
+}
+
+.text_third {
+  font-size: 1.2rem;
+  color: inherit;
+}
+
+.text_fourth {
+  font-size: 0.93rem;
+  color: #666666;
+}

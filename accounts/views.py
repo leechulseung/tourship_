@@ -12,9 +12,13 @@ from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.templatetags.socialaccount import get_providers
 
 #Form
-from .forms import LoginForm,SignUpForm
+from .forms import LoginForm,SignUpForm,CheckForm,SetupForm
 
 import json
+
+#사용자 인증 여부 리턴
+from django.utils import timezone
+
 
 @user_passes_test(lambda user : not user.is_authenticated, login_url='index')
 def login(request):
@@ -71,8 +75,79 @@ def joinus(request):
 		'form':form
 		})
 
+@login_required
+def setup_auth(request):
+    if request.method == "POST":
+        form = CheckForm(request.user, request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user_info =  authenticate(username=username, password=password)
+            if user_info is not None:
+            	time = timezone.now() + timezone.timedelta(seconds=200)
+            	request.session['is_auth'] = json.dumps(time.strftime('%d%H%M%S'))
+            	return redirect('preference')
+    elif request.method == "GET":
+        form = CheckForm(request.user)
+    return render(request, 'accounts/preference0_reconfirm.html',{
+        'form':form,
+        })
+
+@login_required
 def preference(request):
-	return render(request, 'accounts/preference.html')
+	authtime = request.session.get('is_auth', None)
+	if authtime is not None:
+		timenow = timezone.now()
+		timenow = json.dumps(timenow.strftime('%d%H%M%S'))
+		if authtime < timenow:
+			return redirect('setup_auth')
+	if request.method == "POST":
+		form = SetupForm(user=request.user, data=request.POST)
+		if form.is_valid():
+			form.save()
+			return redirect('/')
+	elif request.method == "GET":
+		form = SetupForm(user=request.user, data=request.POST)
+	return render(request, 'accounts/preference1_information_modification.html',{
+		'form':form,
+		})
+
+@login_required
+def preference_design(request):
+	authtime = request.session.get('is_auth', None)
+	if authtime is not None:
+		timenow = timezone.now()
+		timenow = json.dumps(timenow.strftime('%d%H%M%S'))
+		if authtime < timenow:
+			return redirect('setup_auth')
+	return render(request, 'accounts/preference2_decoration.html')
+
+@login_required
+def preference_security(request):
+	authtime = request.session.get('is_auth', None)
+	if authtime is not None:
+		timenow = timezone.now()
+		timenow = json.dumps(timenow.strftime('%d%H%M%S'))
+		if authtime < timenow:
+			return redirect('setup_auth')
+	return render(request, 'accounts/preference3_notification_&_security.html')
+
+
+@login_required
+def sign_out(request, pk):
+	authtime = request.session.get('is_auth', None)
+	if authtime is not None:
+		timenow = timezone.now()
+		timenow = json.dumps(timenow.strftime('%d%H%M%S'))
+		if authtime < timenow:
+			return redirect('setup_auth')
+	if pk:
+		user = request.user
+		user.delete()
+		return redirect('/')
+	return render(request, 'accounts/preferencen4_withdrawl.html')
+
+
 
 def friend_list(request):
 	return render(request, 'friend/friend_list.html')
