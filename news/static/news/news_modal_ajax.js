@@ -29,6 +29,7 @@ $(document).on('click','.modalStart', function(e) {
         url: url,
         data: {
         	'pk':pk,
+            'page':'gogo',
         	'csrfmiddlewaretoken': csrf
         },
     	success: function (data, textStatus, jqXHR) {
