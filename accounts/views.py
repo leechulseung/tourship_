@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .forms import PostForm
+from .forms import PostForm, Multi_PhotoForm
 from news.models import Photo
 from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -50,16 +50,27 @@ def login(request):
 		'providers':providers, 'form':form
 		})
 
-def index(request):
+def index(request): #게시글 등록
+	forms = Multi_PhotoForm(request.POST, request.FILES)#다중사진
+	user_list= request.user.post_set.all()
+	locations = [c.location for c in user_list]
+	print(locations)
 	if request.method == 'POST':
-		form = PostForm(request.POST,request.FILES)
+		form = PostForm(request.user,request.POST,request.FILES)
 		if form.is_valid():
-			post = form.save()
-			Photo.objects.create(post=post, photo=form.cleaned_data['photo'])
+			post = form.save(commit=False)
+			if form.is_valid(): #다중사진
+				files = request.FILES.getlist('file')# list형태로 입력받은 파일들을 files에 저장
+				for f in files:#입력받은 리스트(사진) 순회
+					Photo.objects.create(post=post, file=f)
+				return redirect('index')
 	elif request.method == 'GET':
 		form = PostForm()
+
 	return render(request, 'accounts/index.html', {
-		'form':form
+		'form':form,
+		'forms':forms,
+		'locations':locations,
 		})
 
 

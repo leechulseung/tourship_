@@ -115,23 +115,30 @@ class DateInput(forms.DateInput):
 
 class PostForm(forms.ModelForm):
 	address = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'주소를 입력하세요.'}))
-	photo = forms.FileField(widget=forms.ClearableFileInput(attrs={'class':'123','multiple': True}),required=False)
+
+	def __init__(self, user=False, *args, **kwargs):
+		self.user = user
+		super().__init__(*args,**kwargs)
 
 	class Meta:
 		model = Post
-		fields = ['title','tourday','content','privacy']
+		fields = ['title','tourday','content','privacy','main_photo','location']
 		today = timezone.now()
 		widgets={
 		'title': forms.TextInput(attrs={'class':'form-control','placeholder':'제목을 입력하세요.'}),
         'tourday': DateInput(attrs={'class':'form-control','value':today.strftime("%Y-%m-%d")}),
         'content': forms.Textarea(attrs={'class':'form-control mt-2','placeholder':'내용을 입력하세요.'}),
         'privacy': forms.Select(attrs={'class':'form-control'}),
+        'location': forms.HiddenInput(attrs={'id':'getLatgetLng','value':''}),
         }
 
-	def save(self):
-		post = super().save()
+	def save(self, commit=True):
+		post = super().save(commit=commit)
+		post.author = self.user
+		post.save()
 		addr = self.cleaned_data['address']
 		address = Address.objects.create(post=post, address=addr)
+		print("세이브")
 		return post
 
 
@@ -141,6 +148,7 @@ class CheckForm(forms.Form):
 			'class':'form-control',
 			'placeholder':'email@tourpin.com',
 			}))
+
 	password = forms.CharField(widget=
 		forms.PasswordInput(attrs={
 			'class':'form-control',
@@ -196,6 +204,7 @@ class SetupForm(forms.Form):
 
 
 
+
 	def clean(self):
 		password1 = self.cleaned_data.get('newPassword1')
 		password2 = self.cleaned_data.get('newPassword2')
@@ -203,10 +212,15 @@ class SetupForm(forms.Form):
 		phone_num = self.cleaned_data.get('phone_num')
 		photo = self.cleaned_data.get('photo')
 
-		if not address:
-			if not phone_num:
-				if not photo:
-					raise forms.ValidationError("")
+		if not password1:
+			if not password2:
+				if not address:
+					print("히히히히")
+					if not phone_num:
+						print("이잉ㅇ잉")
+						if not photo:
+							print("푸헬헬헬")
+							raise forms.ValidationError("")
 
 
 	def clean_newPassword2(self):
@@ -222,11 +236,7 @@ class SetupForm(forms.Form):
 				raise forms.ValidationError("비밀번호가 짧습니다. 최소 8글자 이상 입력해 주세요(영문+숫자)")
 			if all(c.isalpha() == password1_isalpha for c in password1):
 				raise forms.ValidationError("비밀번호는 영문과 숫자 조합으로 다시 입력해 주세요.")
-		if not password1:
-			raise forms.ValidationError("비밀번호를 입력하지 않으셨습니다.")
-		if not password2:
-			raise forms.ValidationError("비밀번호 확인을 입력해주세요")
-		return password1
+		return password2
 
 
 
@@ -253,3 +263,12 @@ class SetupForm(forms.Form):
 				self.user.profile.save()
 
 		return self.user
+
+class Multi_PhotoForm(forms.ModelForm):
+    class Meta:
+        model = Photo
+        fields = ['file']
+        widgets = {
+            'file' : forms.ClearableFileInput(attrs={'multiple': True})
+        }
+

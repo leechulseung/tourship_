@@ -96,14 +96,15 @@
         </div>
 
         <div class="p-2">
+          <button type="button" class="fa fa fa-home icons fa-3x main__btn" id="getLocation"></button>
           <button tabindex="0" class="fa fa-map-marker icons fa-3x main__btn" data-trigger="focus" data-toggle="popover_marker" data-placement="top">
               <span class="sr-only">Toggle Dropdown</span>
           </button>
           <div class="dropdown-menu mr-3 pl-1 hide" id="popover-marker-content">
             <ul class="pl-0">
-              <li><a href="#" id="markerMake">추가하기</a></li>
-              <li><a href="#" id="multiMake">다중추가</a></li>
-              <li><a href="#" id="registration">등록하기</a></li>
+              <li><a id="markerMake">추가하기</a></li>
+              <li><a id="multiMake">다중추가</a></li>
+              <li><a id="registration">등록하기</a></li>
             </ul>
           </div>
 
@@ -164,22 +165,24 @@
           </div>
           <div class="memory_icon">
             <a class="fa fa-smile-o fa-2x" href="#"></a>
-              {{form.photo}}
+             <!-- {{form.photo}} -->
           </div>
           <div class="form-group">
             {{form.content}}
           </div>
+          <p>메인사진 : </p>{{ form.main_photo }}
+          <p>서브사진 : </p>{{forms.as_table}}
           <div class="form-group row mb-0">
             <label for="example-date-input" class="col-3 col-form-label pr-0">공개설정</label>
             <div class="form-group mr-2 col-5">
               {{form.privacy}}
             </div>
           </div>
-
-      </div>
-      <div class="modal-footer">
-        <button id="memory-add" type="submit" class="upload_bt">Upload</button>
-      </div>
+        </div>
+        <div class="modal-footer">
+          <button id="memory-add" type="submit" class="upload_bt">Upload</button>
+        </div>
+        {{form.location}}
        </form>
     </div>
   </div>
@@ -548,13 +551,46 @@
 
 <!--스크립트 시작-->
 {% block script %}
-
+  <script>
+      var userLocations = {'locations':{{locations|safe}},
+        'userid':{{user.id}},
+       };
+       console.log(userLocations.locations);
+  </script>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=06220f2994a97769a8f7ba53ca9f39b8&libraries=services,clusterer"></script>
-    <script type="text/javascript" src="{% static 'accounts/map_beta_main.js' %}"></script>
+  <script type="text/javascript" src="{% static 'accounts/map_beta_main.js' %}"></script>
+
 {% endblock script %}
+
+
 <script>
-$(document).on('click', '#memory-add', function(e){
-  e.submit
-  console.log("Dd")
-});
+  $(document).on('click', '#memory-add', function(e){
+    e.submit
+    console.log("Dd")
+  });
 </script>
+
+
+<script>
+    var filesUpload = document.getElementById("files-upload"),
+        fileList = document.getElementById("file-list");
+
+    function traverseFiles (files) {
+      var li,
+          file,
+          fileInfo;
+      fileList.innerHTML = "";
+
+      for (var i=0, il=files.length; i<il; i++) {
+        li = document.createElement("li");
+        file = files[i];
+        fileInfo = "<div>"+ file.name + "</div>";
+        li.innerHTML = fileInfo;
+        fileList.appendChild(li);
+      };
+    };
+
+    filesUpload.onchange = function () {
+      traverseFiles(this.files);
+    };
+  </script>

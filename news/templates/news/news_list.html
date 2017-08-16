@@ -26,85 +26,16 @@
     <main class="main">
         <div class="container pt-5 mt-5">
             <div class="btn-group d-flex row justify-content-end" role="group" aria-label="Basic example" data-toggle="bottons">
+            <button type="button" class="btn btn-secondary"><a>실시간 순</a></button>
+            <button type="button" class="btn btn-secondary"><a>좋아요 순</a></button>
             	<form action="" method="get">
                 	<button type="submit" class="btn btn-secondary">실시간 타임라인 보기</button>
                 	<input type="hidden" value="realTime" name="real">
                 </form>
             </div>
-            
+
             {% for post in post_list %}
-
-            {% if post.news_photos.count == 0 %}
-            <div>
-                <section class="posts pt-4">
-                    <ul class="row justify-content-center">
-                        <li class="col-12 col-sm-6">
-                            <div class="post pl-3 pt-1">
-                                <div class="d-flex flex-nowrap">
-                                    <a href="#" class="card_profile d-flex justify-content-center align-items-center">
-                                        <img class="card-img-top height-fix" src="http://cfile27.uf.tistory.com/image/202F1C464DD57EB6158D14" alt>
-                                    </a>
-                                    <p class="post_user mt-2 ml-2"><a href="#">'박기철</a> 여행자님'</p>
-                                </div>
-                                <div class="d-flex flex-nowrap pt-2">
-                                    <p class="post_upload">UPLOAD DATE</p>
-                                    <p class="post_date ml-2 pl-1">2017.07.01 PM 03:15</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="col-12 col-sm-6">
-                            <div class="icon pt-3 pr-3 row justify-content-end">
-                                <button type="button" class="fa fa-heart-o fa-2x px-2 pb-2 heart_o" aria-hidden="true"></button>
-                                <button type="button" class="fa fa-heart fa-2x px-2 pb-2 heart
-                                " aria-hidden="true"></button>
-                                <a href="#"><i class="fa fa-map-marker fa-2x px-1" aria-hidden="true"></i></a>
-                                <div class="dropdown">
-                                    <button class="btn_option" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-plus fa-2x pb-2" aria-hidden="true"></i>
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#"><i class="fa fa-share-alt" aria-hidden="true"></i> 공유하기 </a>
-                                        <div class="report" data-toggle="modal" data-target="#report">
-                                            <a class="dropdown-item" href="#"><i class="fa fa-ban" aria-hidden="true"></i> 신고하기 </a>
-                                        </div>
-                                        <a class="dropdown-item" href="#"><i class="fa fa-user-times" aria-hidden="true"></i> 차단하기 </a>
-                                        <a class="dropdown-item" href="/newspeed1_edit.html"><i class="fa fa-pencil" aria-hidden="true"></i> 수정하기 </a>
-                                        <a class="dropdown-item" href="#"><i class="fa fa-trash-o" aria-hidden="true"></i> 삭제하기 </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </section>
-                <div class="group__card row mx-0">
-                    <div class="col-12">
-                        <div class="row">
-                            <!-- Button trigger modal -->
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 px-0 mt-3 mt-md-0" data-toggle="modal" data-target=".bd-example-modal-lg2">
-                                <div class="card">
-                                    <a href="#" class="tourbook__main__container d-flex justify-content-center">
-                                        <img class="tourbook__main__img card-img-top height-fix" src="http://cfile27.uf.tistory.com/image/202F1C464DD57EB6158D14" alt>
-                                    </a>
-                                </div>
-                            </div>
-                            <!-- /Button trigger modal -->
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 px-0 mt-3 mt-md-0">
-                                <!-- Button trigger modal -->
-                                <div class="card-block">
-                                    <a>
-                                        <h4 class="card-title">{{post.title}}</h4>
-                                        <p class="card-text">{{post.content}}</p>
-                                    </a>
-                                </div>
-                                <!-- /Button trigger modal -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-            </div>
-
-            {% elif post.news_photos.count == 1 %}
+            {% if post.photo_set.count == 0 %}
             <!-- 사진이 하나 일 때 -->
             <div>
                 <section class="posts pt-4">
@@ -113,7 +44,7 @@
                             <div class="post pl-3 pt-1">
                                 <div class="d-flex flex-nowrap">
                                     <a href="#" class="card_profile d-flex justify-content-center align-items-center">
-                                        <img class="card-img-top height-fix" src="{{post.news_photos.first.photo.url}}" alt>
+                                        <img class="card-img-top height-fix" src="/assets/img/my.jpg" alt>
                                     </a>
                                     <p class="post_user mt-2 ml-2"><a href="#">'박기철</a> 여행자님'</p>
                                 </div>
@@ -140,7 +71,7 @@
                                         </div>
                                         <a class="dropdown-item" href="#"><i class="fa fa-user-times" aria-hidden="true"></i> 차단하기 </a>
                                         <a class="dropdown-item" href="/newspeed1_edit.html"><i class="fa fa-pencil" aria-hidden="true"></i> 수정하기 </a>
-                                        <a class="dropdown-item" href="#"><i class="fa fa-trash-o" aria-hidden="true"></i> 삭제하기 </a>
+                                        <a class="dropdown-item" href="{% url 'news:post_destroy' post.id %}"><i class="fa fa-trash-o" aria-hidden="true"></i> 삭제하기 </a>
                                     </div>
                                 </div>
                             </div>
@@ -154,14 +85,14 @@
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6 px-0 mt-3 mt-md-0" data-toggle="modal" data-target=".bd-example-modal-lg2">
                                 <div class="card">
                                     <a href="#" class="tourbook__main__container d-flex justify-content-center">
-                                        <img class="tourbook__main__img card-img-top height-fix" src="{{post.news_photos.first.photo.url}}" alt>
+                                        <img class="tourbook__main__img card-img-top height-fix" src="{{ post.main_photo.url }}" alt>
                                     </a>
                                 </div>
                             </div>
                             <!-- /Button trigger modal -->
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6 px-0 mt-3 mt-md-0">
                                 <!-- Button trigger modal -->
-                                <div class="card-block" data-toggle="modal" data-target=".bd-example-modal-lg">
+                                <div class="card-block">
                                     <a class="modalStart" href="{% url 'news:modal' %}" name="{{post.id}}">
                                         <h4 class="card-title">{{post.title}}</h4>
                                         <p class="card-text">{{post.content}}</p>
@@ -175,8 +106,11 @@
                 <hr>
             </div>
             <!-- 사진이 하나 일 때 -->
-            {% elif post.news_photos.count == 2 %}
+            {% endif %}
+
+
             <!-- 사진이 두개 일 때 -->
+            {% if post.photo_set.count == 1 %}
             <div>
                 <section class="posts pt-4">
                     <ul class="row justify-content-center">
@@ -211,7 +145,7 @@
                                         </div>
                                         <a class="dropdown-item" href="#"><i class="fa fa-user-times" aria-hidden="true"></i> 차단하기 </a>
                                         <a class="dropdown-item" href="/newspeed1_edit.html"><i class="fa fa-pencil" aria-hidden="true"></i> 수정하기 </a>
-                                        <a class="dropdown-item" href="#"><i class="fa fa-trash-o" aria-hidden="true"></i> 삭제하기 </a>
+                                        <a class="dropdown-item" href="{% url 'news:post_destroy' post.id %}"><i class="fa fa-trash-o" aria-hidden="true"></i> 삭제하기 </a>
                                     </div>
                                 </div>
                             </div>
@@ -225,24 +159,24 @@
                             <div class="col-12 col-sm-12 col-md-6 col-lg-4 px-0 mt-3 mt-md-0" data-toggle="modal" data-target=".bd-example-modal-lg2">
                                 <div class="card">
                                     <a href="#" class="tourbook__main__container d-flex justify-content-center">
-                                        <img class="tourbook__main__img card-img-top height-fix" src="http://cfile27.uf.tistory.com/image/202F1C464DD57EB6158D14" alt>
+                                        <img class="tourbook__main__img card-img-top height-fix" src="{{ post.main_photo.url }}" alt>
                                     </a>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-12 col-md-6 col-lg-4 px-0 mt-3 mt-md-0">
                                 <div class="card">
                                     <a href="#" class="tourbook__main__container d-flex justify-content-center">
-                                        <img class="tourbook__main__img card-img-top height-fix" src="http://cfile27.uf.tistory.com/image/202F1C464DD57EB6158D14" alt>
+                                        <img class="tourbook__main__img card-img-top height-fix" src="{{ post.photo_set.all.0.file.url }}" alt>
                                     </a>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-12 col-md-6 col-lg-4 px-0 mt-3 mt-md-0">
                                 <!-- Button trigger modal -->
-                                <div class="card-block" data-toggle="modal" data-target=".bd-example-modal-lg">
+                                <div class="card-block">
                                     <div>
-                                        <a href="#">
-                                            <h4 class="card-title">Card title</h4>
-                                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                        <a class="modalStart" href="{% url 'news:modal' %}" name="{{post.id}}">
+                                            <h4 class="card-title">{{post.title}}</h4>
+                                            <p class="card-text">{{post.content}}</p>
                                         </a>
                                     </div>
                                 </div>
@@ -253,188 +187,192 @@
                 </div>
                 <hr>
             </div>
-            <!-- 사진이 두개 일 때 -->
-            {% elif post.news_photos.count == 3 %}
-            <!-- 사진이 세개 일 때 -->
-            <div>
-                <section class="posts pt-4">
-                    <ul class="row justify-content-center">
-                        <li class="col-12 col-sm-6">
-                            <div class="post pl-3 pt-1">
-                                <div class="d-flex flex-nowrap">
-                                    <a href="#" class="card_profile d-flex justify-content-center align-items-center">
-                                        <img class="card-img-top height-fix" src="/assets/img/my.jpg" alt>
-                                    </a>
-                                    <p class="post_user mt-2 ml-2"><a href="#">'박기철</a> 여행자님'</p>
-                                </div>
-                                <div class="d-flex flex-nowrap pt-2">
-                                    <p class="post_upload">UPLOAD DATE</p>
-                                    <p class="post_date ml-2 pl-1">2017.07.01 PM 03:15</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="col-12 col-sm-6">
-                            <div class="icon pt-3 pr-3 row justify-content-end">
-                                <button type="button" class="fa fa-heart-o fa-2x px-2 pb-2 heart_o" aria-hidden="true"></button>
-                                <button type="button" class="fa fa-heart fa-2x px-2 pb-2 heart
-                                " aria-hidden="true"></button>
-                                <a href="#"><i class="fa fa-map-marker fa-2x px-1" aria-hidden="true"></i></a>
-                                <div class="dropdown">
-                                    <button class="btn_option" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-plus fa-2x pb-2" aria-hidden="true"></i>
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#"><i class="fa fa-share-alt" aria-hidden="true"></i> 공유하기 </a>
-                                        <div class="report" data-toggle="modal" data-target="#report">
-                                            <a class="dropdown-item" href="#"><i class="fa fa-ban" aria-hidden="true"></i> 신고하기 </a>
-                                        </div>
-                                        <a class="dropdown-item" href="#"><i class="fa fa-user-times" aria-hidden="true"></i> 차단하기 </a>
-                                        <a class="dropdown-item" href="/newspeed1_edit.html"><i class="fa fa-pencil" aria-hidden="true"></i> 수정하기 </a>
-                                        <a class="dropdown-item" href="#"><i class="fa fa-trash-o" aria-hidden="true"></i> 삭제하기 </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </section>
-                <div class="group__card row mx-0">
-                    <div class="col-12">
-                        <div class="row">
-                            <!-- Button trigger modal -->
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 px-0 mt-3 mt-md-0" data-toggle="modal" data-target=".bd-example-modal-lg2">
-                                <div class="card">
-                                    <a href="#" class="tourbook__main__container d-flex justify-content-center">
-                                        <img class="tourbook__main__img card-img-top height-fix" src="http://cfile27.uf.tistory.com/image/202F1C464DD57EB6158D14" alt>
-                                    </a>
-                                </div>
-                            </div>
-                            <!-- /Button trigger modal -->
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
-                                <div class="row">
-                                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 flex-row px-0">
-                                        <div class="card">
-                                            <a href="#" class="tourbook__side__container d-flex justify-content-center">
-                                                <img class="tourbook__side__img card-img-top height-fix" src="http://www.petzine.co.kr/news/photo/201701/885_2223_5221.jpg" alt>
-                                            </a>
-                                        </div>
-                                        <div class="card">
-                                            <a href="#" class="tourbook__side__container d-flex justify-content-center">
-                                                <img class="tourbook__side__img card-img-top height-fix" src="http://www.mypetnews.net/news/photo/201312/447_288_511.jpg" alt>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 flex-row px-0">
-                                        <!-- Button trigger modal -->
-                                        <div class="card-block" data-toggle="modal" data-target=".bd-example-modal-lg">
-                                            <a href="#">
-                                                <h4 class="card-title">Card title</h4>
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                            </a>
-                                        </div>
-                                        <!-- /Button trigger modal -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-            </div>
-            <!-- 사진이 세개 일 때 -->
-            
-            {% elif post.news_photos.count > 3 %}
-            <!-- 사진이 네개 일 때 -->
-            <div>
-                <section class="posts pt-4">
-                    <ul class="row justify-content-center">
-                        <li class="col-12 col-sm-6">
-                            <div class="post pl-3 pt-1">
-                                <div class="d-flex flex-nowrap">
-                                    <a href="#" class="card_profile d-flex justify-content-center align-items-center">
-                                        <img class="card-img-top height-fix" src="/assets/img/my.jpg" alt>
-                                    </a>
-                                    <p class="post_user mt-2 ml-2"><a href="#">'박기철</a> 여행자님'</p>
-                                </div>
-                                <div class="d-flex flex-nowrap pt-2">
-                                    <p class="post_upload">UPLOAD DATE</p>
-                                    <p class="post_date ml-2 pl-1">2017.07.01 PM 03:15</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="col-12 col-sm-6">
-                            <div class="icon pt-3 pr-3 row justify-content-end">
-                                <button type="button" class="fa fa-heart-o fa-2x px-2 pb-2 heart_o" aria-hidden="true"></button>
-                                <button type="button" class="fa fa-heart fa-2x px-2 pb-2 heart
-                                " aria-hidden="true"></button>
-                                <a href="#"><i class="fa fa-map-marker fa-2x px-1" aria-hidden="true"></i></a>
-                                <div class="dropdown">
-                                    <button class="btn_option" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-plus fa-2x pb-2" aria-hidden="true"></i>
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#"><i class="fa fa-share-alt" aria-hidden="true"></i> 공유하기 </a>
-                                        <div class="report" data-toggle="modal" data-target="#report">
-                                            <a class="dropdown-item" href="#"><i class="fa fa-ban" aria-hidden="true"></i> 신고하기 </a>
-                                        </div>
-                                        <a class="dropdown-item" href="#"><i class="fa fa-user-times" aria-hidden="true"></i> 차단하기 </a>
-                                        <a class="dropdown-item" href="/newspeed1_edit.html"><i class="fa fa-pencil" aria-hidden="true"></i> 수정하기 </a>
-                                        <a class="dropdown-item" href="#"><i class="fa fa-trash-o" aria-hidden="true"></i> 삭제하기 </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </section>
-                <div class="group__card row mx-0">
-                    <div class="col-12">
-                        <div class="row">
-                            <!-- Button trigger modal -->
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 px-0 mt-3 mt-md-0" data-toggle="modal" data-target=".bd-example-modal-lg2">
-                                <div class="card">
-                                    <a href="#" class="tourbook__main__container d-flex justify-content-center">
-                                        <img class="tourbook__main__img card-img-top height-fix" src="http://cfile27.uf.tistory.com/image/202F1C464DD57EB6158D14" alt>
-                                    </a>
-                                </div>
-                            </div>
-                            <!-- /Button trigger modal -->
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
-                                <div class="row">
-                                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 flex-row px-0">
-                                        <div class="card">
-                                            <a href="#" class="tourbook__side__container d-flex justify-content-center">
-                                                <img class="tourbook__side__img card-img-top height-fix" src="http://www.petzine.co.kr/news/photo/201701/885_2223_5221.jpg" alt>
-                                            </a>
-                                        </div>
-                                        <div class="card">
-                                            <a href="#" class="tourbook__side__container d-flex justify-content-center">
-                                                <img class="tourbook__side__img card-img-top height-fix" src="http://www.mypetnews.net/news/photo/201312/447_288_511.jpg" alt>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 flex-row px-0">
-                                        <div class="card">
-                                            <a href="#" class="tourbook__side__container d-flex justify-content-center">
-                                                <img class="tourbook__side__img card-img-top height-fix" src="http://cfile27.uf.tistory.com/image/202F1C464DD57EB6158D14" alt>
-                                            </a>
-                                        </div>
-                                        <!-- Button trigger modal -->
-                                        <div class="card-block" data-toggle="modal" data-target=".bd-example-modal-lg">
-                                            <a href="#">
-                                                <h4 class="card-title">Card title</h4>
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                            </a>
-                                        </div>
-                                        <!-- /Button trigger modal -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-            </div>
-            <!-- 사진이 네개 일 때 -->
             {% endif %}
+            <!-- 사진이 두개 일 때 -->
+
+            <!-- 사진이 세개 일 때 -->
+            {% if post.photo_set.count == 2 %}
+            <div>
+                <section class="posts pt-4">
+                    <ul class="row justify-content-center">
+                        <li class="col-12 col-sm-6">
+                            <div class="post pl-3 pt-1">
+                                <div class="d-flex flex-nowrap">
+                                    <a href="#" class="card_profile d-flex justify-content-center align-items-center">
+                                        <img class="card-img-top height-fix" src="/assets/img/my.jpg" alt>
+                                    </a>
+                                    <p class="post_user mt-2 ml-2"><a href="#">'박기철</a> 여행자님'</p>
+                                </div>
+                                <div class="d-flex flex-nowrap pt-2">
+                                    <p class="post_upload">UPLOAD DATE</p>
+                                    <p class="post_date ml-2 pl-1">2017.07.01 PM 03:15</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="col-12 col-sm-6">
+                            <div class="icon pt-3 pr-3 row justify-content-end">
+                                <button type="button" class="fa fa-heart-o fa-2x px-2 pb-2 heart_o" aria-hidden="true"></button>
+                                <button type="button" class="fa fa-heart fa-2x px-2 pb-2 heart
+                                " aria-hidden="true"></button>
+                                <a href="#"><i class="fa fa-map-marker fa-2x px-1" aria-hidden="true"></i></a>
+                                <div class="dropdown">
+                                    <button class="btn_option" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-plus fa-2x pb-2" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#"><i class="fa fa-share-alt" aria-hidden="true"></i> 공유하기 </a>
+                                        <div class="report" data-toggle="modal" data-target="#report">
+                                            <a class="dropdown-item" href="#"><i class="fa fa-ban" aria-hidden="true"></i> 신고하기 </a>
+                                        </div>
+                                        <a class="dropdown-item" href="#"><i class="fa fa-user-times" aria-hidden="true"></i> 차단하기 </a>
+                                        <a class="dropdown-item" href="/newspeed1_edit.html"><i class="fa fa-pencil" aria-hidden="true"></i> 수정하기 </a>
+                                        <a class="dropdown-item" href="{% url 'news:post_destroy' post.id %}"><i class="fa fa-trash-o" aria-hidden="true"></i> 삭제하기 </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+                <div class="group__card row mx-0">
+                    <div class="col-12">
+                        <div class="row">
+                            <!-- Button trigger modal -->
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 px-0 mt-3 mt-md-0" data-toggle="modal" data-target=".bd-example-modal-lg2">
+                                <div class="card">
+                                    <a href="#" class="tourbook__main__container d-flex justify-content-center">
+                                        <img class="tourbook__main__img card-img-top height-fix" src="{{ post.main_photo.url }}" alt>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- /Button trigger modal -->
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 flex-row px-0">
+                                        <div class="card">
+                                            <a href="#" class="tourbook__side__container d-flex justify-content-center">
+                                                <img class="tourbook__side__img card-img-top height-fix" src="{{ post.photo_set.all.0.file.url }}" alt>
+                                            </a>
+                                        </div>
+                                        <div class="card">
+                                            <a href="#" class="tourbook__side__container d-flex justify-content-center">
+                                                <img class="tourbook__side__img card-img-top height-fix" src="{{ post.photo_set.all.1.file.url }}" alt>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 flex-row px-0">
+                                        <!-- Button trigger modal -->
+                                        <div class="card-block">
+                                            <a class="modalStart" href="{% url 'news:modal' %}" name="{{post.id}}">
+                                                <h4 class="card-title">{{post.title}}</h4>
+                                                <p class="card-text">{{post.content}}</p>
+                                            </a>
+                                        </div>
+                                        <!-- /Button trigger modal -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            </div>
+            <!-- 사진이 세개 일 때 -->
+            {% endif %}
+
+            {% if post.photo_set.count >= 3 %}
+            <!-- 사진이 네개 일 때 -->
+            <div>
+                <section class="posts pt-4">
+                    <ul class="row justify-content-center">
+                        <li class="col-12 col-sm-6">
+                            <div class="post pl-3 pt-1">
+                                <div class="d-flex flex-nowrap">
+                                    <a href="#" class="card_profile d-flex justify-content-center align-items-center">
+                                        <img class="card-img-top height-fix" src="/assets/img/my.jpg" alt>
+                                    </a>
+                                    <p class="post_user mt-2 ml-2"><a href="#">'박기철</a> 여행자님'</p>
+                                </div>
+                                <div class="d-flex flex-nowrap pt-2">
+                                    <p class="post_upload">UPLOAD DATE</p>
+                                    <p class="post_date ml-2 pl-1">2017.07.01 PM 03:15</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="col-12 col-sm-6">
+                            <div class="icon pt-3 pr-3 row justify-content-end">
+                                <button type="button" class="fa fa-heart-o fa-2x px-2 pb-2 heart_o" aria-hidden="true"></button>
+                                <button type="button" class="fa fa-heart fa-2x px-2 pb-2 heart
+                                " aria-hidden="true"></button>
+                                <a href="#"><i class="fa fa-map-marker fa-2x px-1" aria-hidden="true"></i></a>
+                                <div class="dropdown">
+                                    <button class="btn_option" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-plus fa-2x pb-2" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#"><i class="fa fa-share-alt" aria-hidden="true"></i> 공유하기 </a>
+                                        <div class="report" data-toggle="modal" data-target="#report">
+                                            <a class="dropdown-item" href="#"><i class="fa fa-ban" aria-hidden="true"></i> 신고하기 </a>
+                                        </div>
+                                        <a class="dropdown-item" href="#"><i class="fa fa-user-times" aria-hidden="true"></i> 차단하기 </a>
+                                        <a class="dropdown-item" href="/newspeed1_edit.html"><i class="fa fa-pencil" aria-hidden="true"></i> 수정하기 </a>
+                                        <a class="dropdown-item" href="{% url 'news:post_destroy' post.id %}"><i class="fa fa-trash-o" aria-hidden="true"></i> 삭제하기 </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+                <div class="group__card row mx-0">
+                    <div class="col-12">
+                        <div class="row">
+                            <!-- Button trigger modal -->
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 px-0 mt-3 mt-md-0" data-toggle="modal" data-target=".bd-example-modal-lg2">
+                                <div class="card">
+                                    <a href="#" class="tourbook__main__container d-flex justify-content-center">
+                                        <img class="tourbook__main__img card-img-top height-fix" src="{{ post.main_photo.url }}" alt>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- /Button trigger modal -->
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="row">
+                                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 flex-row px-0">
+                                        <div class="card">
+                                            <a href="#" class="tourbook__side__container d-flex justify-content-center">
+                                                <img class="tourbook__side__img card-img-top height-fix" src="{{ post.photo_set.all.0.file.url }}" alt>
+                                            </a>
+                                        </div>
+                                        <div class="card">
+                                            <a href="#" class="tourbook__side__container d-flex justify-content-center">
+                                                <img class="tourbook__side__img card-img-top height-fix" src="{{ post.photo_set.all.1.file.url }}" alt>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 flex-row px-0">
+                                        <div class="card">
+                                            <a href="#" class="tourbook__side__container d-flex justify-content-center">
+                                                <img class="tourbook__side__img card-img-top height-fix" src="{{ post.photo_set.all.2.file.url }}" alt>
+                                            </a>
+                                        </div>
+                                        <!-- Button trigger modal -->
+                                        <div class="card-block">
+                                            <a class="modalStart" href="{% url 'news:modal' %}" name="{{post.id}}">
+                                                <h4 class="card-title">{{post.title}}</h4>
+                                                <p class="card-text">{{post.content}}</p>
+                                            </a>
+                                        </div>
+                                        <!-- /Button trigger modal -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            </div>
+            {% endif %}
+            <!-- 사진이 네개 일 때 -->
+
             {% endfor %}
         </div>
     </main>
@@ -510,7 +448,7 @@
           <div class="form-group pt-2">
             <label for="exampleTextarea">신고 내용</label>
             <textarea class="form-control" id="exampleTextarea" rows="20"></textarea>
-          </div>      
+          </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
@@ -526,7 +464,7 @@
 {% block script %}
 
     <script type="text/javascript" src="{% static 'news/alljs.js' %}"></script>
-    <script type="text/javascript" src="{% static 'news/classie.js' %} "></script> 
+    <script type="text/javascript" src="{% static 'news/classie.js' %} "></script>
     <script type="text/javascript" src="{% static 'news/uisearch.js' %}"></script>
     <script type="text/javascript" src="{% static 'news/news_modal_ajax.js' %}"></script>
     <script>
