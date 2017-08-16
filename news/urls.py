@@ -12,4 +12,6 @@ urlpatterns +=[
 	url(r'^modal/$', views.modal, name="modal"),
 	#modal 댓글 더보기
 	url(r'^more/$', views.comment_more, name="comment_more"),
+	#post 좋아요
+	url(r'^like/$', views.news_like, name='post_like'),
 ]
