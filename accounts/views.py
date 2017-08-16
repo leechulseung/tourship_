@@ -53,9 +53,11 @@ def login(request):
 @login_required
 def index(request): #게시글 등록
 	forms = Multi_PhotoForm(request.POST, request.FILES)#다중사진
-	user_list= request.user.post_set.all()
-	locations = [c.location for c in user_list]
-	print(locations)
+	post_list= request.user.post_set.all()
+	locations= []
+	for post in post_list:
+		locations.append({'title':post.title, 'content':post.content,'location':post.location})
+		
 	if request.method == 'POST':
 		form = PostForm(request.user,request.POST,request.FILES)
 		if form.is_valid():

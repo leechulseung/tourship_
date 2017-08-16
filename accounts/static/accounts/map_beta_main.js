@@ -19,41 +19,92 @@ var zoomControl = new daum.maps.ZoomControl();
 // 지도의 우측에 확대 축소 컨트롤을 추가한다
 map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
 
-// console.log(this.locations);
 (function(daum, jQuery){
 
     var user_markers = [];
     var user = userLocations;
     var shit = [];
 
-    $(document).on("click", "#memory-add", function(){
-        setMarker(map);
-    });
+    // var titleContent = {};
+
+    // var infowindow = new daum.maps.InfoWindow({zIndex:1});
+
+    console.log(user);
+
+    // $(document).on("click", "#memory-add", function(){
+    //     setMarker(map);
+    // });
 
     for(var i = 0; i < user.locations.length; i++){
-        shit.push(user.locations[i].split(","));
+        shit.push(user.locations[i].location.split(","));
     }
-
-    for(var i = 0; i < shit.length; i++){
-        addMarker(new daum.maps.LatLng(shit[i][0], shit[i][1]));
-    }
+    console.log(shit);
+    // for(var i = 0; i < shit.length; i++){
+    //     addMarker(new daum.maps.LatLng(shit[i][0], shit[i][1]));
+    // }
     
-    setMarker(map);
+    // setMarker(map);
 
-    function addMarker(position){
-        var userMaker = new daum.maps.Marker({
-            position: position
+    for (var i = 0; i < user.locations.length; i++) {
+        var userMarker = new daum.maps.Marker({
+            map: map,
+            title: i,
+            position: new daum.maps.LatLng(shit[i][0], shit[i][1])
         });
 
-        userMaker.setMap(map);
-        user_markers.push(userMaker);
+        userMarker.setMap(map);
+        console.log(userMarker.title);
+
+        var infowindow = new daum.maps.InfoWindow({
+            zIndex:1,
+            content: '<div style="padding:5px;font-size:12px;">'+ '제목 : ' + user.locations[i].title + '<br>내용 : ' + user.locations[i].content +'</div>'
+        });
+
+        daum.maps.event.addListener(userMarker, 'mouseover', markerOver(map, userMarker, infowindow));
+        daum.maps.event.addListener(userMarker, 'mouseout', markerOutOver(infowindow));
     }
 
-    function setMarker(map){
-        for(var i = 0; i < user_markers.length; i++){
-            user_markers[i].setMap(map);
-        }
+    function markerOver(map, userMarker, infowindow){
+        return function(){
+            infowindow.open(map, userMarker);
+        };
     }
+
+    function markerOutOver(infowindow){
+        return function(){
+            infowindow.close();
+        };
+    }
+    
+
+    // function addMarker(position){
+    //     var userMaker = new daum.maps.Marker({
+    //         position: position
+    //     });
+
+    //     titleContent = {
+    //         title : user.locations.title,
+    //         content : user.locations.content
+    //     };
+
+    //     userMaker.setMap(map);
+    //     user_markers.push(userMaker);
+
+    //     daum.maps.event.addListener(userMaker, 'mouseover', function() {
+    //         infowindow.setContent('<div style="padding:5px;font-size:12px;">'+ titleContent.title + '<br>' + titleContent.content +'</div>');
+    //         infowindow.open(map, userMaker);
+    //     });
+
+    //     daum.maps.event.addListener(userMaker, 'mouseout', function() {
+    //         infowindow.close();
+    //     });
+    // }
+
+    // function setMarker(map){
+    //     for(var i = 0; i < user_markers.length; i++){
+    //         user_markers[i].setMap(map);  
+    //     }
+    // }
 
 })(window.daum, window.jQuery);
 
