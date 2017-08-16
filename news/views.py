@@ -88,8 +88,8 @@ def modal(request, template='news/post_modal.html'):
 
 	comments = Comment.objects.filter(post=post) #댓글들
 	form = CommentForm(request.POST or None) #댓글 폼
-
-	context = {'post':post,'form':form, 'comments':comments, }
+	like_list = [user.post for user in request.user.like_set.all()]
+	context = {'post':post,'form':form, 'comments':comments, 'like_list':like_list, }
 
 	if request.POST.get('message', None):
 		if form.is_valid():
