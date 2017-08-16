@@ -8,6 +8,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, Pass
 from .models import Profile
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
+from django.shortcuts import redirect
 
 GENDER_CHOICES = (
     ('남성','남성'),
@@ -140,7 +141,8 @@ class PostForm(forms.ModelForm):
 		print("세이브")
 		return post
 
-class LoginForm(AuthenticationForm):
+
+class CheckForm(forms.Form):
 	username = forms.CharField(widget=
 		forms.TextInput(attrs={
 			'class':'form-control',
@@ -151,18 +153,116 @@ class LoginForm(AuthenticationForm):
 		forms.PasswordInput(attrs={
 			'class':'form-control',
 			}))
-	def clean(self):
-		username = self.cleaned_data.get('username',None)
-		password = self.cleaned_data.get('password',None)
 
-		if username is None:
-			raise forms.ValidationError("ID/Email을 입력하지 않으셨습니다.")
-		if password is None:
-			raise forms.ValidationError("패스워드를 입력하지 않으셨습니다.")
-		if username and password:
-			self.user_cache = authenticate(username=username, password=password)
-			if self.user_cache is None:
-				raise forms.ValidationError("아이디 또는 비밀번호를 다시 확인하세요")
+	def __init__(self, user, *args, **kwargs):
+		self.user = user
+		super().__init__(*args, **kwargs)
+
+	def clean_username(self):
+		username = self.cleaned_data['username']
+		if not username == self.user.username:
+			raise forms.ValidationError("아이디가 틀렸습니다.")
+		return username
+
+	def clean_password(self):
+		password = self.cleaned_data["password"]
+		if not self.user.check_password(password):
+			raise forms.ValidationError("비밀번호가 틀립니다.")
+		return password
+
+class SetupForm(forms.Form):
+	def __init__(self, user, *args, **kwargs):
+		self.user = user
+		super(SetupForm, self).__init__(*args, **kwargs)
+
+	newPassword1 = forms.CharField(
+		label = '새로운 비밀번호',
+		widget = forms.PasswordInput(attrs={
+			'class':'form-control',
+			}), required=False,
+		)
+	newPassword2 = forms.CharField(
+		label = '새로운 비밀번호(확인용)',
+		widget = forms.PasswordInput(attrs={
+			'class':'form-control'
+			}), required=False,
+		)
+	address = forms.CharField(widget=forms.TextInput(
+		attrs={'class':'form-control'
+		}), required=False,
+	)
+	phone_num= forms.CharField(validators=[RegexValidator(r'^010[1-9]\d{7}$')],max_length=11, widget= forms.TextInput(attrs={
+        'class':'form-control',
+        'placeholder':'01012345678'
+        }),required=False,)
+
+	photo = forms.ImageField(widget=forms.FileInput(
+		attrs={'class':'form-control-file',}
+		),
+		required=False
+	)
+
+
+
+
+	def clean(self):
+		password1 = self.cleaned_data.get('newPassword1')
+		password2 = self.cleaned_data.get('newPassword2')
+		address = self.cleaned_data.get('address')
+		phone_num = self.cleaned_data.get('phone_num')
+		photo = self.cleaned_data.get('photo')
+
+		if not password1:
+			if not password2:
+				if not address:
+					print("히히히히")
+					if not phone_num:
+						print("이잉ㅇ잉")
+						if not photo:
+							print("푸헬헬헬")
+							raise forms.ValidationError("")
+
+
+	def clean_newPassword2(self):
+
+		password1 = self.cleaned_data.get('newPassword1')
+		password2 = self.cleaned_data.get('newPassword2')
+
+		if password1 and password2:
+			password1_isalpha = password1[0].isalpha()
+			if password1 != password2:
+				raise forms.ValidationError("두 비밀번호가 일치하지 않습니다.")
+			if len(password1) < 8:
+				raise forms.ValidationError("비밀번호가 짧습니다. 최소 8글자 이상 입력해 주세요(영문+숫자)")
+			if all(c.isalpha() == password1_isalpha for c in password1):
+				raise forms.ValidationError("비밀번호는 영문과 숫자 조합으로 다시 입력해 주세요.")
+		return password2
+
+
+
+	def save(self, commit=True):
+		if self.cleaned_data["newPassword2"]:
+			password = self.cleaned_data["newPassword2"]
+			self.user.set_password(password)
+			if commit:
+				self.user.save()
+
+		if self.cleaned_data['address']:
+			self.user.profile.address = self.cleaned_data['address']
+			if commit:
+				self.user.profile.save()
+
+		if self.cleaned_data['phone_num']:
+			self.user.profile.phone_num = self.cleaned_data['phone_num']
+			if commit:
+				self.user.profile.save()
+
+		if self.cleaned_data['photo']:
+			self.user.profile.photo = self.cleaned_data['photo']
+			if commit:
+				self.user.profile.save()
+
+		return self.user
 
 class Multi_PhotoForm(forms.ModelForm):
     class Meta:

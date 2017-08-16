@@ -1,0 +1,382 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block style %}
+  <link rel="stylesheet" type="text/css" href="{% static 'accounts/preferencen.css' %}">
+{% endblock style %}
+
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tourpin &ndash; 환경설정 - 회원 정보 수정</title>
+  <!-- fontawesome-icon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- bootstrap css -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <!-- navbar css -->
+  <link rel="stylesheet" href="assets/css/navbar.css">
+  <!-- your custom css -->
+  <link rel="stylesheet" href="assets/css/preference3_notification_&_security.css">
+</head>
+<body>
+
+
+{% block content %}
+  <!-- Header -->
+  <header class="header fixed-top">
+    <!-- navbar -->
+    <nav class="navbar navbar-toggleable-md navbar-light bg-tourpin">
+      <!-- 여행자 등급 -->
+      <a class="navbar-brand navbar-white" href="#">PILOT</a>
+      <!-- 여행자 정보 -->
+      <ul class="navbar-nav mr-auto">
+        <!-- 여행자 이름 -->
+        <li class="nav-item active">
+          <a class="nav-link navbar-white px-0 py-1 mr-3" href="#">장근열 여행자님<span class="sr-only">(여행자님 어서오세요! 현재 등급은 파일럿 입니다!)</span></a>
+        </li>
+        <!-- 여행자 상태 -->
+        <li class="nav-item ing">
+          <a class="nav-link navbar-white px-0 py-1 mr-3" href="#">여행중</a>
+          <a class="nav-link navbar-white px-0 py-1 mr-3" href="#" style="display: none;">휴식중</a>
+        </li>
+      </ul>
+      <!-- 알림 -->
+      <div class="notice dropdown">
+        <!-- 번개 아이콘 -->
+        <button class="header__button navbar-white px-0 py-1 mr-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="알림">
+          <i class="fa fa-bolt text-white"></i>
+        </button>
+        <!-- 알림 드롭 다운 -->
+        <div class="header__dropdown dropdown-menu mr-auto" aria-labelledby="dropdownMenuButton">
+          <ul class="header__ul text-left">
+            <a href="#">
+              <li class="dropdown-item">
+                <button type="button" class="close" aria-label="Close"><span class="close-btn" aria-hidden="true">&times;</span></button>
+                <img class="mr-3" src="assets/img/my.jpg" alt>
+                <p class="img_block">오제웅 여행자님이 게시글에 댓글을 남기셨습니다.</p>
+              </li>
+            </a>
+            <a href="#">
+              <li class="dropdown-item">
+                <button type="button" class="close" aria-label="Close"><span class="close-btn" aria-hidden="true">&times;</span></button>
+                <img class="mr-3" src="assets/img/my.jpg" alt>
+                <p class="img_block">오제웅 여행자님이 게시글에 댓글을 남기셨습니다.</p>
+              </li>
+            </a>
+            <a href="#">
+              <li class="dropdown-item">
+                <button type="button" class="close" aria-label="Close"><span class="close-btn" aria-hidden="true">&times;</span></button>
+                <img class="mr-3" src="assets/img/my.jpg" alt="#">오제웅 여행자님이 추억을 등록하였습니다.
+              </li>
+            </a>
+            <a href="#">
+              <li class="dropdown-item">
+                <img class="mr-3" src="assets/img/my.jpg" alt="#">오제웅 여행자님과 친구가 되었습니다.
+                <button type="button" class="close" aria-label="Close"><span class="close-btn" aria-hidden="true">&times;</span></button>
+              </li>
+            </a>
+            <a href="#">
+              <li class="dropdown-item">
+                <button type="button" class="close" aria-label="Close"><span class="close-btn" aria-hidden="true">&times;</span></button>
+               <img class="mr-3" src="assets/img/my.jpg" alt="#">오제웅 여행자님이 친구를 요청하였습니다.
+              </li>
+            </a>
+            <!-- 더 보기 -->
+            <a href="#">
+              <li class="dropdown-plus text-center">
+                더 보기..
+              </li>
+            </a>
+          </ul>
+        </div>
+      </div>
+      <!-- 메뉴 -->
+      <div class="menu dropdown">
+        <!-- 메뉴 바 아이콘 -->
+        <button class="header__button navbar-white px-0 py-1 mr-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          MENU <i class="fa fa-bars text-white"></i>
+        </button>
+        <!-- 메뉴 드롭다운 -->
+        <div class="header__dropdown dropdown-menu mr-auto" aria-labelledby="dropdownMenuButton">
+          <ul class="header__ul text-right p-0 m-0">
+            <!-- 투어핀 메인 -->
+            <li><a class="dropdown-item" href="{% url 'index' %}">main</a></li>
+            <!-- 뉴스피드 -->
+            <li><a class="dropdown-item" href="{% url 'news:news_list' %}">newspeed</a></li>
+            <!-- 그룹 페이지 -->
+            <li><a class="dropdown-item" href="{% url 'group:tourship' %}">tourship</a></li>
+            <!-- 친구 확인 -->
+            <li><a class="dropdown-item" href="{% url 'friend_list' %}">friends</a></li>
+            <!-- 환경 설정 -->
+            <li><a class="dropdown-item" href="{% url 'setup_auth' %}">set-up</a></li>
+            <!-- 로그 아웃 -->
+            <li><a class="dropdown-item" href="{% url 'logout' %}">logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- // navbar -->
+  </header>
+  <!-- // Header -->
+
+  <!-- 피드백 & 도움말 -->
+  <div class="icon d-flex flex-row-reverse mt-5">
+    <!-- 도움말 아이콘 -->
+    <button type="button" class="btn__help mr-2 mr-md-4 mt-2" data-toggle="modal" data-target="#exampleModal">
+      <i class="fa fa-question fa-2x" href="#"></i>
+    </button>
+    <!-- 도움말 모달 -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <!-- 도움말 모달 헤더 -->
+          <div class="modal-header">
+            <!-- 도움말 모달 타이틀 -->
+            <h5 class="modal-title" id="exampleModalLabel">도움말</h5>
+            <!-- 도움말 모달 닫기 버튼 -->
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!-- 도움말 모달 바디 -->
+          <div class="modal-body">
+            <h3>등급 조건</h3>
+            <p>&#45;&nbsp;워커(WALKER) : 추억 10개이하</p>
+            <p>&#45;&nbsp;러너(RUNNER) : 추억 11개이상 20개 이하</p>
+            <p>&#45;&nbsp;라이더(RIDER) : 추억 21개 이상 35개 이하</p>
+            <p>&#45;&nbsp;레이서(RACER) : 추억 36개 이상 50개 이하</p>
+            <p>&#45;&nbsp;파일럿(PILOT) : 추억 51개 이상</p>
+          </div>
+          <!-- 도움말 취소 버튼 -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--피드백 아이콘 -->
+    <button type="button" class="btn__feedback mr-1 mr-md-3 mt-2" data-toggle="modal" data-target="#exampleModal2" data-whatever="@mdo">
+      <i class="fa fa-envelope fa-2x" href="#"></i>
+    </button>
+    <!-- 피드백 모달 -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <!-- 피드백 모달 헤더 -->
+          <div class="modal-header">
+            <!-- 피드백 모달 타이틀 -->
+            <h5 class="modal-title" id="exampleModalLabel">피드백</h5>
+            <!-- 피드백 모달 닫기 버튼 -->
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!-- 피드백 모달 바디 -->
+          <div class="modal-body">
+            <form>
+              <!-- 피드백 메시지 -->
+              <div class="form-group">
+                <label for="message-text" class="form-control-label">피드백 내용</label>
+                <textarea class="form-control" id="message-text"></textarea>
+              </div>
+            </form>
+          </div>
+          <!-- 버튼 -->
+          <div class="modal-footer">
+            <!-- 피드백 취소 버튼 -->
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+            <!-- 피드백 보내기 버튼 -->
+            <button type="button" class="btn btn-primary">보내기</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- // 피드백 & 도움말 -->
+
+  <!-- 환경 설정 탭 -->
+  <div class="setting-menu container mb-2">
+    <!-- Set-up -->
+    <h1 class="setting__title font-weight-bold mx-2 mx-md-3 mx-lg-4 px-2 px-md-3 px-lg-4">Set-up</h1>
+    <!-- 환경 설정 목록 -->
+    <ul class="setting__tabs nav nav-tabs mx-2 mx-md-3 mx-lg-4 px-2 px-md-3 px-lg-4">
+      <!-- 회원 정보 수정 -->
+      <li class="setting__menu nav-item">
+        <a class="nav-link font-weight-bold" href="{% url 'preference' %}">회원 정보 수정</a>
+      </li>
+      <!-- 꾸미기 -->
+      <li class="setting__menu nav-item">
+        <a class="nav-link" href="{% url 'preference_design' %}">꾸미기</a>
+      </li>
+      <!-- 보안 설정 -->
+      <li class="setting__menu nav-item">
+        <a class="nav-link active" href="{% url 'preference_security' %}">알림 &middot; 보안</a>
+      </li>
+      <!-- 회원 탈퇴 -->
+      <li class="setting__menu nav-item">
+        <a class="nav-link" href="{% url 'sign_out' %}">회원 탈퇴</a>
+      </li>
+    </ul>
+  </div>
+  <!-- // 환경 설정 탭 -->
+
+  <!-- 알림 및 보안 설정 -->
+  <div class="container mt-5">
+    <form class="form-group mx-sm-3 mx-md-5 px-sm-3 px-md-5">
+      <!-- 알림 설정 -->
+      <div class="notification form-group row mx-3 mx-lg-5 px-lg-5">
+        <p class="title">
+          <i class="fa fa-caret-right fa-2x mr-3"></i>
+          <strong class="h3 mr-5">알림 설정</strong>
+        </p>
+        <!-- 알림설정 on/off 버튼 -->
+        <div class="onoffswitch">
+          <input type="checkbox" nam
+          e="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+          <label class="onoffswitch-label" for="myonoffswitch">
+            <span class="onoffswitch-inner"></span>
+            <span class="onoffswitch-switch"></span>
+          </label>
+        </div>
+        <!-- // 알림 설정 on/off 버튼 -->
+      </div>
+      <!-- 친구가 나의 추억에 좋아요를 눌렀을 때 -->
+      <div class="form-check">
+        <div class="row ml-md-1 ml-lg-5 pl-lg-4 pl-xl-5">
+          <label class="form-check-label col-1 ml-5 pl-5">
+            <input class="form-check-input switch" type="checkbox" value="option1">
+          </label>
+          <p class="font-weight-bold mt-1">친구가 나의 추억에 좋아요를 눌렀을 때</p>
+        </div>
+      </div>
+      <!-- 다른 여행자가 나의 팔로워가 되었을 때 -->
+      <div class="form-check">
+        <div class="row ml-md-1 ml-lg-5 pl-lg-4 pl-xl-5">
+          <label class="form-check-label col-1 ml-5 pl-5">
+            <input class="form-check-input switch" type="checkbox" value="">
+          </label>
+          <p class="font-weight-bold mt-1">다른 여행자가 나의 팔로워가 되었을 때</p>
+        </div>
+      </div>
+      <!-- 친구 신청이 왔을 때 -->
+      <div class="form-check">
+        <div class="row ml-md-1 ml-lg-5 pl-lg-4 pl-xl-5">
+          <label class="form-check-label col-1 ml-5 pl-5">
+            <input class="form-check-input switch" type="checkbox" value="">
+          </label>
+          <p class="font-weight-bold mt-1">친구 신청이 왔을 때</p>
+        </div>
+      </div>
+      <!-- 친구의 새로운 추억 소식 -->
+      <div class="form-check">
+        <div class="row ml-md-1 ml-lg-5 pl-lg-4 pl-xl-5">
+          <label class="form-check-label col-1 ml-5 pl-5">
+            <input class="form-check-input switch" type="checkbox" value="">
+          </label>
+          <p class="font-weight-bold mt-1">친구의 새로운 추억 소식</p>
+        </div>
+      </div>
+      <!-- 그룹 소식 -->
+      <div class="form-check">
+        <div class="row ml-md-1 ml-lg-5 pl-lg-4 pl-xl-5">
+          <label class="form-check-label col-1 ml-5 pl-5 mb-5">
+            <input class="form-check-input switch" type="checkbox" value="">
+          </label>
+          <p class="font-weight-bold mt-1">그룹 소식</p>
+        </div>
+      </div>
+      <!-- 보안 설정 -->
+      <div class="security form-group row mx-3 mx-lg-5 px-lg-5">
+        <p class="title">
+          <i class="fa fa-caret-right fa-2x mr-3"></i>
+          <strong class="h3">보안 설정</strong>
+        </p>
+      </div>
+      <!-- 지도 활성화 -->
+      <div class="form-group row mx-md-4 mx-lg-5 px-lg-5">
+        <label for="map_activation" class="col-form-label font-weight-bold mx-4 mx-xl-5 px-3 px-md-2 px-lg-4 pl-xl-5"><i class="fa fa-minus mr-3"></i>지도 활성화</label>
+        <!-- 지도 활성화 on/off 버튼 -->
+        <div class="onoffswitch2">
+          <input type="checkbox" name="onoffswitch2" class="onoffswitch-checkbox2" id="myonoffswitch2" checked>
+          <label class="onoffswitch-label2" for="myonoffswitch2">
+            <span class="onoffswitch-inner2"></span>
+            <span class="onoffswitch-switch2"></span>
+          </label>
+        </div>
+        <!-- // 지도 활성화 on/off 버튼 -->
+      </div>
+      <!-- 추억 지도 공유 범위 설정 -->
+      <div class="form-group row mx-md-4 mx-lg-5 px-lg-5">
+        <label for="map_share" class="col-form-label font-weight-bold col-7 col-sm-8 col-md-7 ml-4 ml-xl-5 px-3 px-md-2 px-lg-4 pl-xl-5"><i class="fa fa-minus mr-3"></i>나의 추억&middot;지도 공유 범위 설정</label>
+        <div class="map_share_select col-4 col-sm-3 col-md-4 col-lg-3 col-xl-2">
+          <select class="form-control switch2" id="map_share">
+            <option>친구만</option>
+            <option>모두 공개</option>
+            <option>비공개</option>
+          </select>
+        </div>
+      </div>
+      <!-- 정보 공개 설정-->
+      <div class="form-group row mx-md-4 mx-lg-5 px-lg-5">
+        <!-- 공개 범위 설정 -->
+        <label for="user_information_share" class="col-form-label font-weight-bold col-7 col-sm-8 col-md-7 ml-4 ml-xl-5 px-3 px-md-2 px-lg-4 pl-xl-5"><i class="fa fa-minus mr-3"></i>나의 정보 공개 범위 및 항목 설정</label>
+        <div class="user_information_share_select col-4 col-sm-3 col-md-4 col-lg-3 col-xl-2">
+          <select class="form-control switch2" id="user_information_share">
+            <option>친구만</option>
+            <option>모두 공개</option>
+            <option>비공개</option>
+          </select>
+        </div>
+      </div>
+      <!-- 공개 항목 체크 설정 -->
+      <div class="row mx-md-2 mx-lg-4 mx-xl-5 pl-lg-5">
+        <!-- 이름 -->
+        <div class="row ml-xl-1 pl-lg-5">
+          <label class="form-check-label ml-5 pl-5">
+            <input class="form-check-input switch2 mr-1" type="checkbox" value="">
+          </label>
+          <p class="font-weight-bold mt-1">이름</p>
+        </div>
+        <!-- 주소 -->
+        <div class="row pl-xl-3" >
+          <label class="form-check-label ml-5 pl-4">
+            <input class="form-check-input switch2 mr-1" type="checkbox" value="">
+          </label>
+          <p class="font-weight-bold mt-1">주소</p>
+        </div>
+        <!-- 이메일 -->
+        <div class="row pl-xl-3" >
+          <label class="form-check-label ml-5 pl-4">
+            <input class="form-check-input switch2 mr-1" type="checkbox" value="">
+          </label>
+          <p class="font-weight-bold mt-1">이메일</p>
+        </div>
+        <!-- 폰 번호 -->
+        <div class="row pl-xl-3" >
+          <label class="form-check-label ml-5 pl-4">
+            <input class="form-check-input switch2 mr-1" type="checkbox" value="">
+          </label>
+          <p class="font-weight-bold mt-1">폰번호</p>
+        </div>
+        <!-- 생일   -->
+        <div class="row pl-xl-3" >
+          <label class="form-check-label ml-5 pl-4">
+            <input class="form-check-input switch2 mr-1" type="checkbox" value="">
+          </label>
+          <p class="font-weight-bold mt-1">생일</p>
+        </div>
+      </div>
+      <!-- Save 버튼 -->
+      <div class="btn d-flex flex-row-reverse pr-sm-2 mr-sm-2">
+        <button type="button" class="btn__save font-weight-bold px-3 py-2">SAVE</button>
+      </div>
+    </form>
+  </div>
+  <!-- // 알림 및 보안 설정 -->
+
+
+{% endblock content %}
+
+</body>
+</html>
