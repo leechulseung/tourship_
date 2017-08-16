@@ -16,7 +16,7 @@
                 </form>
                 <button type="submit" class="friend__header__btn px-3 py-1">Search</button>
             </header>
-            
+
             <section class="friend__body">
                 <header class="friend__body__header pt-4">
                     <nav class="frined__body__nav nav">
@@ -26,56 +26,26 @@
                       block_list' %}">차단관리</a>
                     </nav>
                 </header>
-                
+
                 <article class="friend__body__list pt-4">
                     <div class="pt-4">
                         <h2>여행자 차단 리스트</h2>
                         <article class="friend__me__request row">
+                        {% for block in block_list %}
                             <div class="col-12 col-sm-12 col-md-6 col-lg-4 pt-2 px-1">
                                 <div class="card row all__friend__card mx-0">
-                                  <img class="card-img-top" src="/assets/img/my.jpg" alt="Card image cap">
+                                  <!--<img class="card-img-top" src="/assets/img/my.jpg" alt="Card image cap">-->
                                   <div class="card-block row justify-content-center align-items-center">
                                     <div>
-                                      <h4 class="card-title all-gray-font"><a href="#">박기철 여행자님</a></h4>
-                                      <button class="all-red-button py-2 px-4">차단취소</button>
-                                    </div>
-                                  </div>
-                                </div>
-                                
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 pt-2 px-1">
-                                <div class="card row all__friend__card mx-0">
-                                  <img class="card-img-top" src="/assets/img/logo.PNG" alt="Card image cap">
-                                  <div class="card-block row justify-content-center align-items-center">
-                                    <div>
-                                      <h4 class="card-title all-gray-font"><a href="#">박기철 여행자님</a></h4>
-                                      <button class="all-red-button py-2 px-4">차단취소</button>
+                                      <h4 class="card-title all-gray-font"><a href="#">{{ block.block_man }} 여행자님</a></h4>
+                                      <h5 class="card-title all-gray-font"><a href="#">({{ block.block_man_id }})</a></h5>
+                                        <a href="{% url 'block_cancle' block.id %}"><button class="all-red-button py-2 px-4">차단취소</a></button>
                                     </div>
                                   </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 pt-2 px-1">
-                                <div class="card row all__friend__card mx-0">
-                                  <img class="card-img-top" src="/assets/img/logo.PNG" alt="Card image cap">
-                                  <div class="card-block row justify-content-center align-items-center">
-                                    <div>
-                                      <h4 class="card-title all-gray-font"><a href="#">박기철 여행자님</a></h4>
-                                      <button class="all-red-button py-2 px-4">차단취소</button>
-                                    </div>
-                                  </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 pt-2 px-1">
-                                <div class="card row all__friend__card mx-0">
-                                  <img class="card-img-top" src="/assets/img/logo.PNG" alt="Card image cap">
-                                  <div class="card-block row justify-content-center align-items-center">
-                                    <div>
-                                      <h4 class="card-title all-gray-font"><a href="#">박기철 여행자님</a></h4>
-                                      <button class="all-red-button py-2 px-4">차단취소</button>
-                                    </div>
-                                  </div>
-                                </div>
-                            </div>
+                          {% endfor %}
+
                         </article>
                     </div>
                 </article>
@@ -86,5 +56,5 @@
 
 <!--스크립트 시작-->
 {% block script %}
-	
+
 {% endblock script %}

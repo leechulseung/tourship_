@@ -17,10 +17,12 @@ $(document).on('click','.like', function(e){
         if(response.message == 'like'){
           $("#count-"+pk).html("<string>좋아요</strong> :"+response.like_count);
           $("button[name="+pk+"]").attr('class',"fa fa-heart fa-2x px-2 pb-2 heart like")
+          console.log("clear")
         }
         else{
           $("#count-"+pk).html("<string>좋아요</strong> :"+response.like_count);
           $("button[name="+pk+"]").attr('class','fa fa-heart-o fa-2x px-2 pb-2 heart_o like')
+          console.log('clear 취소')
         }
         //var users = $("#like-user-"+pk).text();
       },

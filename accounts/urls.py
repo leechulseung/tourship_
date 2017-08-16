@@ -17,6 +17,7 @@ urlpatterns += [
 	url(r'^friend/$', views.friend_list, name="friend_list"),
 	url(r'^friend/favorites/$', views.friend_favorites, name="friend_favorites"),
 	url(r'^friend/block_list/$', views.block_list, name="block_list"),
+	url(r'^friend/(?P<pk>\d+)/block_cancle/$', views.block_cancle, name="block_cancle"),
 ]
 
 #회원정보 수정

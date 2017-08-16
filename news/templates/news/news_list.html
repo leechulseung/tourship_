@@ -26,8 +26,11 @@
     <main class="main">
         <div class="container pt-5 mt-5">
             <div class="btn-group d-flex row justify-content-end" role="group" aria-label="Basic example" data-toggle="bottons">
-            <button type="button" class="btn btn-secondary"><a>실시간 순</a></button>
-            <button type="button" class="btn btn-secondary"><a>좋아요 순</a></button>
+            <a href="{% url 'news:news_list' %}"><button type="button" class="btn btn-secondary">실시간 순</button></a>
+            <form action="#" method="GET">
+                <input type="hidden" name="like_first" value="like">
+                <button type="submit" class="btn btn-secondary">좋아요 순</button>
+            </form>
             	<form action="" method="get">
                 	<button type="submit" class="btn btn-secondary">실시간 타임라인 보기</button>
                 	<input type="hidden" value="realTime" name="real">
@@ -46,7 +49,7 @@
                                     <a href="#" class="card_profile d-flex justify-content-center align-items-center">
                                         <img class="card-img-top height-fix" src="/assets/img/my.jpg" alt>
                                     </a>
-                                    <p class="post_user mt-2 ml-2"><a href="#">'박기철</a> 여행자님'</p>
+                                    <p class="post_user mt-2 ml-2"><a href="#">'{{ post.author.first_name }}</a> 여행자님'</p>
                                 </div>
                                 <div class="d-flex flex-nowrap pt-2">
                                     <p class="post_upload">UPLOAD DATE</p>
@@ -67,13 +70,20 @@
                                         <i class="fa fa-plus fa-2x pb-2" aria-hidden="true"></i>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    {% if not user == post.author %}
                                         <a class="dropdown-item" href="#"><i class="fa fa-share-alt" aria-hidden="true"></i> 공유하기 </a>
-                                        <div class="report" data-toggle="modal" data-target="#report">
-                                            <a class="dropdown-item" href="#"><i class="fa fa-ban" aria-hidden="true"></i> 신고하기 </a>
+                                        <!-- 게시자 신고 -->
+                                        <div data-toggle="modal" data-target="#{{ post.id }}report">
+                                            <button class="dropdown-item" type="button"><i class="fa fa-ban" aria-hidden="true"></i>신고하기 </button>
                                         </div>
-                                        <a class="dropdown-item" href="#"><i class="fa fa-user-times" aria-hidden="true"></i> 차단하기 </a>
+
+                                        <div data-toggle="modal" data-target="#{{ post.id }}block">
+                                        <button type="submit" class="dropdown-item" href="#"><i class="fa fa-user-times" aria-hidden="true"></i> 차단하기 </button>
+                                        </div>
+                                    {% else %}
                                         <a class="dropdown-item" href="/newspeed1_edit.html"><i class="fa fa-pencil" aria-hidden="true"></i> 수정하기 </a>
                                         <a class="dropdown-item" href="{% url 'news:post_destroy' post.id %}"><i class="fa fa-trash-o" aria-hidden="true"></i> 삭제하기 </a>
+                                    {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -125,7 +135,7 @@
                                     <a href="#" class="card_profile d-flex justify-content-center align-items-center">
                                         <img class="card-img-top height-fix" src="/assets/img/my.jpg" alt>
                                     </a>
-                                    <p class="post_user mt-2 ml-2"><a href="#">'박기철</a> 여행자님'</p>
+                                    <p class="post_user mt-2 ml-2"><a href="#">'{{ post.author.first_name }}</a> 여행자님'</p>
                                 </div>
                                 <div class="d-flex flex-nowrap pt-2">
                                     <p class="post_upload">UPLOAD DATE</p>
@@ -146,13 +156,17 @@
                                         <i class="fa fa-plus fa-2x pb-2" aria-hidden="true"></i>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        {% if not user == post.author %}
                                         <a class="dropdown-item" href="#"><i class="fa fa-share-alt" aria-hidden="true"></i> 공유하기 </a>
-                                        <div class="report" data-toggle="modal" data-target="#report">
-                                            <a class="dropdown-item" href="#"><i class="fa fa-ban" aria-hidden="true"></i> 신고하기 </a>
+                                        <!-- 게시자 신고 -->
+                                        <div data-toggle="modal" data-target="#{{ post.id }}report">
+                                            <button class="dropdown-item" type="button"><i class="fa fa-ban" aria-hidden="true"></i>신고하기 </button>
                                         </div>
                                         <a class="dropdown-item" href="#"><i class="fa fa-user-times" aria-hidden="true"></i> 차단하기 </a>
+                                    {% else %}
                                         <a class="dropdown-item" href="/newspeed1_edit.html"><i class="fa fa-pencil" aria-hidden="true"></i> 수정하기 </a>
                                         <a class="dropdown-item" href="{% url 'news:post_destroy' post.id %}"><i class="fa fa-trash-o" aria-hidden="true"></i> 삭제하기 </a>
+                                    {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -211,7 +225,7 @@
                                     <a href="#" class="card_profile d-flex justify-content-center align-items-center">
                                         <img class="card-img-top height-fix" src="/assets/img/my.jpg" alt>
                                     </a>
-                                    <p class="post_user mt-2 ml-2"><a href="#">'박기철</a> 여행자님'</p>
+                                    <p class="post_user mt-2 ml-2"><a href="#">'{{ post.author.first_name }}</a> 여행자님'</p>
                                 </div>
                                 <div class="d-flex flex-nowrap pt-2">
                                     <p class="post_upload">UPLOAD DATE</p>
@@ -232,13 +246,17 @@
                                         <i class="fa fa-plus fa-2x pb-2" aria-hidden="true"></i>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        {% if not user == post.author %}
                                         <a class="dropdown-item" href="#"><i class="fa fa-share-alt" aria-hidden="true"></i> 공유하기 </a>
-                                        <div class="report" data-toggle="modal" data-target="#report">
-                                            <a class="dropdown-item" href="#"><i class="fa fa-ban" aria-hidden="true"></i> 신고하기 </a>
+                                        <!-- 게시자 신고 -->
+                                        <div data-toggle="modal" data-target="#{{ post.id }}report">
+                                            <button class="dropdown-item" type="button"><i class="fa fa-ban" aria-hidden="true"></i>신고하기 </button>
                                         </div>
                                         <a class="dropdown-item" href="#"><i class="fa fa-user-times" aria-hidden="true"></i> 차단하기 </a>
+                                    {% else %}
                                         <a class="dropdown-item" href="/newspeed1_edit.html"><i class="fa fa-pencil" aria-hidden="true"></i> 수정하기 </a>
                                         <a class="dropdown-item" href="{% url 'news:post_destroy' post.id %}"><i class="fa fa-trash-o" aria-hidden="true"></i> 삭제하기 </a>
+                                    {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -305,7 +323,7 @@
                                     <a href="#" class="card_profile d-flex justify-content-center align-items-center">
                                         <img class="card-img-top height-fix" src="/assets/img/my.jpg" alt>
                                     </a>
-                                    <p class="post_user mt-2 ml-2"><a href="#">'박기철</a> 여행자님'</p>
+                                    <p class="post_user mt-2 ml-2"><a href="#">'{{ post.author.first_name }}</a> 여행자님'</p>
                                 </div>
                                 <div class="d-flex flex-nowrap pt-2">
                                     <p class="post_upload">UPLOAD DATE</p>
@@ -326,13 +344,17 @@
                                         <i class="fa fa-plus fa-2x pb-2" aria-hidden="true"></i>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        {% if not user == post.author %}
                                         <a class="dropdown-item" href="#"><i class="fa fa-share-alt" aria-hidden="true"></i> 공유하기 </a>
-                                        <div class="report" data-toggle="modal" data-target="#report">
-                                            <a class="dropdown-item" href="#"><i class="fa fa-ban" aria-hidden="true"></i> 신고하기 </a>
+                                        <!-- 게시자 신고 -->
+                                        <div data-toggle="modal" data-target="#{{ post.id }}report">
+                                            <button class="dropdown-item" type="button"><i class="fa fa-ban" aria-hidden="true"></i>신고하기 </button>
                                         </div>
                                         <a class="dropdown-item" href="#"><i class="fa fa-user-times" aria-hidden="true"></i> 차단하기 </a>
+                                    {% else %}
                                         <a class="dropdown-item" href="/newspeed1_edit.html"><i class="fa fa-pencil" aria-hidden="true"></i> 수정하기 </a>
                                         <a class="dropdown-item" href="{% url 'news:post_destroy' post.id %}"><i class="fa fa-trash-o" aria-hidden="true"></i> 삭제하기 </a>
+                                    {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -393,6 +415,64 @@
             {% endif %}
             <!-- 사진이 네개 일 때 -->
 
+
+            <!-- 차단하기 모달  -->
+            <div class="modal fade" id="{{ post.id }}block" tabindex="-1" role="dialog"  aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">차단하기</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{ block_form.as_table }}
+                        <div class="modal-footer">
+                    <input type="hidden" name="block_id" class="form-control" value="{{ post.author }}">
+                    <input type="hidden" name="block_name" class="form-control" value="{{ post.author.first_name }}">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="차단">
+                  </form>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+<!-- 차단하기 모달 끝-->
+
+<!-- 신고하기 모달  -->
+            <div class="modal fade" id="{{ post.id }}report" tabindex="-1" role="dialog"  aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">신고하기</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{report_form.as_table}}
+                        <!-- <input type="file" name="photo"> -->
+                        <input type="hidden" name="report_id" class="form-control" id="recipient-name" value="{{ post.author }}">
+                        <input type="hidden" name="report_title" class="form-control" value="{{ post.id }}">
+                        <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="신고">
+                  </form>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+<!-- 신고하기 모달 끝-->
+
+
+
             {% endfor %}
             <div id="post_list_ajax">
                 <!--스크롤 페이지네이션 내용 들어가는 공간-->
@@ -418,7 +498,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">박기철 여행자님의 게시글</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ post.author.first_name }} 여행자님의 게시글</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
