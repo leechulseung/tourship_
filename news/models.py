@@ -39,8 +39,11 @@ class Photo(models.Model):
 class Comment(models.Model):
 	post = models.ForeignKey('Post', verbose_name='post related',
 		related_name='%(app_label)s_%(class)ss')
+	author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=' user related',
+        related_name='%(app_label)s_%(class)ss')
 	message = models.TextField('댓글내용')
-
+	created_at = models.DateTimeField('작성일',auto_now_add=True)
+	updated_at =models.DateTimeField('수정일', auto_now=True)
 
 class Postprivacy(models.Model):
     policy = models.CharField('정책',max_length=15)

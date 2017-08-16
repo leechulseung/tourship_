@@ -50,6 +50,7 @@ def login(request):
 		'providers':providers, 'form':form
 		})
 
+@login_required
 def index(request): #게시글 등록
 	forms = Multi_PhotoForm(request.POST, request.FILES)#다중사진
 	user_list= request.user.post_set.all()
@@ -159,12 +160,14 @@ def sign_out(request, pk):
 	return render(request, 'accounts/preferencen4_withdrawl.html')
 
 
-
+@login_required
 def friend_list(request):
 	return render(request, 'friend/friend_list.html')
 
+@login_required
 def friend_favorites(request):
 	return render(request, 'friend/friend_favorites.html')
-
+	
+@login_required
 def block_list(request):
 	return render(request, 'friend/block_list.html')
