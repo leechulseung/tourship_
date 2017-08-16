@@ -13,7 +13,7 @@ class Post(models.Model):
 	updated_at = models.DateTimeField(auto_now=True)
 	main_photo = models.ImageField('사진', blank=True,upload_to='main_photo/%Y/%m/%d/')
 
-	def __self__(self):
+	def __str__(self):
 		return self.title
 
 	def delete(self, *args, **kwargs):
@@ -50,3 +50,21 @@ class Postprivacy(models.Model):
 
     def __str__(self):
         return self.policy
+
+
+class Block_user(models.Model):
+    block_man = models.CharField('차단된 유저명',max_length=20)  #차단당한 유저이름
+    block_man_id = models.CharField('차단된 유저ID',max_length=20)  #차단당한 유저ID
+    reasons = models.CharField('차단사유',max_length=20)  #차단사유
+    author = models.ForeignKey(settings.AUTH_USER_MODEL) #차단한 유저
+
+    def __str__(self):
+        return self.author.username
+
+class Report_Post(models.Model):
+    user = models.CharField('유저명',max_length=20)
+    title = models.ForeignKey('Post',default = 1)
+    content = models.CharField('신고내용',max_length=100)
+
+    def __str__(self):
+        return self.content
