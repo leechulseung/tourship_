@@ -13,6 +13,7 @@ class Post(models.Model):
 	updated_at = models.DateTimeField(auto_now=True)
 	main_photo = models.ImageField('사진', blank=True,upload_to='main_photo/%Y/%m/%d/')
 
+
 	def __str__(self):
 		return self.title
 
@@ -22,6 +23,12 @@ class Post(models.Model):
 			photo.file.delete()
 			photo.delete()
 		super(Post, self).delete(*args, **kwargs)
+
+class Like(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    post = models.ForeignKey(Post)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 class Address(models.Model):
 	post = models.ForeignKey('Post', verbose_name='post related',

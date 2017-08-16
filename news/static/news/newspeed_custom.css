@@ -347,3 +347,15 @@ z-index: 90;
 .fa-search {
     color: #3C74AA;
 }
+
+.morepost {
+  border: 1px solid #EAEAEA;
+  color: #8C8C8C;
+  background-color: #fff;
+}
+
+.more_bt {
+    background-color:#fff;
+    border:none;
+    color: #3d74aa;
+}
