@@ -9,8 +9,10 @@ import json
 @login_required
 def news_list(request,
 	template='news/news_list.html'):
-
+	
+	like_list = [user.post for user in request.user.like_set.all()]
 	post_list = Post.objects.all()
+
 	if request.GET.get('real', None):
 		template='news/news_list2.html'
 
@@ -25,7 +27,7 @@ def news_list(request,
 	except EmptyPage:
 		posts=paginator.page(paginator.num_page) 
 
-	context = {'post_list':posts} #템플릿에 넘겨줄 변수
+	context = {'post_list':posts,'like_list':like_list,} #템플릿에 넘겨줄 변수
 	if request.is_ajax(): #만약 ajax로 왔을떄
 		if request.POST.get('page',None): #page변수가 왔다면
 			template = 'news/new_page_ajax.html' #해당 템플릿을
@@ -78,9 +80,9 @@ def news_like(request):
  
     if not post_like_created:
         post_like.delete()
-        message = "좋아요 취소"
+        message = "like_del"
     else:
-        message = "좋아요"
+        message = "like"
 
     context = {'like_count': post.like_count,
                'message': message,
