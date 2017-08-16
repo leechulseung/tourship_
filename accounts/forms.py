@@ -66,7 +66,7 @@ class SignUpForm(UserCreationForm):
 	photo = forms.ImageField(widget=forms.FileInput(
 		attrs={'class':'form-control-file',}
 		),
-		required=False
+		required=True
 	)
 
 	class Meta(UserCreationForm.Meta):

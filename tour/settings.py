@@ -33,7 +33,7 @@ SECRET_KEY = 'eyi5!ntw(mxx9j2#7f9#yfj3-2*8u5x8-i8hfa5z8u)-o9%p#p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

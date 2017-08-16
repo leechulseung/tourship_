@@ -12,7 +12,10 @@ class Post(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	main_photo = models.ImageField('사진', blank=True,upload_to='main_photo/%Y/%m/%d/')
-
+	like_user_set = models.ManyToManyField(settings.AUTH_USER_MODEL,
+                                           blank=True,
+                                           related_name='like_user_set',
+                                           through='Like') # post.like_set 으로 접근 가능
 	def __self__(self):
 		return self.title
 
@@ -23,6 +26,12 @@ class Post(models.Model):
 			photo.delete()
 		super(Post, self).delete(*args, **kwargs)
 
+class Like(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    post = models.ForeignKey(Post)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
 class Address(models.Model):
 	post = models.ForeignKey('Post', verbose_name='post related',
 		related_name='%(app_label)s_%(class)ss')
@@ -39,8 +48,11 @@ class Photo(models.Model):
 class Comment(models.Model):
 	post = models.ForeignKey('Post', verbose_name='post related',
 		related_name='%(app_label)s_%(class)ss')
+	author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=' user related',
+        related_name='%(app_label)s_%(class)ss')
 	message = models.TextField('댓글내용')
-
+	created_at = models.DateTimeField('작성일',auto_now_add=True)
+	updated_at =models.DateTimeField('수정일', auto_now=True)
 
 class Postprivacy(models.Model):
     policy = models.CharField('정책',max_length=15)

@@ -1,0 +1,7 @@
+{% for comment in comments %}
+	<tr>
+	    <td width="20%">{{ comment.author.get_short_name }}</td>
+	    <td width="50%">{{ comment.message }}</td>
+	    <td width="30%">{{ comment.updated_at }}</td>
+	</tr>    
+{% endfor %}

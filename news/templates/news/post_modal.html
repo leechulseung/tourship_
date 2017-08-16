@@ -27,7 +27,7 @@
                             <div class="carousel-inner" role="listbox">
                                 <div class="carousel-item active">
                                     <a href="#" class="card-img_container d-flex justify-content-center align-items-center">
-                                        <img class="card-img-top height-fix" src="{{post.news_photos.first.photo.url}}" alt="First slide">
+                                        <img class="card-img-top height-fix" src="{{post.main_photo.url}}" alt="First slide">
                                     </a>
                                 </div>
                                 <div class="carousel-item">
@@ -74,32 +74,28 @@
                         <p class="post_content pt-4">{{post.content}}</p>
                     </div>
                     <table class="table mt-4">
-                        <tbody>
-                            <tr>
-                                <td width="20%">박기철</td>
-                                <td width="50%">멋지네요!</td>
-                                <td width="30%">2017.07.03 AM 10:00</td>
-                            </tr>
-                            <tr>
-                                <td width="20%">이두희</td>
-                                <td width="50%">상지대 우승!</td>
-                                <td width="30%">2017.07.03 AM 10:00</td>
-                            </tr>
-                            <tr>
-                                <td width="20%">노지승</td>
-                                <td width="55%">빠잉~</td>
-                                <td width="25%">2017.07.03 AM 10:00</td>
-                            </tr>
+                        <tbody id = "ajax-comment">
+                            {% for comment in comments|slice:":4" %}
+                                <tr>
+                                    <td width="20%">{{ comment.author.get_short_name }}</td>
+                                    <td width="50%">{{ comment.message }}</td>
+                                    <td width="30%">{{ comment.updated_at }}</td>
+                                </tr>    
+                            {% endfor %}
                         </tbody>
                     </table>
-
+                        {% if comments.count > 4 %}
+                            <nav aria-label="Page navigation example">
+                                <input id="comment-more" type="button" name="{{post.id}}" href="{% url 'news:comment_more' %}" value="더보기">
+                            </nav>    
+                        {% endif %}
                     <div class="container">
                         <div class="row">
                             <div class="reply">
-                                <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0 reply_text" placeholder="댓글달기">
+                                {{form.message}}
                             </div>
-                            <div class="reply_submit">
-                                <button type="submit" class="btn btn-primary">확인</button>
+                            <div class="reply_submit" name="{{post.id}}">
+                                <button type="button" class="btn btn-primary ajaxButton">확인</button>
                             </div>
                         </div>
                     </div>
