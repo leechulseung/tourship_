@@ -26,6 +26,10 @@ class Post(models.Model):
 			photo.delete()
 		super(Post, self).delete(*args, **kwargs)
 
+	@property
+	def like_count(self):
+		return self.like_user_set.count()
+
 class Like(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     post = models.ForeignKey(Post)

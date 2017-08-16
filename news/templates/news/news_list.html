@@ -51,12 +51,17 @@
                                 <div class="d-flex flex-nowrap pt-2">
                                     <p class="post_upload">UPLOAD DATE</p>
                                     <p class="post_date ml-2 pl-1">2017.07.01 PM 03:15</p>
+                                    <strong id="count-{{post.id}}">좋아요: {{post.like_set.count}}</strong></p>
                                 </div>
                             </div>
                         </li>
                         <li class="col-12 col-sm-6">
                             <div class="icon pt-3 pr-3 row justify-content-end">
-                                <button type="button" class="fa fa-heart-o fa-2x px-2 pb-2 heart_o" aria-hidden="true"></button>
+                                {% if post.like_set in user.like_set.all %}
+                                    <button name="{{post.id}}" href="{% url 'news:post_like' %}" type="button" class="fa fa-heart-o fa-2x px-2 pb-2 heart like" aria-hidden="true"></button>
+                                {% else %}
+                                    <button name="{{post.id}}" href="{% url 'news:post_like' %}" type="button" class="fa fa-heart-o fa-2x px-2 pb-2 heart_o like" aria-hidden="true"></button>    
+                                {% endif %}
                                 <button type="button" class="fa fa-heart fa-2x px-2 pb-2 heart
                                 " aria-hidden="true"></button>
                                 <a href="#"><i class="fa fa-map-marker fa-2x px-1" aria-hidden="true"></i></a>
@@ -469,8 +474,6 @@
 
 <!--스크립트 시작-->
 {% block script %}
-
-    <script type="text/javascript" src="{% static 'news/alljs.js' %}"></script>
     <script type="text/javascript" src="{% static 'news/classie.js' %} "></script>
     <script type="text/javascript" src="{% static 'news/uisearch.js' %}"></script>
     <script type="text/javascript" src="{% static 'news/news_modal_ajax.js' %}"></script>
@@ -481,4 +484,5 @@
     <script type="text/javascript" src="{% static 'news/news_pagination.js' %}"></script>
     <script type="text/javascript" src="{% static 'news/comment_ajax.js' %}"></script>
     <script type="text/javascript" src="{% static 'news/comment_more_ajax.js' %}"></script>
+    <script type="text/javascript" src="{% static 'news/like_ajax.js' %}"></script>
 {% endblock script %}
