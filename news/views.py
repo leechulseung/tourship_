@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404,HttpResponse
-from .models import Post, Comment
+from .models import Post, Comment, Block_user, Report_Post
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from .forms import CommentForm
+from .forms import CommentForm, BlockForm, ReportForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 import json
@@ -9,13 +9,53 @@ import json
 @login_required
 def news_list(request,
 	template='news/news_list.html'):
-
+	like_list = [user.post for user in request.user.like_set.all()]
+	like_first = request.GET.get('like_first') #좋아요 순서
+	block_form = BlockForm(request.POST) #차단 폼
+	report_form = ReportForm(request.POST) #신고 폼
+	report_id = request.POST.get('report_id', None) # 신고id
 	post_list = Post.objects.all()
+
 	if request.GET.get('real', None):
 		template='news/news_list2.html'
 
-	#페이지 네이션 구현 시작 
-	paginator = Paginator(post_list, 3) #3개씩 묶어 페이지 생성
+	if like_first:
+		post_list = Post.objects.order_by('-like')
+
+	block = Block_user.objects.all() #차단 table객체
+	blocker = block.filter(author=request.user) #차단한 유저
+	post_list_real = [] #차단당하지 않은 나머지 유저들
+	block_user = []	#차단당한 유저
+	for i in blocker:
+		block_user.append(i.block_man_id)
+	for i in post_list:
+		if i.author.username in block_user:
+			pass
+		else:
+			post_list_real.append(i)
+
+	if block_form.is_valid(): #차단하기
+		block_name = request.POST.get('block_name', None) #차단당한 유저
+		block_id = request.POST.get('block_id', None) #차단당한 유저
+		block = block_form.save(commit=False)
+		block.block_man = block_name
+		block.block_man_id = block_id
+		block.author = request.user
+		block.save()
+		return redirect('/newspeed')
+
+	if report_form.is_valid(): #신고하기
+		report_title = request.POST.get('report_title') # 신고 게시글제목
+		#print(report_title)
+		post = Post.objects.get(pk=report_title) #
+		report = report_form.save(commit=False)
+		report.user = report_id
+		report.title = post
+		report.save()
+		return redirect('/newspeed')
+
+	#페이지 네이션 구현 시작
+	paginator = Paginator(post_list_real, 3) #3개씩 묶어 페이지 생성
 	page_num = request.POST.get('page') #ajax로 page번호를 보낸다면 해당 변수에 대입
 
 	try:
@@ -23,9 +63,15 @@ def news_list(request,
 	except PageNotAnInteger:
 		posts= paginator.page(1) #위 상황에서 에러가 발생한다면 첫번쨰 페이지
 	except EmptyPage:
-		posts=paginator.page(paginator.num_page) 
+		posts=paginator.page(paginator.num_page)
 
-	context = {'post_list':posts} #템플릿에 넘겨줄 변수
+	context = {
+	'post_list':posts,
+	'block_form':block_form,
+	'report_form':report_form,
+	'like_list':like_list,
+	} #템플릿에 넘겨줄 변수
+
 	if request.is_ajax(): #만약 ajax로 왔을떄
 		if request.POST.get('page',None): #page변수가 왔다면
 			template = 'news/new_page_ajax.html' #해당 템플릿을
@@ -35,15 +81,15 @@ def news_list(request,
 	return render(request, template, context)
 
 #post모달 내용
-@login_required 
+@login_required
 def modal(request, template='news/post_modal.html'):
 	pk = request.POST.get('pk', None)
 	post = get_object_or_404(Post, pk=pk)
 
 	comments = Comment.objects.filter(post=post) #댓글들
 	form = CommentForm(request.POST or None) #댓글 폼
-
-	context = {'post':post,'form':form, 'comments':comments, }
+	like_list = [user.post for user in request.user.like_set.all()]
+	context = {'post':post,'form':form, 'comments':comments, 'like_list':like_list, }
 
 	if request.POST.get('message', None):
 		if form.is_valid():
@@ -66,7 +112,7 @@ def comment_more(request):
 		return render(request,'news/comment_more.html',{
             'comments':comments,
             })
-	return redirect("news:news_list")   
+	return redirect("news:news_list")
 
 @login_required
 def news_like(request):
@@ -78,9 +124,9 @@ def news_like(request):
  
     if not post_like_created:
         post_like.delete()
-        message = "좋아요 취소"
+        message = "like_del"
     else:
-        message = "좋아요"
+        message = "like"
 
     context = {'like_count': post.like_count,
                'message': message,
@@ -92,6 +138,6 @@ def news_like(request):
 def post_destroy(request,pk):
     post = get_object_or_404(Post, pk=pk)
     post.delete()
-    return redirect('/news_list')
+    return redirect("/newspeed")
 
 

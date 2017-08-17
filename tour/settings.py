@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'accounts',
     'group',
     'news',
+    
+    'friendship',
 
     'django.contrib.sites',
     'allauth',

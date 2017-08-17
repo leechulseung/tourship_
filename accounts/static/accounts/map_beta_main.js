@@ -19,50 +19,79 @@ var zoomControl = new daum.maps.ZoomControl();
 // 지도의 우측에 확대 축소 컨트롤을 추가한다
 map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
 
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 (function(daum, jQuery){
 
-    var user_markers = [];
     var user = userLocations;
-    var shit = [];
-
-    // var titleContent = {};
-
-    // var infowindow = new daum.maps.InfoWindow({zIndex:1});
+    var markerArray = [];
 
     console.log(user);
 
-    // $(document).on("click", "#memory-add", function(){
-    //     setMarker(map);
-    // });
-
     for(var i = 0; i < user.locations.length; i++){
-        shit.push(user.locations[i].location.split(","));
+        markerArray.push(user.locations[i].location.split(","));
     }
+<<<<<<< HEAD
     console.log(shit);
     // for(var i = 0; i < shit.length; i++){
     //     addMarker(new daum.maps.LatLng(shit[i][0], shit[i][1]));
     // }
 
     // setMarker(map);
+=======
+>>>>>>> 5e651763f51ce1af8f1df3bf37a2f18df60d4d5a
 
     for (var i = 0; i < user.locations.length; i++) {
         var userMarker = new daum.maps.Marker({
             map: map,
-            title: i,
-            position: new daum.maps.LatLng(shit[i][0], shit[i][1])
+            title: user.locations[i].post_id,
+            position: new daum.maps.LatLng(markerArray[i][0], markerArray[i][1])
         });
-
-        userMarker.setMap(map);
-        console.log(userMarker.title);
 
         var infowindow = new daum.maps.InfoWindow({
             zIndex:1,
-            content: '<div style="padding:5px;font-size:12px;">'+ '제목 : ' + user.locations[i].title + '<br>내용 : ' + user.locations[i].content +'</div>'
+            content: '<div style="padding:5px;font-size:12px;"><p> '+ '제목 : ' + user.locations[i].title +' </p>' + '<p>' + '내용 : ' + user.locations[i].content + '</p></div>'
         });
 
         daum.maps.event.addListener(userMarker, 'mouseover', markerOver(map, userMarker, infowindow));
         daum.maps.event.addListener(userMarker, 'mouseout', markerOutOver(infowindow));
     }
+
+    $(document).on('click','area[shape=poly]', function(e) {
+        e.stopPropagation(); // 같은 영역에 속해있는 중복 클릭 방지 
+        e.preventDefault();  // 이벤트 진행 중지 
+        
+        var pk = parseInt($(this)[0].title);
+        var csrf=getCookie("csrftoken");
+        
+        $.ajax({
+            type: 'post',
+            url: user.url,
+            data: {
+                'pk':pk,
+                'page':'gogo',
+                'csrfmiddlewaretoken': csrf
+            },
+            success: function (data, textStatus, jqXHR) {
+                $('#post-modal').find('.post-modal-content').html(data);
+                $('#post-modal').modal('show');
+            },
+        });
+    });
 
     function markerOver(map, userMarker, infowindow){
         return function(){
@@ -75,6 +104,7 @@ map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
             infowindow.close();
         };
     }
+<<<<<<< HEAD
 
 
     // function addMarker(position){
@@ -105,6 +135,8 @@ map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
     //         user_markers[i].setMap(map);
     //     }
     // }
+=======
+>>>>>>> 5e651763f51ce1af8f1df3bf37a2f18df60d4d5a
 
 })(window.daum, window.jQuery);
 
@@ -166,6 +198,7 @@ map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
         curOverlay.setVisible(false);
     }
 
+<<<<<<< HEAD
     // console.log(markerMake);
     // markerMake.addEventListener('click', function(e){
     //     curOverlay.setVisible(true);
@@ -174,6 +207,8 @@ map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
     //     daum.maps.event.addListener(map, 'mousemove', handleMove);
     // }, false);
 
+=======
+>>>>>>> 5e651763f51ce1af8f1df3bf37a2f18df60d4d5a
     $(document).on('click', '#markerMake', function(){
         console.log("마커생성");
         curOverlay.setVisible(true);
@@ -240,6 +275,7 @@ map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
         j++;
         console.log($(contentAddress).find('input'));
         $(contentAddress).find('input')[0].value = addressValue;
+<<<<<<< HEAD
 
 
         // if(roadValue == null){
@@ -250,6 +286,9 @@ map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
         //   contentRoad = $('<label for="form__road__address">도로명 주소</label><input type="text" class="form-control" id="form__road__address" placeholder="도로명 주소">').appendTo('#multi__form__address');
         //   $(contentRoad)[1].value = roadValue.address_name;
         // }
+=======
+        
+>>>>>>> 5e651763f51ce1af8f1df3bf37a2f18df60d4d5a
     }
 
     function markerSumbmit(markerArray){
@@ -263,6 +302,7 @@ map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
         $('#multi__form__address').remove();
         j = 0;
     }
+<<<<<<< HEAD
     // btn3 multi function end
 
     // multiMake.addEventListener('click', function(e){
@@ -270,6 +310,8 @@ map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
     //     daum.maps.event.addListener(map, 'rightclick', multicancelClick);
     //     daum.maps.event.addListener(map, 'mousemove', multihandleClick);
     // }, false);
+=======
+>>>>>>> 5e651763f51ce1af8f1df3bf37a2f18df60d4d5a
 
     $(document).on('click', '#multiMake', function(){
         console.log("마커다중생성");
@@ -278,6 +320,7 @@ map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
         daum.maps.event.addListener(map, 'mousemove', multihandleClick);
     });
 
+<<<<<<< HEAD
     // registration.addEventListener('click', function(e){
     //     if(markerArray == 0){
     //         alert("markerArray에 내용이 없습니다.");
@@ -286,6 +329,8 @@ map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
     //     }
     // }, false);
 
+=======
+>>>>>>> 5e651763f51ce1af8f1df3bf37a2f18df60d4d5a
     $(document).on('click', '#registration', function(){
         console.log("마커다중생성");
         if(markerArray == 0){

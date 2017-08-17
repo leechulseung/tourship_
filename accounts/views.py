@@ -1,6 +1,6 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
 from .forms import PostForm, Multi_PhotoForm
-from news.models import Photo
+from news.models import Photo, Block_user
 from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, get_user_model
@@ -61,7 +61,7 @@ def index(request): #게시글 등록
 	post_list= request.user.post_set.all()
 	locations= []
 	for post in post_list:
-		locations.append({'title':post.title, 'content':post.content,'location':post.location, 'post_id':post.id,})
+		locations.append({'title':post.title, 'content':post.content,'post_id':post.id,'location':post.location})
 	page = request.GET.get('page')
 
 	#추억삭제 & Pagination
@@ -227,4 +227,14 @@ def friend_favorites(request):
 
 @login_required
 def block_list(request):
-	return render(request, 'friend/block_list.html')
+	#block_cancle = request.GET.get('block_cancle', None) # 차단취소
+	#if block_cancle:
+
+	block_user = Block_user.objects.filter(author = request.user)
+	print(block_user)
+	return render(request, 'friend/block_list.html',{'block_list':block_user,})
+
+def block_cancle(request,pk): #차단취소
+    block = get_object_or_404(Block_user, pk=pk)
+    block.delete()
+    return redirect("/index/friend/block_list")
