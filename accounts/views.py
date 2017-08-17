@@ -19,6 +19,8 @@ import json
 #사용자 인증 여부 리턴
 from django.utils import timezone
 
+#friend
+from friendship.models import Friend, FriendshipRequest
 
 @user_passes_test(lambda user : not user.is_authenticated, login_url='index')
 def login(request):
@@ -162,9 +164,18 @@ def sign_out(request, pk):
 	return render(request, 'accounts/preferencen4_withdrawl.html')
 
 
-@login_required
+
 def friend_list(request):
-	return render(request, 'friend/friend_list.html')
+	requests_uesr = Friend.objects.requests(request.user) #받은 리스트
+	friendlist= Friend.objects.friends(request.user) #친구 리스트
+	sent_requests = Friend.objects.sent_requests(request.user) #보낸 리스트
+	sent_requests_list=[u.to_user for u in sent_requests] #보낸 리스트 쿠킹
+    
+	return render(request, 'friend/friend_list.html',{
+		'requests_uesr':requests_uesr,
+		'sent_requests':sent_requests_list,
+		'friend_list':friendlist
+		})
 
 @login_required
 def friend_favorites(request):
@@ -183,3 +194,40 @@ def block_cancle(request,pk): #차단취소
     block = get_object_or_404(Block_user, pk=pk)
     block.delete()
     return redirect("/index/friend/block_list")
+
+@login_required
+def friend_accept(request,pk):
+    f_request = get_object_or_404(FriendshipRequest, id=pk)
+    f_request.accept()
+    return redirect('friend_list')
+
+@login_required
+def friend_reject(request,pk):
+    f_request = get_object_or_404(FriendshipRequest, id=pk)
+    f_request.reject()
+    return redirect('friend_list')
+
+@login_required
+def friend_cancel(request,pk):
+    f_request = get_object_or_404(FriendshipRequest, id=pk)
+    f_request.cancel()
+    return redirect('friend_list')
+
+
+
+def other_map(request, username):
+	user = get_user_model()
+	try:
+		user = user.objects.get(username= username)
+	except user.DoesNotExist:
+		return redirect('/')
+
+	post_list= request.user.post_set.all()
+	locations= []
+	for post in post_list:
+		locations.append({'title':post.title, 'content':post.content,'location':post.location})
+
+	return render(request, "friend/other_map.html",{
+		'user_':user,
+		'locations':locations,
+		})

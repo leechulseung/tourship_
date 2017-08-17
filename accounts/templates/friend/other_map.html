@@ -1,0 +1,172 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}
+	{{user.get_short_name}}님의 여행지도
+{% endblock title %}
+
+{% block style %}
+	<link rel="stylesheet" href="{% static 'friend/other_map.css' %}">
+{% endblock style %}
+
+{% block content %}
+	<main class="main mt-5">
+    <!-- 지도 -->
+    <div id="map" style="width:100%;height:100vh;">
+    <div class="main__content">
+      <!-- 로고 -->
+      <h1 class="logo ml-4 pt-3">
+        <img src="/assets/img/logo3.png" style="width: 20%;"></img>
+      </h1>
+    </div>
+
+  </main>
+  <!-- // main -->
+
+  <!-- 아이콘 -->
+  <div class="fixed-bottom mr-4 mb-2">
+    
+    <div class="d-flex justify-content-end user">
+        <nav class="nav">
+          <!-- 여행자 상태 -->
+          <a class="nav-link user_nav py-0 pl-3">여행중</a>
+          <!-- 여행자 이름 -->
+          <a class="nav-link user_nav py-0 pl-3">{{user.get_short_name}} 여행자님의 지도</a>
+        </nav>
+        <!--<div class="px-2 user_state">여행중</div>-->
+        <!--<div class="px-2 user_name">임현경 여행자님의 지도</div>-->
+    </div>
+    <!-- 좌측 하단 버튼 -->
+    <div class="btn-group dropup d-flex justify-content-start ml-2">
+      <div class="p-2">
+        <!-- 1. 친구 검색 버튼 -->
+        <button type="button" class="fa fa-compass icons fa-3x main__btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <!-- 친구 검색 -->
+        <div class="dropdown-menu search-friend">
+          <form class="form-inline ml-2 mb-3">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search">
+            <button class="btn btn-outline-success search-friend-bt my-2 my-sm-0 mr-2" type="submit">Search</button>
+          </form>
+          <!-- 친구 검색 내 기능 -->
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <!-- 즐겨 찾기 -->
+            <button type="button" class="fa fa-star fa-2x fa-star-icon icon ml-2 mr-2"></button>
+            <!-- 친구 요청 -->
+            <button type="button" class="fa fa-smile-o friend-icon icon fa-2x mr-2"></button>
+            <!-- TOP 10 -->
+            <button type="button" class="icon-top icon">Top 10</button>
+          </div>
+          <!-- 검색 목록 -->
+          <div class="list-group friend-list mt-3">
+            <a href="#" class="list-group-item list-group-item-action"><img class="mr-3" src="assets/img/my.jpg" alt>이유림 여행자님</a>
+            <a href="#" class="list-group-item list-group-item-action"><img class="mr-3" src="assets/img/my.jpg" alt>장근열 여행자님</a>
+            <a href="#" class="list-group-item list-group-item-action"><img class="mr-3" src="assets/img/my.jpg" alt>박기철 여행자님</a>
+            <a href="#" class="list-group-item list-group-item-action"><img class="mr-3" src="assets/img/my.jpg" alt>오제웅 여행자님</a>
+          </div>
+        </div>
+      </div>
+      <!-- 2. 공유 버튼 -->
+      <button type="button" class="fa fa-share-alt icons fa-3x main__btn" data-trigger="focus" data-toggle="popover_other_share" data-placement="top">
+          <span class="sr-only">Toggle Dropdown</span>
+      </button>
+      <!-- 공유 -->
+      <div class="dropdown-menu mr-3 pl-1 hide" id="popover-share-other-content">
+        <ul class="pl-0">
+          <!-- 트위터 -->
+          <li><a href="#" class="twitter_l fa fa-twitter-square fa-3x"></a></li>
+          <!-- 페이스북 -->
+          <li><a href="#" class="fa fa-facebook-square fa-3x"></a></li>
+        </ul>
+      </div>
+      <!-- 우측 하단 버튼 -->
+      <div class="ml-auto p-2">
+        <!-- 1. 친구 추가 -->
+        <a class="fa fa-user-plus icons_friend fa-3x" href="#"></a>
+        <!-- 2. 즐겨 찾기 -->
+        <a class="fa fa-star icons_star fa-3x" href="#"></a>
+      </div>
+    </div>
+  </div>
+
+  <!--핀클릭시 모달-->
+  <div class="modal fade" id="click_pin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="form-group row">
+            <label for="example-text-input" class="col-2 col-form-label">지역</label>
+            <div class="col-10">
+              <input disabled class="form-control" type="text" value="강원도 원주시 우산동" id="example-text-input">
+            </div>
+          </div>
+          <div class="form-group row mr-4 pr-2">
+            <label for="example-text-input" class="col-2 col-form-label">날짜</label>
+            <div class="col-10">
+              <input disabled class="form-control" type="text" value="2017.7.5" id="example-text-input">
+            </div>
+          </div>
+          <div class="form-group">
+            <textarea disabled class="form-control textarea" id="exampleTextarea" placeholder="오늘은 부리도를 먹었다. 역시 도스마스의 부리또가 제일 맛있다. 모짜렐라부리또 짱!" rows="3"></textarea>
+          </div>
+          <div class="mb-3">
+            <ul class="list-group">
+              <li class="list-group-item">부럽다!</li>
+              <li class="list-group-item">나도먹고싶다!</li>
+              <li class="list-group-item">윽 부리또</li>
+              <li class="list-group-item">그만먹어!~!</li>
+            </ul>
+            <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#">Next</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <form>
+            <div class="form-group row ">
+              <div class="col-9">
+                <input class="form-control text" type="text" placeholder="댓글" id="example-text-input">
+              </div>
+              <button class="btn btn-primary ml-5 text_bt" type="submit">입력</button>
+            </div>
+          </form>
+          <div class="d-flex justify-content-start">
+            <div class="p-2">
+              <div class="btn-group dropup pb-3">
+                <a class="fa fa-share-alt icons fa-2x" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="sr-only">Toggle Dropdown</span>
+                </a>
+                <div class="dropdown-menu icons mr-3 pl-1">
+                  <ul class="pl-0">
+                    <li><a href="#" class="twitter_l fa fa-twitter-square fa-3x"></a></li>
+                    <li><a href="#" class="fa fa-facebook-square fa-3x"></a></li>
+                  </ul>
+               </div>
+              </div>
+            </div>
+            <div class="p-2">
+              <a class="fa fa-heart icons_heart fa-2x" href="#"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+  
+{% block script %}
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=06220f2994a97769a8f7ba53ca9f39b8&libraries=services,clusterer"></script>
+  <script type="text/javascript" src="{% static 'accounts/other_map.js' %}"></script>
+{% endblock script %}
