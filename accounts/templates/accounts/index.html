@@ -251,7 +251,6 @@
 </div>
 
 <!--마이너스 아이콘 눌렀을 시 : 추억삭제 modal-->
-
   <div class="modal fade" id="del_memory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -263,41 +262,41 @@
       </div>
       <div class="modal-body">
             <div class="friend__search mx-0 mx-sm-1 mx-md-3 mx-lg-5 my-2"><!--추억삭제 지역 검색-->
-                <form class="form-inline">
-                    <input class="form-control" type="text" placeholder="Search">
-                    <button class="btn friend__btn_blue mx-1" type="submit">Search</button>
+                <form class="form-inline" method="get">
+                    <input class="form-control" type="text" placeholder="Search" name="search" id="search_content">
+                    <button class="btn friend__btn_blue mx-1" type="submit" id="searchs">Search</button>
                 </form>
                 <small>추억의 제목 또는 날짜, 지역을 검색하세요.</small>
             </div>
           <div class="list"><!--추억삭제 목록들-->
-            <ul class="list pl-0" data-toggle="buttons">
-              <li class="list_ck btn btn-primary mb-1">
-                 <input type="checkbox" autocomplete="off"> 추억1
-              </li>
-              <li class="list_ck btn btn-primary mb-1">
-                <input type="checkbox" autocomplete="off"> 추억2
-              </li>
-              <li class="list_ck btn btn-primary mb-1">
-                <input type="checkbox" autocomplete="off"> 추억3
-              </li>
-              <li class="list_ck btn btn-primary mb-1">
-                 <input type="checkbox" autocomplete="off"> 추억1
-              </li>
-              <li class="list_ck btn btn-primary mb-1">
-                 <input type="checkbox" autocomplete="off"> 추억1
-              </li>
-              <li class="list_ck btn btn-primary mb-1">
-                 <input type="checkbox" autocomplete="off"> 추억1
-              </li>
+            <ul class="list pl-0" data-toggle="buttons" id="check_destroys">
+              {% for post in post_list %}
+                <li class="list_ck btn btn-primary mb-1" id="searchdata">
+                   <input type="checkbox" name="{{post.id}}" class="check_destroy"> <b>우리들의 추억 : </b> {{ post.title }} <b> 날짜 : </b> {{ post.tourday }}
+                </li>
+              {% endfor %}
             </ul>
-            <div class="more_bt_p">
-              <button class=" fa fa-chevron-down fa-1x more_bt ml-1"></button>
+            <div id="pagination_index">
+            {% if post_list.has_previous %}
+              <a href="?page={{ post_list.previous_page_number }}"> 이전페이지</a>
+            {% endif %}
+            {% for page in total_page %}
+              {% if post_list.current_start_index == page %}
+                    <a href="?page={{ page }}" style="font-weight: blod"> {{ page }} </a>
+              {% endif %}
+              {% if post_list.current_start_index != page %}
+                  <a href="?page={{ page }}"> {{ page }}</a>
+                {% endif %}
+            {% endfor %}
+            {% if post_list.has_next %}
+                <a href="?page={{ post_list.next_page_number }}"> 다음페이지</a>
+            {% endif %}
             </div>
           </div>
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="del_bt fa fa-trash-o fa-2x"></button>
+        <button type="button" class="del_bt fa fa-trash-o fa-2x" id="destroy" value="{% url 'delete' %}"></button>
       </div>
       </div>
     </div>
@@ -314,6 +313,7 @@
   </script>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=06220f2994a97769a8f7ba53ca9f39b8&libraries=services,clusterer"></script>
   <script type="text/javascript" src="{% static 'accounts/map_beta_main.js' %}"></script>
+  <script type="text/javascript" src="{% static 'accounts/index_destroy_ajax.js' %}"></script>
 
 {% endblock script %}
 
