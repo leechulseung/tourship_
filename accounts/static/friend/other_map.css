@@ -1,0 +1,219 @@
+@font-face {
+    font-family:'SeoulNamsanM';
+    src:url('/static/font/SeoulNamsanM/SeoulNamsanM.eot');
+    src:url('/static/font/SeoulNamsanM/SeoulNamsanM.eot?#iefix') format('embedded-opentype'), /* IE 6,7,8 적용, embedded-opentype -> IE 8,9 적용 */
+        url('/static/font/SeoulNamsanM/SeoulNamsanM.woff') format('woff'), /* IE 제외한 나머지 (크롬 등등) */
+        url('/static/font/SeoulNamsanM/SeoulNamsanM.ttf') format('truetype');
+}
+
+html {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+* {
+  font-family: 'SeoulNamsanM', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+button, a {
+	cursor: pointer;/*버튼 위에 올렸을때 커서모양이 바뀐다.*/
+    border: none;
+}
+
+a:hover , a:focus {
+    text-decoration: none;
+}
+
+ul ,ol  {
+    padding : 0;
+    list-style-type: none;
+}
+
+button:focus {
+	outline: none;
+}/*버튼을 눌렀을 시(:focus) 생기는 테두리를 없앤다 outline : 테두리*/
+
+p {
+  margin: 0;
+}
+
+/*메인*/
+.main {
+    height: 100vh;
+    background-image: url(../img/map.jpg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+.main__btn {
+    background-color: transparent;
+}
+
+.main__content {
+    z-index: 8;
+    position: absolute;
+}
+
+.logo {
+    font-size: 3rem;
+    color: #3C74AA;
+    font-weight: 900;
+}
+
+@media (max-width: 417px) {
+    .logo {
+        font-size: 2rem;
+    }
+}
+
+/*pin*/
+
+/*footer- icon*/
+.user {
+  font-size: 1.6rem;
+  color: #666666;
+  font-weight: 600;
+}
+
+.user_nav {
+    border-left: 4px solid #666666;
+    color: #666666 !important;
+    font-size: 1.3rem;
+}
+
+@media (max-width: 600px) {
+    .user_nav {
+        font-size: 1.2rem;
+    }
+}
+
+.d-flex {
+  clear: both;
+}
+
+.icons{
+  color: #666666!important;
+  margin :0px 20px 5px 0px;
+  text-decoration: none;
+}/*하단 버튼들 설정*/
+
+.icons_friend , .icons_star{
+  color: #BCBDBC!important;
+  margin :0px 20px 5px 0px;
+  text-decoration: none;
+}
+
+.icons_friend:hover , .icons_friend:focus {
+  color: #58A9CA!important;
+}
+
+.icons_star:hover , .icons_star:focus {
+  color: #F5DA74!important;
+}
+
+
+@media (max-width: 600px) {
+    .icons , .icons_star , .icons_friend{
+        font-size: 1.7rem;
+    }
+}
+
+/*핀클릭시 modal*/
+
+/*글작성된곳*/
+.textarea {
+  height: 200px;
+}
+/*댓글창*/
+.text {
+  width: 400px;
+}
+
+.text_bt {
+  background-color: #fff;
+  color: #3C74AA;
+  border: 1px solid #3C74AA;
+}
+
+
+.icons_heart {
+  color: #BCBDBC;
+}
+
+.icons_heart:hover , .icons_heart:focus {
+  color: #E78A97;
+}
+
+/*나침반 버튼 */
+
+.search-friend {
+    width :400px;
+    background-color:rgba(255,255,255,0.8);
+}
+
+.search-friend-bt{
+    border-color : #3C74AA;
+    color: #3C74AA;
+}
+
+.search-friend-bt:hover , .search-friend-bt:focus{
+    background-color: #3C74AA;
+    border-color: #3C74AA;
+    color:#fff;
+}
+
+.icon{
+    background-color:inherit !important;
+}
+
+.fa-star-icon{
+    color: #FFF200;
+}
+
+.friend-icon , .icon-top{
+    color:#3C74AA;
+    font-weight:bold;
+}
+
+.friend-icon:focus, .friend-icon:hover ,.icon-top:focus, .icon-top:hover{
+    border-bottom:2px solid #3C74AA;
+}
+
+.fa-star-icon:focus , .fa-star-icon:hover {
+    border-bottom:2px solid yellow;
+}
+
+
+.friend-list a{
+   font-weight:bold;
+   background-color:inherit;
+}
+
+.friend-list img{
+    width:40px;
+    height:40px;
+    border: 1px solid #fff;
+    float: left;
+}
+/*나침반 버튼 끝*/
+
+/*공유 드랍 박스*/
+.dropdown-menu {
+    /*min-width: 3rem;*/
+    border-style: none;
+}
+/*공유 드랍 박스 로고*/
+.twitter_l {
+    color: #2BA8E2;
+}
+
+.fa-facebook-square{
+    color: #0275d8 !important;
+}
+
+.fa-facebook-square:hover , .fa-facebook-square:focus {
+    cursor:pointer;
+    color: black !important;
+}

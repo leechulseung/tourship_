@@ -4,7 +4,9 @@ from news.models import Photo, Block_user
 from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, get_user_model
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from django.db.models import F,Q
+from django.core.paginator import Paginator, EmptyPage,PageNotAnInteger
 
 #allauth
 from django.contrib.auth.views import login as auth_login
@@ -13,12 +15,16 @@ from allauth.socialaccount.templatetags.socialaccount import get_providers
 
 #Form
 from .forms import LoginForm,SignUpForm,CheckForm,SetupForm
+#Post
+from news.models import Post
 
 import json
 
 #사용자 인증 여부 리턴
 from django.utils import timezone
 
+#friend
+from friendship.models import Friend, FriendshipRequest
 
 @user_passes_test(lambda user : not user.is_authenticated, login_url='index')
 def login(request):
@@ -42,7 +48,8 @@ def login(request):
 				content_type = "application/json")
 		else:
 			return render(request, 'accounts/login_modal_error.html',{
-				'form':form,	})
+				'form':form,
+				})
 	else:
 		form = LoginForm(request)
 
@@ -57,7 +64,29 @@ def index(request): #게시글 등록
 	locations= []
 	for post in post_list:
 		locations.append({'title':post.title, 'content':post.content,'post_id':post.id,'location':post.location})
-		
+	page = request.GET.get('page')
+
+	#추억삭제 & Pagination
+	post_list = Post.objects.all().order_by('-id').filter(author=request.user)
+	search = request.GET.get('search',"")
+
+	#검색을 했을 경우
+	if search:
+		post_list = post_list.filter(Q(title__icontains=search) | Q(tourday__icontains=search))
+		paginator = Paginator(post_list, 3)
+
+		try:
+			#현재 페이지 number와 앞,뒤 페이지 정보를 가짐
+			post_list = paginator.page(page)
+		except PageNotAnInteger:
+			#page가 integer가 아니거나 없을 경우에는 첫 번째 페이지로 이동
+			post_list = paginator.page(1)
+		except EmptyPage:
+			#범위를 넘는 큰 수를 입력 할 경우 마지막 페이지로 이동
+			post_list = paginator.page(paginator.num_pages)
+		return render(request,'accounts/index_search_modal.html',{'post_list':post_list, 'total_page':range(1, paginator.num_pages + 1)})
+
+	paginator = Paginator(post_list, 3)
 	if request.method == 'POST':
 		form = PostForm(request.user,request.POST,request.FILES)
 		if form.is_valid():
@@ -70,11 +99,36 @@ def index(request): #게시글 등록
 	elif request.method == 'GET':
 		form = PostForm()
 
+	try:
+		#현재 페이지 number와 앞,뒤 페이지 정보를 가짐
+		post_list = paginator.page(page)
+	except PageNotAnInteger:
+		#page가 integer가 아니거나 없을 경우에는 첫 번째 페이지로 이동
+		post_list = paginator.page(1)
+	except EmptyPage:
+		#범위를 넘는 큰 수를 입력 할 경우 마지막 페이지로 이동
+		post_list = paginator.page(paginator.num_pages)
+
 	return render(request, 'accounts/index.html', {
 		'form':form,
 		'forms':forms,
 		'locations':locations,
+		'post_list':post_list,
+		'current_page':page,
+		'total_page':range(1, paginator.num_pages + 1),
 		})
+
+@login_required
+def index_delete(request):
+   if request.is_ajax():
+      pk = request.POST.getlist('pk[]',None)
+      for p in pk:
+         post = Post.objects.get(pk=p)
+         post.delete()
+      message = {"message": "success"}
+      return HttpResponse(json.dumps(message), content_type="application/json")
+   message = {"message":"faild"}
+   return HttpResponse('clear')
 
 
 @user_passes_test(lambda user : not user.is_authenticated, login_url='index')
@@ -162,24 +216,112 @@ def sign_out(request, pk):
 	return render(request, 'accounts/preferencen4_withdrawl.html')
 
 
-@login_required
-def friend_list(request):
-	return render(request, 'friend/friend_list.html')
 
+def friend_list(request):
+	requests_uesr = Friend.objects.requests(request.user) #받은 리스트
+	friendlist= Friend.objects.friends(request.user) #친구 리스트
+	sent_requests = Friend.objects.sent_requests(request.user) #보낸 리스트		
+
+	return render(request, 'friend/friend_list.html',{
+		'requests_uesr':requests_uesr,
+		'sent_requests':sent_requests,
+		'friend_list':friendlist
+		})
+
+#친구 요청하기
+@login_required
+def friend_add(request,pk):
+	user = get_user_model()
+	if pk:
+		to_user = user.objects.all().get(pk=pk)
+		from_user = request.user
+		Friend.objects.add_friend(from_user,to_user)
+		return redirect('friend_list')
+
+#즐겨찾기
 @login_required
 def friend_favorites(request):
 	return render(request, 'friend/friend_favorites.html')
 
+#차단 리스트
 @login_required
 def block_list(request):
 	#block_cancle = request.GET.get('block_cancle', None) # 차단취소
 	#if block_cancle:
 
 	block_user = Block_user.objects.filter(author = request.user)
-	print(block_user)
+	
 	return render(request, 'friend/block_list.html',{'block_list':block_user,})
 
 def block_cancle(request,pk): #차단취소
     block = get_object_or_404(Block_user, pk=pk)
     block.delete()
     return redirect("/index/friend/block_list")
+
+#친구 요청 허가
+@login_required
+def friend_accept(request,pk):
+    f_request = get_object_or_404(FriendshipRequest, id=pk)
+    f_request.accept()
+    return redirect('friend_list')
+
+#친구 요청 거절
+@login_required
+def friend_reject(request,pk):
+    f_request = get_object_or_404(FriendshipRequest, id=pk)
+    f_request.reject()
+    return redirect('friend_list')
+
+#친구 요청 취소
+@login_required
+def friend_cancel(request, pk):
+    f_request = get_object_or_404(FriendshipRequest, id=pk)
+    f_request.cancel()
+    return redirect('friend_list')
+
+#친구 삭제
+@login_required
+def friend_remove(request, pk):
+	user_model = get_user_model()
+	from_user = request.user
+	to_user = user_model.objects.get(pk=pk)
+	Friend.objects.remove_friend(from_user, to_user)
+	return redirect('friend_list')
+
+#다른 사람 여행지도 보기
+@login_required
+def other_map(request, username):
+	if request.user.username == username:
+		return redirect('index')
+	user = get_user_model()
+	try:
+		user = user.objects.get(username= username)
+	except user.DoesNotExist:
+		return redirect('/')
+	post_list= user.post_set.all()
+	locations= []
+	for post in post_list:
+		locations.append({'title':post.title, 'content':post.content,'post_id':post.id,'location':post.location})
+	requests_uesr = Friend.objects.requests(request.user) #받은 리스트
+	friendlist= Friend.objects.friends(request.user) #친구 리스트
+	sent_requests = Friend.objects.sent_requests(request.user) #보낸 리스트
+	sent_requests_list=[u.to_user for u in sent_requests] #보낸 리스트 쿠킹
+
+	return render(request, "friend/other_map.html",{
+		'user_':user,
+		'locations':locations,
+		'friend_list':friendlist,
+		'sent_requests':sent_requests_list,
+		'requests':requests_uesr,
+		})
+
+def tour_flag(request):
+	if request.is_ajax():
+		if request.user.profile.is_tour:
+			request.user.profile.is_tour =False
+			request.user.profile.save()
+			return JsonResponse({'message':'휴식중'})
+		else:
+			request.user.profile.is_tour = True
+			request.user.profile.save()
+			return JsonResponse({'message':'여행중'})
