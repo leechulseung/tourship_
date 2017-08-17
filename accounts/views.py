@@ -5,6 +5,8 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, get_user_model
 from django.http import HttpResponse
+from .models import Profile
+
 
 #allauth
 from django.contrib.auth.views import login as auth_login
@@ -57,7 +59,7 @@ def index(request): #게시글 등록
 	locations= []
 	for post in post_list:
 		locations.append({'title':post.title, 'content':post.content,'location':post.location})
-		
+
 	if request.method == 'POST':
 		form = PostForm(request.user,request.POST,request.FILES)
 		if form.is_valid():
@@ -164,6 +166,14 @@ def sign_out(request, pk):
 
 @login_required
 def friend_list(request):
+	#print("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+	profile = Profile.objects.all()
+	for i in profile:
+		print("이름",type(i.user.first_name))
+	search = request.GET.get('search', None) #검색
+	if search:  #검색하기
+		user_list = Profile.objects.filter(user=search)
+	#print(user_list)
 	return render(request, 'friend/friend_list.html')
 
 @login_required

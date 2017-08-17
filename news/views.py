@@ -9,7 +9,7 @@ import json
 @login_required
 def news_list(request,
 	template='news/news_list.html'):
-	#like_first = request.GET.get('like_first') #좋아요 순서
+	like_first = request.GET.get('like_first') #좋아요 순서
 	block_form = BlockForm(request.POST) #차단 폼
 	report_form = ReportForm(request.POST) #신고 폼
 	report_id = request.POST.get('report_id', None) # 신고id
@@ -17,8 +17,8 @@ def news_list(request,
 	if request.GET.get('real', None):
 		template='news/news_list2.html'
 
-	#if like_first:
-	#	post_list = Post.objects.order_by('-like')
+	if like_first:
+		post_list = Post.objects.order_by('-like')
 
 	block = Block_user.objects.all() #차단 table객체
 	blocker = block.filter(author=request.user) #차단한 유저
@@ -98,7 +98,7 @@ def modal(request, template='news/post_modal.html'):
 
 	return render(request, template, context)
 
-#댓글 더보기 
+#댓글 더보기
 @login_required
 def comment_more(request):
 	pk = request.POST.get('pk', None)
@@ -117,7 +117,7 @@ def news_like(request):
     post = get_object_or_404(Post, pk=pk)
     # 중간자 모델 Like 를 사용하여, 현재 post와 request.user에 해당하는 Like 인스턴스를 가져온다.
     post_like, post_like_created = post.like_set.get_or_create(user=request.user)
- 
+
     if not post_like_created:
         post_like.delete()
         message = "좋아요 취소"
