@@ -12,6 +12,11 @@ urlpatterns += [
 
 ]
 
+#추억삭제
+urlpatterns += [
+   url(r'^delete/$', views.index_delete, name="delete"),
+]
+
 #친구
 urlpatterns += [
 	url(r'^friend/$', views.friend_list, name="friend_list"),

@@ -101,17 +101,17 @@
         <div class="header__dropdown dropdown-menu mr-auto" aria-labelledby="dropdownMenuButton">
           <ul class="header__ul text-right p-0 m-0">
             <!-- 투어핀 메인 -->
-            <li><a class="dropdown-item" href="after_login_main.html">main</a></li>
+            <li><a class="dropdown-item" href="{% url 'index' %}">main</a></li>
             <!-- 뉴스피드 -->
-            <li><a class="dropdown-item" href="newspeed1.html">newspeed</a></li>
+            <li><a class="dropdown-item" href="{% url 'news:news_list' %}">newspeed</a></li>
             <!-- 그룹 페이지 -->
-            <li><a class="dropdown-item" href="group_page.html">tourship</a></li>
+            <li><a class="dropdown-item" href="{% url 'group:tourship' %}">tourship</a></li>
             <!-- 친구 확인 -->
-            <li><a class="dropdown-item" href="friend_list.html">friends</a></li>
+            <li><a class="dropdown-item" href="{% url 'friend_list' %}">friends</a></li>
             <!-- 환경 설정 -->
-            <li><a class="dropdown-item" href="preference0_reconfirm.html">set-up</a></li>
+            <li><a class="dropdown-item" href="{% url 'setup_auth' %}">set-up</a></li>
             <!-- 로그 아웃 -->
-            <li><a class="dropdown-item" href="before_login_main.html">logout</a></li>
+            <li><a class="dropdown-item" href="{% url 'logout' %}">logout</a></li>
           </ul>
         </div>
       </div>

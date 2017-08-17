@@ -66,7 +66,7 @@ class SignUpForm(UserCreationForm):
 	photo = forms.ImageField(widget=forms.FileInput(
 		attrs={'class':'form-control-file',}
 		),
-		required=True
+		required=False
 	)
 
 	class Meta(UserCreationForm.Meta):
@@ -215,11 +215,8 @@ class SetupForm(forms.Form):
 		if not password1:
 			if not password2:
 				if not address:
-					print("히히히히")
 					if not phone_num:
-						print("이잉ㅇ잉")
 						if not photo:
-							print("푸헬헬헬")
 							raise forms.ValidationError("")
 
 
@@ -236,6 +233,12 @@ class SetupForm(forms.Form):
 				raise forms.ValidationError("비밀번호가 짧습니다. 최소 8글자 이상 입력해 주세요(영문+숫자)")
 			if all(c.isalpha() == password1_isalpha for c in password1):
 				raise forms.ValidationError("비밀번호는 영문과 숫자 조합으로 다시 입력해 주세요.")
+		if password2:
+			if not password1:
+				raise forms.ValidationError("비밀번호를 입력해주세요")
+		if password1:
+			if not password2:
+				raise forms.ValidationError("비밀번호 확인을 입력해주세요")
 		return password2
 
 
