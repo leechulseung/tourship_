@@ -45,16 +45,6 @@ function getCookie(name) {
     for(var i = 0; i < user.locations.length; i++){
         markerArray.push(user.locations[i].location.split(","));
     }
-<<<<<<< HEAD
-    console.log(shit);
-    // for(var i = 0; i < shit.length; i++){
-    //     addMarker(new daum.maps.LatLng(shit[i][0], shit[i][1]));
-    // }
-
-    // setMarker(map);
-=======
->>>>>>> 5e651763f51ce1af8f1df3bf37a2f18df60d4d5a
-
     for (var i = 0; i < user.locations.length; i++) {
         var userMarker = new daum.maps.Marker({
             map: map,
@@ -72,12 +62,12 @@ function getCookie(name) {
     }
 
     $(document).on('click','area[shape=poly]', function(e) {
-        e.stopPropagation(); // 같은 영역에 속해있는 중복 클릭 방지 
-        e.preventDefault();  // 이벤트 진행 중지 
-        
+        e.stopPropagation(); // 같은 영역에 속해있는 중복 클릭 방지
+        e.preventDefault();  // 이벤트 진행 중지
+
         var pk = parseInt($(this)[0].title);
         var csrf=getCookie("csrftoken");
-        
+
         $.ajax({
             type: 'post',
             url: user.url,
@@ -104,39 +94,6 @@ function getCookie(name) {
             infowindow.close();
         };
     }
-<<<<<<< HEAD
-
-
-    // function addMarker(position){
-    //     var userMaker = new daum.maps.Marker({
-    //         position: position
-    //     });
-
-    //     titleContent = {
-    //         title : user.locations.title,
-    //         content : user.locations.content
-    //     };
-
-    //     userMaker.setMap(map);
-    //     user_markers.push(userMaker);
-
-    //     daum.maps.event.addListener(userMaker, 'mouseover', function() {
-    //         infowindow.setContent('<div style="padding:5px;font-size:12px;">'+ titleContent.title + '<br>' + titleContent.content +'</div>');
-    //         infowindow.open(map, userMaker);
-    //     });
-
-    //     daum.maps.event.addListener(userMaker, 'mouseout', function() {
-    //         infowindow.close();
-    //     });
-    // }
-
-    // function setMarker(map){
-    //     for(var i = 0; i < user_markers.length; i++){
-    //         user_markers[i].setMap(map);
-    //     }
-    // }
-=======
->>>>>>> 5e651763f51ce1af8f1df3bf37a2f18df60d4d5a
 
 })(window.daum, window.jQuery);
 
@@ -198,17 +155,6 @@ function getCookie(name) {
         curOverlay.setVisible(false);
     }
 
-<<<<<<< HEAD
-    // console.log(markerMake);
-    // markerMake.addEventListener('click', function(e){
-    //     curOverlay.setVisible(true);
-    //     daum.maps.event.addListener(map, 'click', handleClick);
-    //     daum.maps.event.addListener(map, 'rightclick', cancelClick);
-    //     daum.maps.event.addListener(map, 'mousemove', handleMove);
-    // }, false);
-
-=======
->>>>>>> 5e651763f51ce1af8f1df3bf37a2f18df60d4d5a
     $(document).on('click', '#markerMake', function(){
         console.log("마커생성");
         curOverlay.setVisible(true);
@@ -275,20 +221,7 @@ function getCookie(name) {
         j++;
         console.log($(contentAddress).find('input'));
         $(contentAddress).find('input')[0].value = addressValue;
-<<<<<<< HEAD
 
-
-        // if(roadValue == null){
-        //   contentRoad = $('<label for="form__road__address">도로명 주소</label><input type="text" class="form-control" id="form__road__address" placeholder="도로명 주소">').appendTo('#multi__form__address');
-        //   $(contentRoad)[1].value = "도로명 주소가 없습니다.";
-
-        // }else{
-        //   contentRoad = $('<label for="form__road__address">도로명 주소</label><input type="text" class="form-control" id="form__road__address" placeholder="도로명 주소">').appendTo('#multi__form__address');
-        //   $(contentRoad)[1].value = roadValue.address_name;
-        // }
-=======
-        
->>>>>>> 5e651763f51ce1af8f1df3bf37a2f18df60d4d5a
     }
 
     function markerSumbmit(markerArray){
@@ -302,16 +235,7 @@ function getCookie(name) {
         $('#multi__form__address').remove();
         j = 0;
     }
-<<<<<<< HEAD
-    // btn3 multi function end
 
-    // multiMake.addEventListener('click', function(e){
-    //     daum.maps.event.addListener(map, 'click', multimarkerClick);
-    //     daum.maps.event.addListener(map, 'rightclick', multicancelClick);
-    //     daum.maps.event.addListener(map, 'mousemove', multihandleClick);
-    // }, false);
-=======
->>>>>>> 5e651763f51ce1af8f1df3bf37a2f18df60d4d5a
 
     $(document).on('click', '#multiMake', function(){
         console.log("마커다중생성");
@@ -320,17 +244,6 @@ function getCookie(name) {
         daum.maps.event.addListener(map, 'mousemove', multihandleClick);
     });
 
-<<<<<<< HEAD
-    // registration.addEventListener('click', function(e){
-    //     if(markerArray == 0){
-    //         alert("markerArray에 내용이 없습니다.");
-    //     }else{
-    //         markerSumbmit(markerArray);
-    //     }
-    // }, false);
-
-=======
->>>>>>> 5e651763f51ce1af8f1df3bf37a2f18df60d4d5a
     $(document).on('click', '#registration', function(){
         console.log("마커다중생성");
         if(markerArray == 0){

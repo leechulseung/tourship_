@@ -251,7 +251,6 @@
 </div>
 
 <!--마이너스 아이콘 눌렀을 시 : 추억삭제 modal-->
-
   <div class="modal fade" id="del_memory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -270,7 +269,7 @@
                 <small>추억의 제목 또는 날짜, 지역을 검색하세요.</small>
             </div>
           <div class="list"><!--추억삭제 목록들-->
-            <ul class="list pl-0 createClassDiv" data-toggle="buttons" id="check_destroys">
+            <ul class="list pl-0" data-toggle="buttons" id="check_destroys">
               {% for post in post_list %}
                 <li class="list_ck btn btn-primary mb-1" id="searchdata">
                    <input type="checkbox" name="{{post.id}}" class="check_destroy"> <b>우리들의 추억 : </b> {{ post.title }} <b> 날짜 : </b> {{ post.tourday }}
@@ -293,9 +292,6 @@
                 <a href="?page={{ post_list.next_page_number }}"> 다음페이지</a>
             {% endif %}
             </div>
-            <div class="more_bt_p">
-              <button class=" fa fa-chevron-down fa-1x more_bt ml-1"></button>
-            </div>
           </div>
 
       </div>
@@ -306,261 +302,6 @@
     </div>
   </div>
 
-  <!--내핀 클릭시 내용보기 및 수정-->
-  <div class="modal fade click_mypin" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-body">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner" role="listbox">
-              <div class="carousel-item active">
-                <div class="d-block left col-6">
-                  <div class="form-group row">
-                    <label for="input-area" class="col-2 col-form-label">지역</label>
-                    <div class="col-10">
-                      <input disabled class="form-control" type="text" value="강원도 원주시 우산동" id="example-text-input">
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="input-date" class="col-2 col-form-label ">날짜</label>
-                    <div class="col-10">
-                      <input disabled class="form-control" type="text" value="2017.7.5" id="example-text-input">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <textarea disabled class="form-control textarea" id="exampleTextarea" placeholder="오늘은 부리도를 먹었다. 역시 도스마스의 부리또가 제일 맛있다. 모짜렐라부리또 짱!" rows="3"></textarea>
-                  </div>
-                  <div class="mb-3">
-                    <ul class="list-group">
-                      <li class="list-group-item">부럽다!</li>
-                      <li class="list-group-item">나도먹고싶다!</li>
-                      <li class="list-group-item">윽 부리또</li>
-                      <li class="list-group-item">그만먹어!~!</li>
-                    </ul>
-                    <nav aria-label="Page navigation example">
-                      <ul class="pagination justify-content-center mt-3">
-                        <li class="page-item disabled">
-                          <a class="page-link" href="#" tabindex="-1">Previous</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">Next</a>
-                        </li>
-                      </ul>
-                    </nav>
-                  </div>
-                  <form>
-                    <div class="form-group row ">
-                      <div class="col-9">
-                        <input class="form-control text" type="text" placeholder="댓글" id="example-text-input">
-                      </div>
-                      <button class="btn btn-primary ml-3 text_bt" type="submit">입력</button>
-                    </div>
-                  </form>
-                  <div class="d-flex flex-row">
-                    <div class="p-2">
-                      <a href="#" class="fa  fa-pencil fa-2x icons"></a>
-                    </div>
-                    <div class="p-2">
-                      <div class="btn-group dropup pb-3">
-                        <a class="fa fa-share-alt icons fa-2x" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <span class="sr-only">Toggle Dropdown</span>
-                        </a>
-                        <div class="dropdown-menu mr-3 pl-1">
-                          <ul class="pl-0">
-                            <li><a href="#" class="twitter_l fa fa-twitter-square fa-3x"></a></li>
-                            <li><a href="#" class="fa fa-facebook-square fa-3x"></a></li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="p-2">
-                       <a class="fa fa-trash-o fa-2x icons" href="#"></a>
-                    </div>
-                  </div>
-                </div>
-                <div class="right col-6">
-                  <div class="card">
-                    <img class="card-img-top" src="assets/img/JY.jpg" alt="Card image cap">
-                    <div class="card-block">
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="carousel-item">
-                  <div class="d-block left col-6">
-                  <div class="form-group row">
-                    <label for="input-area" class="col-2 col-form-label">지역</label>
-                    <div class="col-10">
-                      <input disabled class="form-control" type="text" value="강원도 원주시 우산동" id="example-text-input">
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="input-date" class="col-2 col-form-label ">날짜</label>
-                    <div class="col-10">
-                      <input disabled class="form-control" type="text" value="2017.7.5" id="example-text-input">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <textarea disabled class="form-control textarea" id="exampleTextarea" placeholder="오늘은 부리도를 먹었다. 역시 도스마스의 부리또가 제일 맛있다. 모짜렐라부리또 짱!" rows="3"></textarea>
-                  </div>
-                  <div class="mb-3">
-                    <ul class="list-group">
-                      <li class="list-group-item">부럽다!</li>
-                      <li class="list-group-item">나도먹고싶다!</li>
-                      <li class="list-group-item">윽 부리또</li>
-                      <li class="list-group-item">그만먹어!~!</li>
-                    </ul>
-                    <nav aria-label="Page navigation example">
-                      <ul class="pagination justify-content-center mt-3">
-                        <li class="page-item disabled">
-                          <a class="page-link" href="#" tabindex="-1">Previous</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">Next</a>
-                        </li>
-                      </ul>
-                    </nav>
-                  </div>
-                  <form>
-                    <div class="form-group row ">
-                      <div class="col-9">
-                        <input class="form-control text" type="text" placeholder="댓글" id="example-text-input">
-                      </div>
-                      <button class="btn btn-primary ml-3 text_bt" type="submit">입력</button>
-                    </div>
-                  </form>
-                  <div class="d-flex flex-row">
-                    <div class="p-2">
-                      <a href="#" class="fa  fa-pencil fa-2x icons"></a>
-                    </div>
-                    <div class="p-2">
-                      <div class="btn-group dropup pb-3">
-                        <a class="fa fa-share-alt icons fa-2x" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <span class="sr-only">Toggle Dropdown</span>
-                        </a>
-                        <div class="dropdown-menu mr-3 pl-1">
-                          <ul class="pl-0">
-                            <li><a href="#" class="twitter_l fa fa-twitter-square fa-3x"></a></li>
-                            <li><a href="#" class="fa fa-facebook-square fa-3x"></a></li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="p-2">
-                       <a class="fa fa-trash-o fa-2x icons" href="#"></a>
-                    </div>
-                  </div>
-                </div>
-                <div class="right col-6">
-                  <div class="card">
-                    <img class="card-img-top" src="assets/img/JY.jpg" alt="Card image cap">
-                    <div class="card-block">
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="carousel-item">
-                   <div class="d-block left col-6">
-                  <div class="form-group row">
-                    <label for="input-area" class="col-2 col-form-label">지역</label>
-                    <div class="col-10">
-                      <input disabled class="form-control" type="text" value="강원도 원주시 우산동" id="example-text-input">
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="input-date" class="col-2 col-form-label ">날짜</label>
-                    <div class="col-10">
-                      <input disabled class="form-control" type="text" value="2017.7.5" id="example-text-input">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <textarea disabled class="form-control textarea" id="exampleTextarea" placeholder="오늘은 부리도를 먹었다. 역시 도스마스의 부리또가 제일 맛있다. 모짜렐라부리또 짱!" rows="3"></textarea>
-                  </div>
-                  <div class="mb-3">
-                    <ul class="list-group">
-                      <li class="list-group-item">부럽다!</li>
-                      <li class="list-group-item">나도먹고싶다!</li>
-                      <li class="list-group-item">윽 부리또</li>
-                      <li class="list-group-item">그만먹어!~!</li>
-                    </ul>
-                    <nav aria-label="Page navigation example">
-                      <ul class="pagination justify-content-center mt-3">
-                        <li class="page-item disabled">
-                          <a class="page-link" href="#" tabindex="-1">Previous</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                          <a class="page-link" href="#">Next</a>
-                        </li>
-                      </ul>
-                    </nav>
-                  </div>
-                  <form>
-                    <div class="form-group row ">
-                      <div class="col-9">
-                        <input class="form-control text" type="text" placeholder="댓글" id="example-text-input">
-                      </div>
-                      <button class="btn btn-primary ml-3 text_bt" type="submit">입력</button>
-                    </div>
-                  </form>
-                  <div class="d-flex flex-row">
-                    <div class="p-2">
-                      <a href="#" class="fa  fa-pencil fa-2x icons"></a>
-                    </div>
-                    <div class="p-2">
-                      <div class="btn-group dropup pb-3">
-                        <a class="fa fa-share-alt icons fa-2x" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <span class="sr-only">Toggle Dropdown</span>
-                        </a>
-                        <div class="dropdown-menu mr-3 pl-1">
-                          <ul class="pl-0">
-                            <li><a href="#" class="twitter_l fa fa-twitter-square fa-3x"></a></li>
-                            <li><a href="#" class="fa fa-facebook-square fa-3x"></a></li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="p-2">
-                       <a class="fa fa-trash-o fa-2x icons" href="#"></a>
-                    </div>
-                  </div>
-                </div>
-                <div class="right col-6">
-                  <div class="card">
-                    <img class="card-img-top" src="assets/img/JY.jpg" alt="Card image cap">
-                    <div class="card-block">
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 {% endblock content %}
 
 <!--스크립트 시작-->
