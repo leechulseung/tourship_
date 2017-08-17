@@ -56,7 +56,7 @@ def index(request): #게시글 등록
 	post_list= request.user.post_set.all()
 	locations= []
 	for post in post_list:
-		locations.append({'title':post.title, 'content':post.content,'location':post.location})
+		locations.append({'title':post.title, 'content':post.content,'post_id':post.id,'location':post.location})
 		
 	if request.method == 'POST':
 		form = PostForm(request.user,request.POST,request.FILES)
