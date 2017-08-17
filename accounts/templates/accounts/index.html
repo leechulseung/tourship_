@@ -3,7 +3,8 @@
 
 <!--스타일 적용-->
 {% block style %}
-	<link rel="stylesheet" href="{% static 'accounts/after_login_main.css' %}			">
+	<link rel="stylesheet" href="{% static 'accounts/after_login_main.css' %}">
+  <link rel="stylesheet" href="{% static 'news/newspeed_custom.css' %}">
 {% endblock style %}
 
 <!--내용 시작-->
@@ -31,34 +32,34 @@
       <ul id="placesList"></ul>
       <div id="pagination"></div>
     </div>
-        <div id="category_wrap">
-          <ul id="category">
-            <li id="BK9" data-order="0">
-                <span class="category_bg bank"></span>
-                은행
-            </li>
-            <li id="MT1" data-order="1">
-                <span class="category_bg mart"></span>
-                마트
-            </li>
-            <li id="PM9" data-order="2">
-                <span class="category_bg pharmacy"></span>
-                약국
-            </li>
-            <li id="OL7" data-order="3">
-                <span class="category_bg oil"></span>
-                주유소
-            </li>
-            <li id="CE7" data-order="4">
-                <span class="category_bg cafe"></span>
-                카페
-            </li>
-            <li id="CS2" data-order="5">
-                <span class="category_bg store"></span>
-                편의점
-            </li>
-          </ul>
-        </div>
+    <div id="category_wrap">
+      <ul id="category">
+        <li id="BK9" data-order="0">
+            <span class="category_bg bank"></span>
+            은행
+        </li>
+        <li id="MT1" data-order="1">
+            <span class="category_bg mart"></span>
+            마트
+        </li>
+        <li id="PM9" data-order="2">
+            <span class="category_bg pharmacy"></span>
+            약국
+        </li>
+        <li id="OL7" data-order="3">
+            <span class="category_bg oil"></span>
+            주유소
+        </li>
+        <li id="CE7" data-order="4">
+            <span class="category_bg cafe"></span>
+            카페
+        </li>
+        <li id="CS2" data-order="5">
+            <span class="category_bg store"></span>
+            편의점
+        </li>
+      </ul>
+    </div>
   </main>
 
   <!-- // main -->
@@ -125,6 +126,16 @@
     </div>
   <!-- // footer -->
 
+  <!-- Modal content -->
+   <div id="post-modal" class="modal fade bd-example-modal-lg show " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content post-modal-content">
+              <!-- Modal content-->
+          </div>
+      </div>
+  </div>
+  <!-- /Modal content -->
+
   <!--플러스아이콘 눌렀을시 : 추억 하나만 더하기 modal-->
   <div class="modal fade" id="add_memory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -189,7 +200,7 @@
 </div>
 
 <!--플러스아이콘 눌렀을시 : 추억 여러개 더하기 modal-->
-  <div class="modal fade" id="multiAddModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="multiAddModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -553,7 +564,7 @@
 {% block script %}
   <script>
       var userLocations = {'locations':{{locations|safe}},
-        'userid':{{user.id}},
+        'userid':{{user.id}},'url':"{% url 'news:modal' %}",
        };
   </script>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=06220f2994a97769a8f7ba53ca9f39b8&libraries=services,clusterer"></script>
