@@ -168,19 +168,30 @@ def sign_out(request, pk):
 def friend_list(request):
 	requests_uesr = Friend.objects.requests(request.user) #받은 리스트
 	friendlist= Friend.objects.friends(request.user) #친구 리스트
-	sent_requests = Friend.objects.sent_requests(request.user) #보낸 리스트
-	sent_requests_list=[u.to_user for u in sent_requests] #보낸 리스트 쿠킹
-    
+	sent_requests = Friend.objects.sent_requests(request.user) #보낸 리스트		
+
 	return render(request, 'friend/friend_list.html',{
 		'requests_uesr':requests_uesr,
-		'sent_requests':sent_requests_list,
+		'sent_requests':sent_requests,
 		'friend_list':friendlist
 		})
 
+#친구 요청하기
+@login_required
+def friend_add(request,pk):
+	user = get_user_model()
+	if pk:
+		to_user = user.objects.all().get(pk=pk)
+		from_user = request.user
+		Friend.objects.add_friend(from_user,to_user)
+		return redirect('friend_list')
+
+#즐겨찾기
 @login_required
 def friend_favorites(request):
 	return render(request, 'friend/friend_favorites.html')
 
+#차단 리스트
 @login_required
 def block_list(request):
 	#block_cancle = request.GET.get('block_cancle', None) # 차단취소
@@ -195,39 +206,59 @@ def block_cancle(request,pk): #차단취소
     block.delete()
     return redirect("/index/friend/block_list")
 
+#친구 요청 허가
 @login_required
 def friend_accept(request,pk):
     f_request = get_object_or_404(FriendshipRequest, id=pk)
     f_request.accept()
     return redirect('friend_list')
 
+#친구 요청 거절
 @login_required
 def friend_reject(request,pk):
     f_request = get_object_or_404(FriendshipRequest, id=pk)
     f_request.reject()
     return redirect('friend_list')
 
+#친구 요청 취소
 @login_required
-def friend_cancel(request,pk):
+def friend_cancel(request, pk):
     f_request = get_object_or_404(FriendshipRequest, id=pk)
     f_request.cancel()
     return redirect('friend_list')
 
+#친구 삭제
+@login_required
+def friend_remove(request, pk):
+	user_model = get_user_model()
+	from_user = request.user
+	to_user = user_model.objects.get(pk=pk)
+	Friend.objects.remove_friend(from_user, to_user)
+	return redirect('friend_list')
 
-
+#다른 사람 여행지도 보기
+@login_required
 def other_map(request, username):
+	if request.user.username == username:
+		return redirect('index')
 	user = get_user_model()
 	try:
 		user = user.objects.get(username= username)
 	except user.DoesNotExist:
 		return redirect('/')
-
-	post_list= request.user.post_set.all()
+	post_list= user.post_set.all()
 	locations= []
 	for post in post_list:
-		locations.append({'title':post.title, 'content':post.content,'location':post.location})
+		locations.append({'title':post.title, 'content':post.content,'post_id':post.id,'location':post.location})
+	requests_uesr = Friend.objects.requests(request.user) #받은 리스트
+	friendlist= Friend.objects.friends(request.user) #친구 리스트
+	sent_requests = Friend.objects.sent_requests(request.user) #보낸 리스트
+	sent_requests_list=[u.to_user for u in sent_requests] #보낸 리스트 쿠킹
 
 	return render(request, "friend/other_map.html",{
 		'user_':user,
 		'locations':locations,
+		'friend_list':friendlist,
+		'sent_requests':sent_requests_list,
+		'requests':requests_uesr,
 		})

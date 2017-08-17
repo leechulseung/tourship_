@@ -7,6 +7,7 @@
 
 {% block style %}
 	<link rel="stylesheet" href="{% static 'friend/other_map.css' %}">
+  <link rel="stylesheet" href="{% static 'news/newspeed_custom.css' %}">
 {% endblock style %}
 
 {% block content %}
@@ -31,7 +32,7 @@
           <!-- 여행자 상태 -->
           <a class="nav-link user_nav py-0 pl-3">여행중</a>
           <!-- 여행자 이름 -->
-          <a class="nav-link user_nav py-0 pl-3">{{user.get_short_name}} 여행자님의 지도</a>
+          <a class="nav-link user_nav py-0 pl-3">{{user_.get_short_name}} 여행자님의 지도</a>
         </nav>
         <!--<div class="px-2 user_state">여행중</div>-->
         <!--<div class="px-2 user_name">임현경 여행자님의 지도</div>-->
@@ -83,90 +84,41 @@
       <!-- 우측 하단 버튼 -->
       <div class="ml-auto p-2">
         <!-- 1. 친구 추가 -->
-        <a class="fa fa-user-plus icons_friend fa-3x" href="#"></a>
+          {% if user_ in friend_list %}
+            <!--친구일 경우 친구 삭제-->
+            <a class="fa fa-user-times icons_friend fa-3x" href="{% url 'friend_remove' user_.id %}"></a>
+          {% elif user_ in sent_requests %}
+            <!--요청 상태인 경우-->
+            <a class="fa fa-spinner icons_friend fa-3x"></a>
+          {% else %}
+            <!--친구 아닌 경우-->
+            <a class="fa fa-user-plus icons_friend fa-3x" href="{% url 'friend_add' user_.id %}"></a> 
+          {% endif %}  
+        
         <!-- 2. 즐겨 찾기 -->
         <a class="fa fa-star icons_star fa-3x" href="#"></a>
       </div>
     </div>
   </div>
 
-  <!--핀클릭시 모달-->
-  <div class="modal fade" id="click_pin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-body">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <div class="form-group row">
-            <label for="example-text-input" class="col-2 col-form-label">지역</label>
-            <div class="col-10">
-              <input disabled class="form-control" type="text" value="강원도 원주시 우산동" id="example-text-input">
-            </div>
+  <!-- Modal content -->
+   <div id="post-modal" class="modal fade bd-example-modal-lg show " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content post-modal-content">
+              <!-- Modal content-->
           </div>
-          <div class="form-group row mr-4 pr-2">
-            <label for="example-text-input" class="col-2 col-form-label">날짜</label>
-            <div class="col-10">
-              <input disabled class="form-control" type="text" value="2017.7.5" id="example-text-input">
-            </div>
-          </div>
-          <div class="form-group">
-            <textarea disabled class="form-control textarea" id="exampleTextarea" placeholder="오늘은 부리도를 먹었다. 역시 도스마스의 부리또가 제일 맛있다. 모짜렐라부리또 짱!" rows="3"></textarea>
-          </div>
-          <div class="mb-3">
-            <ul class="list-group">
-              <li class="list-group-item">부럽다!</li>
-              <li class="list-group-item">나도먹고싶다!</li>
-              <li class="list-group-item">윽 부리또</li>
-              <li class="list-group-item">그만먹어!~!</li>
-            </ul>
-            <nav aria-label="Page navigation example">
-              <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                  <a class="page-link" href="#" tabindex="-1">Previous</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                  <a class="page-link" href="#">Next</a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-          <form>
-            <div class="form-group row ">
-              <div class="col-9">
-                <input class="form-control text" type="text" placeholder="댓글" id="example-text-input">
-              </div>
-              <button class="btn btn-primary ml-5 text_bt" type="submit">입력</button>
-            </div>
-          </form>
-          <div class="d-flex justify-content-start">
-            <div class="p-2">
-              <div class="btn-group dropup pb-3">
-                <a class="fa fa-share-alt icons fa-2x" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="sr-only">Toggle Dropdown</span>
-                </a>
-                <div class="dropdown-menu icons mr-3 pl-1">
-                  <ul class="pl-0">
-                    <li><a href="#" class="twitter_l fa fa-twitter-square fa-3x"></a></li>
-                    <li><a href="#" class="fa fa-facebook-square fa-3x"></a></li>
-                  </ul>
-               </div>
-              </div>
-            </div>
-            <div class="p-2">
-              <a class="fa fa-heart icons_heart fa-2x" href="#"></a>
-            </div>
-          </div>
-        </div>
       </div>
-    </div>
   </div>
+  <!-- /Modal content -->
+
 {% endblock content %}
   
 {% block script %}
+  <script>
+      var userLocations = {'locations':{{locations|safe}},
+        'userid':{{user_.id}},'url':"{% url 'news:modal' %}",
+       };
+  </script>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=06220f2994a97769a8f7ba53ca9f39b8&libraries=services,clusterer"></script>
   <script type="text/javascript" src="{% static 'accounts/other_map.js' %}"></script>
 {% endblock script %}

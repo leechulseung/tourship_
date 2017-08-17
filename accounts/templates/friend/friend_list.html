@@ -41,8 +41,12 @@
                                 <div class="card-block row justify-content-center align-items-center">
                                   <div>
                                     <h4 class="card-title all-gray-font"><a href="#">{{rq.to_user.get_short_name}} 여행자님</a></h4>
-                                    <button class="all-blue-button py-2 px-4" href="{% url 'friend_add' rq.id %}">수락</button>
-                                    <button class="all-red-button py-2 px-4" href="{% url 'friend_reject' rq.id %}">거절</button>
+                                    <a href="{% url 'friend_accept' rq.id %}">
+                                    <button class="all-blue-button py-2 px-4" >수락</button>
+                                    </a>
+                                    <a href="{% url 'friend_reject' rq.id %}">
+                                    <button class="all-red-button py-2 px-4" >거절</button>
+                                    </a>
                                   </div>
                                 </div>
                               </div>
@@ -54,15 +58,17 @@
                     <div class="pt-4 collapse" id="friend__me__request">
                         <h2 class="all-gray-font">내가 신청한 친구</h2>
                         <article class="friend__me__request row">
-                            <!--내가 신청한 친구 -->
+                          <!--내가 신청한 친구 -->
                           {% for rq in sent_requests %}
                             <div class="col-12 col-sm-12 col-md-6 col-lg-4 pt-2 px-1">
                               <div class="card row all__friend__card mx-0">
                                 <img class="card-img-top" src="/assets/img/logo.PNG" alt="Card image cap">
                                 <div class="card-block row justify-content-center align-items-center">
                                   <div>
-                                    <h4 class="card-title all-gray-font"><a href="#">{{rq.get_short_name}} 여행자님</a></h4>
-                                    <button class="all-red-button py-2 px-4" href="{% url 'friend_cancel' rq.id %}">신청취소</button>
+                                    <h4 class="card-title all-gray-font"><a href="#">{{rq.to_user.get_short_name}} 여행자님</a></h4>
+                                    <a  href="{% url 'friend_cancel' rq.id %}">
+                                    <button class="all-red-button py-2 px-4">신청취소</button>
+                                    </a>
                                   </div>
                                 </div>
                               </div>
@@ -84,9 +90,11 @@
                                   <img class="card-img-top" src="/assets/img/my.jpg" alt="Card image cap">
                                   <div class="card-block row justify-content-center align-items-center">
                                     <div>
-                                      <h4 class="card-title all-gray-font"><a href="#">{{friend.get_short_name}} 여행자님</a></h4>
+                                      <h4 class="card-title all-gray-font"><a href="{% url 'other_map' friend %}">{{friend.get_short_name}} 여행자님</a></h4>
                                       <p class="card-text all-light-gray-font">함께아는 친구 0명</p>
+                                      <a href="{% url 'friend_remove' friend.id %}">
                                       <button class="all-red-button py-2 px-4">친구끊기</button>
+                                      </a>
                                     </div>
                                   </div>
                                 </div>
