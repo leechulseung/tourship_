@@ -1,4 +1,4 @@
-{% load static %}
+ㅌ{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -44,9 +44,14 @@
           <a class="nav-link navbar-white px-0 py-1 mr-3" href="#">{{ user.first_name }} 여행자님<span class="sr-only">(여행자님 어서오세요! 현재 등급은 파일럿 입니다!)</span></a>
         </li>
         <!-- 여행자 상태 -->
-        <li class="nav-item ing">
-          <a class="nav-link navbar-white px-0 py-1 mr-3" href="#">여행중</a>
-          <a class="nav-link navbar-white px-0 py-1 mr-3" href="#" style="display: none;">휴식중</a>
+        <li id="tour-flag" class="nav-item ing">
+        {% if user.profile.is_tour %}
+          <a id="tourflag" class="nav-link navbar-white px-0 py-1 mr-3" href="#">여행중</a>
+        {% else %}  
+          <a id="tourflag" class="nav-link navbar-white px-0 py-1 mr-3" href="#">휴식중</a>
+        {% endif %}
+          
+          
         </li>
       </ul>
       <!-- 알림 -->
@@ -142,7 +147,40 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"   integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 
     <script src='{% static "toggle.js" %}'></script>
+    <script>
+      $(document).on('click','#tourflag', function(e){
+          
+          $.ajax({
+               type : 'post', // post방식으로 전송
+               url : "{% url 'tour_flag' %}", // 서버로 보낼 url 주소
+               data : {  // 서버로 보낼 데이터들 dict형식 
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                },
+                // 서버에서 리턴받아올 데이터 형식
+               dataType : 'json',  
 
+               //서버에서 무사히 html을 리턴하였다면 실행 
+               success : function(response){ 
+                
+                if(response.message == "\ud734\uc2dd\uc911"){
+                  
+                  $('#tour-flag').html('<a id="tourflag" class="nav-link navbar-white px-0 py-1 mr-3" href="#">휴식중</a>');
+                }else{
+                  $('#tour-flag').html('<a id="tourflag" class="nav-link navbar-white px-0 py-1 mr-3" href="#">여행중</a>');
+                }
+                //append(data);
+               },
+
+               //서버에서 html을 리턴해주지 못했다면 
+               error : function(data, textStatus, jqXHR){
+                alert("실패 하였다.");
+               },
+               
+           });
+
+
+      })
+    </script>
     {% block script %}
     {% endblock script %}
 </body>

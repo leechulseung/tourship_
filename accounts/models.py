@@ -9,6 +9,7 @@ class Profile(models.Model):
 	gender = models.CharField('성별', max_length=5)
 	phone_num = models.CharField('전화번호', max_length=15)
 	photo = models.ImageField('프로필사진', blank=True, upload_to='newspeed/%Y/%m/%d/')
+	is_tour = models.BooleanField('여행여부', default=False)
 
 	def __str__(self):
 		return self.user.username
