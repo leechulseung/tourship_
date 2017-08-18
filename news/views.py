@@ -23,6 +23,10 @@ def news_list(request,
 	if search:  #검색하기
 		post_list = post_list.filter(title__icontains=search)
 
+	if request.GET.get('real', None):
+		template='news/news_list2.html'
+
+
 	if like_first:
 		post_list = Post.objects.order_by('-like')
 

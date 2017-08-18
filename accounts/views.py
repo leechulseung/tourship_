@@ -63,7 +63,7 @@ def index(request): #게시글 등록
 	forms = Multi_PhotoForm(request.POST, request.FILES)#다중사진
 	post_list= request.user.post_set.all()
 	locations= []
-	
+
 	for post in post_list:
 		locations.append({'title':post.title, 'content':post.content,'post_id':post.id,'location':post.location})
 
