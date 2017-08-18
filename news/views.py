@@ -7,6 +7,8 @@ from django.db.models import F,Q
 
 import json
 
+from friendship.models import Friend
+
 @login_required
 def news_list(request,
 	template='news/news_list.html'):
@@ -20,9 +22,6 @@ def news_list(request,
 
 	if search:  #검색하기
 		post_list = post_list.filter(title__icontains=search)
-
-	if request.GET.get('real', None):
-		template='news/news_list2.html'
 
 	if like_first:
 		post_list = Post.objects.order_by('-like')
@@ -70,6 +69,14 @@ def news_list(request,
 	except EmptyPage:
 		posts=paginator.page(paginator.num_page)
 
+	if request.GET.get('real', None):
+		friendlist= Friend.objects.friends(request.user) #친구 리스트
+		lists=[]
+		for list_object in posts:
+			if list_object in friendlist:
+				lists.append(list_object)
+		template='news/news_list2.html'
+
 	context = {
 	'post_list':posts,
 	'block_form':block_form,
@@ -77,11 +84,25 @@ def news_list(request,
 	'like_list':like_list,
 	} #템플릿에 넘겨줄 변수
 
+	if request.GET.get('real', None):
+		lists = Post.objects.order_by('-created_at').filter(Q(author=request.user) | Q(author__friends__from_user=request.user) | Q(author__friends__to_user=request.user)).distinct()
+		print(lists)
+
+		template='news/news_list2.html'
+		context = {
+		'post_list':lists,
+		'block_form':block_form,
+		'report_form':report_form,
+		'like_list':like_list,
+		} #템플릿에 넘겨줄 변수
+
 	if request.is_ajax(): #만약 ajax로 왔을떄
 		if request.POST.get('page',None): #page변수가 왔다면
 			template = 'news/new_page_ajax.html' #해당 템플릿을
 			return render(request, template, context) #렌더해 리턴해준다.
 	#페이지 네이션 구현 끝
+
+
 
 	return render(request, template, context)
 

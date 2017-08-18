@@ -1,4 +1,4 @@
-ㅌ{% load static %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -47,14 +47,10 @@
         <li id="tour-flag" class="nav-item ing">
         {% if user.profile.is_tour %}
           <a id="tourflag" class="nav-link navbar-white px-0 py-1 mr-3" href="#">여행중</a>
-        {% else %}  
+        {% else %}
           <a id="tourflag" class="nav-link navbar-white px-0 py-1 mr-3" href="#">휴식중</a>
         {% endif %}
-<<<<<<< HEAD
-=======
-          
-          
->>>>>>> 91620c61cdc7f8ce49a7f02bcb386ae83bbe53bf
+
         </li>
       </ul>
       <!-- 알림 -->
@@ -152,21 +148,21 @@
     <script src='{% static "toggle.js" %}'></script>
     <script>
       $(document).on('click','#tourflag', function(e){
-          
+
           $.ajax({
                type : 'post', // post방식으로 전송
                url : "{% url 'tour_flag' %}", // 서버로 보낼 url 주소
-               data : {  // 서버로 보낼 데이터들 dict형식 
+               data : {  // 서버로 보낼 데이터들 dict형식
                 'csrfmiddlewaretoken': '{{ csrf_token }}',
                 },
                 // 서버에서 리턴받아올 데이터 형식
-               dataType : 'json',  
+               dataType : 'json',
 
-               //서버에서 무사히 html을 리턴하였다면 실행 
-               success : function(response){ 
-                
+               //서버에서 무사히 html을 리턴하였다면 실행
+               success : function(response){
+
                 if(response.message == "\ud734\uc2dd\uc911"){
-                  
+
                   $('#tour-flag').html('<a id="tourflag" class="nav-link navbar-white px-0 py-1 mr-3" href="#">휴식중</a>');
                 }else{
                   $('#tour-flag').html('<a id="tourflag" class="nav-link navbar-white px-0 py-1 mr-3" href="#">여행중</a>');
@@ -174,11 +170,11 @@
                 //append(data);
                },
 
-               //서버에서 html을 리턴해주지 못했다면 
+               //서버에서 html을 리턴해주지 못했다면
                error : function(data, textStatus, jqXHR){
                 alert("실패 하였다.");
                },
-               
+
            });
 
 
