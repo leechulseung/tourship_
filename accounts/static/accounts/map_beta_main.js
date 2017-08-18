@@ -5,8 +5,8 @@
 var $ = jQuery;
 var mapContainer = $('#after_login__map')[0];
 var mapOptions = {
-	center: new daum.maps.LatLng(37.57484288719911, 126.93107087733638),
-	level: 13
+    center: new daum.maps.LatLng(37.57484288719911, 126.93107087733638),
+    level: 13
 };
 
 var map = new daum.maps.Map(mapContainer, mapOptions);
@@ -37,25 +37,47 @@ function getCookie(name) {
 
 (function(daum, jQuery){
 
+    // 공통
     var user = userLocations;
-    var markerArray = [];
+
+    // 추억 마커 코드
+    var markerLocationArray = [];
+    var userMarkerArray = [];
+
+    // 예약 마커 코드
+    var bookingLocationArray = [];
+    var bookingMarkerArray = [];
+    var memoryIcon = new daum.maps.MarkerImage(
+        "/static/img/memory_pin3.png",
+        new daum.maps.Size(40, 42),
+        {
+            offset: new daum.maps.Point(16, 34),
+            alt: "momoeyIcon",
+            shape: "poly",
+            coords: "1,20,1,9,5,2,10,0,21,0,27,3,30,9,30,20,17,33,14,33"
+        }
+    );
 
     console.log(user);
-
+    // 추억추가 마커 코드
     for(var i = 0; i < user.locations.length; i++){
-        markerArray.push(user.locations[i].location.split(","));
+        markerLocationArray.push(user.locations[i].location.split(","));
     }
+
     for (var i = 0; i < user.locations.length; i++) {
         var userMarker = new daum.maps.Marker({
             map: map,
             title: user.locations[i].post_id,
-            position: new daum.maps.LatLng(markerArray[i][0], markerArray[i][1])
+            position: new daum.maps.LatLng(markerLocationArray[i][0], markerLocationArray[i][1]),
+            opacity: 0
         });
 
         var infowindow = new daum.maps.InfoWindow({
             zIndex:1,
             content: '<div style="padding:5px;font-size:12px;"><p> '+ '제목 : ' + user.locations[i].title +' </p>' + '<p>' + '내용 : ' + user.locations[i].content + '</p></div>'
         });
+
+        userMarkerArray.push(userMarker);
 
         daum.maps.event.addListener(userMarker, 'mouseover', markerOver(map, userMarker, infowindow));
         daum.maps.event.addListener(userMarker, 'mouseout', markerOutOver(infowindow));
@@ -158,6 +180,56 @@ function getCookie(name) {
             infowindow.close();
         };
     }
+    // 추억추가 마커 코드 끝
+    
+    // 예약추가 마커 코드 시작
+    for(var i = 0; i < user.booking_locations.length; i++){
+        bookingLocationArray.push(user.booking_locations[i].location.split(","));
+    }
+
+    for (var i = 0; i < user.booking_locations.length; i++) {
+        var bookingMarker = new daum.maps.Marker({
+            map: map,
+            title: user.booking_locations[i].post_id,
+            position: new daum.maps.LatLng(bookingLocationArray[i][0], bookingLocationArray[i][1]),
+            image: memoryIcon
+        });
+
+        var bookingMarker_infowindow = new daum.maps.InfoWindow({
+            zIndex:1,
+            content: '<div style="padding:5px;font-size:12px;"><p> '+ '이름 : ' + user.booking_locations[i].username +' </p>' + '<p>' + '제목 : ' + user.booking_locations[i].title + '</p></div>'
+        });
+
+        bookingMarkerArray.push(bookingMarker);
+
+        daum.maps.event.addListener(bookingMarker, 'mouseover', markerOver(map, bookingMarker, bookingMarker_infowindow));
+        daum.maps.event.addListener(bookingMarker, 'mouseout', markerOutOver(bookingMarker_infowindow));
+    }
+        
+    // 예약추가 마커 코드 끝
+    
+
+    $(document).on('click', '#all_view', function(){
+        console.log("전체보기");
+        for(var i = 0; i < userMarkerArray.length; i++){
+            userMarkerArray[i].setMap(map);
+        }
+    });
+
+    $(document).on('click', '#memory_pin_view', function(){
+        console.log("추억 핀 보기");
+        for(var i = 0; i < userMarkerArray.length; i++){
+            userMarkerArray[i].setMap(map);
+        }
+
+    });
+
+    $(document).on('click', '#booking_pin_view', function(){
+        console.log("예약 핀 보기");
+        for(var i = 0; i < userMarkerArray.length; i++){
+            userMarkerArray[i].setMap(null);
+        }
+    });
 
 })(window.daum, window.jQuery);
 
@@ -165,19 +237,23 @@ function getCookie(name) {
 (function(daum, jQuery){
 
     var j = 0;
-    var markerMake = $('#markerMake')[0], multiMake = $('#multiMake')[0], registration = $('#registration')[0];
+    var markerMake = $('#markerMake')[0], memory_booking = $('#memory_booking')[0];
     var content = '<div id="img"></div>';
+    var memory_content = '<div id="memory_img"></div>'
 
     var markerArray = [];
 
     var moveMarker = new daum.maps.Marker();
     var selectMarker = null;
 
- 	var curOverlay = new daum.maps.CustomOverlay({
- 	    map: map
- 	});
+    var curOverlay = new daum.maps.CustomOverlay({
+        map: map
+    });
+    var booking_curOverlay = new daum.maps.CustomOverlay({
+        map: map
+    });
 
-	function callModal(){
+    function callModal(){
         $('#add_memory').modal('show');
     }
 
@@ -206,7 +282,6 @@ function getCookie(name) {
         daum.maps.event.removeListener(map, 'mousemove', handleMove);
         geocoder.coord2Address(latlng.getLng(), latlng.getLat(), callAddress);
 
-        // $('#xy__table')[0].value = message;
         map.setCursor(null);
         curOverlay.setVisible(false);
     }
@@ -229,107 +304,72 @@ function getCookie(name) {
 
     ///////////////////////////////////////////////////////////////////////
 
-    // btn2 function start
-    function multicallModal(){
-        $('#multiAddModel').modal('show');
-    }
-
-    function multihandleClick(e){
-        var latlng = e.latLng;
-        moveMarker.setMap(map);
-        moveMarker.setPosition(latlng);
-    }
-
-    function multimarkerClick(e){
-
-         selectMarker = new daum.maps.Marker({
-             position: e.latLng
-         });
-
-         selectMarker.setMap(map);
-         markerArray.push(selectMarker);
-
-
-        for(var i = 0; i < markerArray.length; i++){
-            markerArray[i].setMap(map);
-        }
-    }
-    // btn2 function end
-
-    function multicancelClick(e) {
-        daum.maps.event.removeListener(map, 'click', multimarkerClick);
-        daum.maps.event.removeListener(map, 'mousemove', multihandleClick);
-        daum.maps.event.removeListener(map, 'rightclick', multicancelClick);
-        moveMarker.setMap(null);
-        for(var i = 0; i < markerArray.length; i++){
-            markerArray[i].setMap(null);
-        }
-        markerArray = 0;
-        markerArray = [];
-    }
-
-    // btn3 multi function start
-    function multimarkerAddress(result, status){
-        var contentAddress = null, contentRoad = null;
-        var addressValue = null, roadValue = null;
-        var createDiv = document.createElement("div");
-        var textArray = ["첫번째", "두번째", "세번째", "네번째", "다섯번째", "여섯번째", "일곱번째", "여덟번째"];
-
-        createDiv.setAttribute("id", "multi__form__address");
-        // document.getElementById("multiModel-body").appendChild(createDiv);
-        document.getElementById("multiModel-body").insertBefore(createDiv, document.getElementById("multigps"));
-
-        addressValue = result[0].address.address_name;
-
-        contentAddress = $('<div class="form-group row"><label for="form__address" class="col-3 col-form-label pr-0">주소 '+ textArray[j] +'</label><div class="col-9 pl-0"><input class="form-control" placeholder="상세 주소" id="form__address"></div></div>').appendTo('#multi__form__address');
-        j++;
-        console.log($(contentAddress).find('input'));
-        $(contentAddress).find('input')[0].value = addressValue;
-
-    }
-
-    function markerSumbmit(markerArray){
-
-        for(var i = 0; i < markerArray.length; i++){
-            geocoder.coord2Address(markerArray[i].getPosition().getLng(), markerArray[i].getPosition().getLat(), multimarkerAddress);
-        }
-
-        multicallModal();
-        multicancelClick();
-        $('#multi__form__address').remove();
-        j = 0;
-    }
-
-
-    $(document).on('click', '#multiMake', function(){
-        console.log("마커다중생성");
-        daum.maps.event.addListener(map, 'click', multimarkerClick);
-        daum.maps.event.addListener(map, 'rightclick', multicancelClick);
-        daum.maps.event.addListener(map, 'mousemove', multihandleClick);
-    });
-
-    $(document).on('click', '#registration', function(){
-        console.log("마커다중생성");
-        if(markerArray == 0){
-            alert("markerArray에 내용이 없습니다.");
-        }else{
-            markerSumbmit(markerArray);
-        }
-    });
-
     $('[data-toggle="popover_marker"]').popover({
         html: true,
-    	content: function(e) {
+        content: function(e) {
             return $('#popover-marker-content').html();
         }
     });
 
     $('[data-toggle="popover_share"]').popover({
         html: true,
-    	content: function(e) {
+        content: function(e) {
             return $('#popover-share-content').html();
         }
     });
+
+    //////////////////////////////////////////////////////////////////////
+    
+    function memoryAddModel(){
+        $('#memoryBooking').modal('show');
+    }
+
+    function memoryHandleClick(e){
+        var latlng = e.latLng;
+        map.setCursor("default");
+        curOverlay.setContent(memory_content);
+        curOverlay.setPosition(latlng);
+    }
+
+    function memoryCallAddress(result, status){
+        if (status === daum.maps.services.Status.OK) {
+            $('#memoryBooking__address')[0].value = result[0].address.address_name;
+        }
+    }
+
+    function memoryMarkerClick(e){
+        var latlng = e.latLng;
+        var booking__hidden = null;
+
+        memoryAddModel();
+        booking__hidden = latlng.getLat() + ',' + latlng.getLng();
+        $('#booking__hidden').attr("value", booking__hidden);
+
+        daum.maps.event.removeListener(map, 'click', memoryMarkerClick);
+        daum.maps.event.removeListener(map, 'mousemove', memoryHandleClick);
+        geocoder.coord2Address(latlng.getLng(), latlng.getLat(), memoryCallAddress);
+
+        map.setCursor(null);
+        curOverlay.setVisible(false);
+    }
+
+    function memoryCancelClick(){
+        daum.maps.event.removeListener(map, 'click', memoryMarkerClick);
+        daum.maps.event.removeListener(map, 'mousemove', memoryHandleClick);
+        daum.maps.event.removeListener(map, 'rightclick', memoryCancelClick);
+        map.setCursor(null);
+        curOverlay.setVisible(false);
+    }
+    
+    $(document).on('click', '#memory_booking', function(){
+        console.log("예약 추가를 클릭했다.");
+        curOverlay.setVisible(true);
+        daum.maps.event.addListener(map, 'click', memoryMarkerClick);
+        daum.maps.event.addListener(map, 'rightclick', memoryCancelClick);
+        daum.maps.event.addListener(map, 'mousemove', memoryHandleClick);
+    });
+
+    ////////////////////////////////////////////////////////////
 
 })(window.daum, window.jQuery);
 // 오제웅 End

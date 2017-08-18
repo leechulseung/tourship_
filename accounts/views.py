@@ -15,7 +15,7 @@ from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.templatetags.socialaccount import get_providers
 
 #Form
-from .forms import LoginForm,SignUpForm,CheckForm,SetupForm
+from .forms import LoginForm,SignUpForm,CheckForm,SetupForm, BookingPostForm
 #Post
 from news.models import Post
 
@@ -61,31 +61,72 @@ def login(request):
 @login_required
 def index(request): #게시글 등록
 	forms = Multi_PhotoForm(request.POST, request.FILES)#다중사진
+	bookingform= BookingPostForm(request.user, request.POST or None)
+	if request.method == 'POST':
+		if request.is_ajax():
+			if bookingform.is_valid():
+				bpost = bookingform.save(commit=False)
+				return redirect('index')
+
 	post_list= request.user.post_set.all()
 	locations= []
+	booking_locations = []
+	bpost_list = request.user.news_bookingposts_from.all()
 	for post in post_list:
 		locations.append({'title':post.title, 'content':post.content,'post_id':post.id,'location':post.location})
-	page = request.GET.get('page')
 
-	#추억삭제 & Pagination
-	post_list = Post.objects.all().order_by('-id').filter(author=request.user)
+	for bpost in bpost_list:
+		booking_locations.append({'title':bpost.title, 'content':bpost.content,'post_id':bpost.id,'username':bpost.from_user.username,'location':bpost.location})
+	#페이지 네이션을 위한 페이지 변수 ajax로 전달
+	page = request.GET.get('page')
+	try:
+		page_enc = int(page)
+	except TypeError:
+		page_enc= 1
+	#추억삭제 & Pagination 리스트를 말한다.
+
 	search = request.GET.get('search',"")
 
 	#검색을 했을 경우
-	if search:
-		post_list = post_list.filter(Q(title__icontains=search) | Q(tourday__icontains=search))
-		paginator = Paginator(post_list, 3)
+	if request.is_ajax():
+		if search:
+			post_list = post_list.filter(Q(title__icontains=search) | Q(tourday__icontains=search))
+			paginator = Paginator(post_list, 3)
 
-		try:
-			#현재 페이지 number와 앞,뒤 페이지 정보를 가짐
-			post_list = paginator.page(page)
-		except PageNotAnInteger:
-			#page가 integer가 아니거나 없을 경우에는 첫 번째 페이지로 이동
-			post_list = paginator.page(1)
-		except EmptyPage:
-			#범위를 넘는 큰 수를 입력 할 경우 마지막 페이지로 이동
-			post_list = paginator.page(paginator.num_pages)
-		return render(request,'accounts/index_search_modal.html',{'post_list':post_list, 'total_page':range(1, paginator.num_pages + 1)})
+			try:
+				#현재 페이지 number와 앞,뒤 페이지 정보를 가짐
+				post_list = paginator.page(page)
+			except PageNotAnInteger:
+				#page가 integer가 아니거나 없을 경우에는 첫 번째 페이지로 이동
+				post_list = paginator.page(1)
+			except EmptyPage:
+				#범위를 넘는 큰 수를 입력 할 경우 마지막 페이지로 이동
+				post_list = paginator.page(paginator.num_pages)
+			return render(request,'accounts/index_search_modal.html',{
+				'post_list':post_list,
+				'total_page':range(1, paginator.num_pages + 1),
+				'search':search,
+				'current_page':page_enc,
+				})
+		else:
+			post_list = post_list.filter(Q(title__icontains=search) | Q(tourday__icontains=search))
+			paginator = Paginator(post_list, 3)
+
+			try:
+				#현재 페이지 number와 앞,뒤 페이지 정보를 가짐
+				post_list = paginator.page(page)
+			except PageNotAnInteger:
+				#page가 integer가 아니거나 없을 경우에는 첫 번째 페이지로 이동
+				post_list = paginator.page(1)
+			except EmptyPage:
+				#범위를 넘는 큰 수를 입력 할 경우 마지막 페이지로 이동
+				post_list = paginator.page(paginator.num_pages)
+			return render(request,'accounts/index_search_modal.html',{
+				'post_list':post_list,
+				'total_page':range(1, paginator.num_pages + 1),
+				'search':search,
+				'current_page':page_enc,
+				})
 
 	paginator = Paginator(post_list, 3)
 
@@ -111,13 +152,26 @@ def index(request): #게시글 등록
 		#범위를 넘는 큰 수를 입력 할 경우 마지막 페이지로 이동
 		post_list = paginator.page(paginator.num_pages)
 
+	#페이지 네이션 에러 검출
+
+
+	if page:
+		return render(request, 'accounts/index_search_modal.html',{
+			'post_list':post_list,
+			'total_page':range(1, paginator.num_pages + 1),
+			'current_page':page_enc,
+
+			})
 	return render(request, 'accounts/index.html', {
 		'form':form,
 		'forms':forms,
 		'locations':locations,
+		'booking_locations':booking_locations,
 		'post_list':post_list,
-		'current_page':page,
+		'current_page':page_enc,
 		'total_page':range(1, paginator.num_pages + 1),
+		'bookingform':bookingform,
+
 		})
 
 @login_required
@@ -236,8 +290,6 @@ def friend_list(request):
 					'friend_list':friendlist,
 					'search_user' : search_user,
 					})
-
-
 	if returns:
 		return redirect('/index/friend')
 

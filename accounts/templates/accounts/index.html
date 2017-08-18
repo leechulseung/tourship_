@@ -3,13 +3,13 @@
 
 <!--스타일 적용-->
 {% block style %}
-	<link rel="stylesheet" href="{% static 'accounts/after_login_main.css' %}">
+  <link rel="stylesheet" href="{% static 'accounts/after_login_main.css' %}">
   <!-- <link rel="stylesheet" href="{% static 'news/newspeed_custom.css' %}"> -->
 {% endblock style %}
 
 <!--내용 시작-->
 {% block content %}
-	<main class="main mt-5" >
+  <main class="main mt-5" >
     <div class="pt-3 main__content">
       <h1 class="logo ml-4">
         <img src="{% static 'accounts/logo3.png' %}" style="width: 20%;"></img>
@@ -104,8 +104,10 @@
           <div class="dropdown-menu mr-3 pl-1 hide" id="popover-marker-content">
             <ul class="pl-0">
               <li><a id="markerMake">추가하기</a></li>
-              <li><a id="multiMake">다중추가</a></li>
-              <li><a id="registration">등록하기</a></li>
+              <li><a id="memory_booking">예약추가</a></li>
+              <li><a id="all_view">전체보기</a></li>
+              <li><a id="memory_pin_view">추억 핀 보기</a></li>
+              <li><a id="booking_pin_view">예약 핀 보기</a></li>
             </ul>
           </div>
 
@@ -135,6 +137,52 @@
       </div>
   </div>
   <!-- /Modal content -->
+
+  <!-- 추억예약 모달 시작 -->
+  <div class="modal fade" id="memoryBooking" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">추억 예약하기</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group row">
+            <label for="memoryBooking__address" class="col-3 col-form-label pr-0">주소</label>
+            <div class="col-9 pl-0">
+              {{bookingform.address}}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="memory_title" class="col-3 col-form-label pr-0">제목</label>
+            <div class="col-9 pl-0">
+              {{bookingform.title}}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="memory_content" class="col-3 col-form-label pr-0">내용</label>
+            <div class="col-9 pl-0">
+              {{bookingform.content}}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="memory_friends" class="col-3 col-form-label pr-0">같이 갈 친구 태그(필수x)</label>
+            <div class="col-9 pl-0">
+              {{bookingform.to_user}}
+            </div>
+          </div>
+            {{bookingform.location}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+          <button id="booking-sent" type="button" class="btn btn-primary">예약하기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 추억예약 모달 끝 -->
 
   <!--플러스아이콘 눌렀을시 : 추억 하나만 더하기 modal-->
   <div class="modal fade" id="add_memory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -281,12 +329,11 @@
               <a href="?page={{ post_list.previous_page_number }}"> 이전페이지</a>
             {% endif %}
             {% for page in total_page %}
-              {% if post_list.current_start_index == page %}
-                    <a href="?page={{ page }}" style="font-weight: blod"> {{ page }} </a>
+              {% if page == current_page %}
+                <a class="pagination_page" href="{% url 'index' %}" style="font-weight:bold"> {{ page }} </a>
+              {% else %}
+                <a class="pagination_page" href="{% url 'index' %}"> {{ page }}</a>
               {% endif %}
-              {% if post_list.current_start_index != page %}
-                  <a href="?page={{ page }}"> {{ page }}</a>
-                {% endif %}
             {% endfor %}
             {% if post_list.has_next %}
                 <a href="?page={{ post_list.next_page_number }}"> 다음페이지</a>
@@ -307,12 +354,15 @@
 <!--스크립트 시작-->
 {% block script %}
   <script>
-      var userLocations = {'locations':{{locations|safe}},
-        'userid':{{user.id}},'url':"{% url 'news:modal' %}",
+      var userLocations = {
+        'booking_locations': {{booking_locations|safe}},
+        'locations':{{locations|safe}},
+        'userid':{{user.id}},
+        'url':"{% url 'news:modal' %}",
         'more_url':"{% url 'news:comment_more' %}"
        };
   </script>
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=06220f2994a97769a8f7ba53ca9f39b8&libraries=services,clusterer"></script>
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=06220f2994a97769a8f7ba53ca9f39b8&libraries=services,clusterer"></script>
   <script type="text/javascript" src="{% static 'accounts/map_beta_main.js' %}"></script>
   <script type="text/javascript" src="{% static 'accounts/index_destroy_ajax.js' %}"></script>
 
