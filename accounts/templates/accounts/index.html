@@ -281,12 +281,11 @@
               <a href="?page={{ post_list.previous_page_number }}"> 이전페이지</a>
             {% endif %}
             {% for page in total_page %}
-              {% if post_list.current_start_index == page %}
-                    <a href="?page={{ page }}" style="font-weight: blod"> {{ page }} </a>
+              {% if page == current_page %}
+                <a class="pagination_page" href="{% url 'index' %}" style="font-weight:bold"> {{ page }} </a>
+              {% else %}
+                <a class="pagination_page" href="{% url 'index' %}"> {{ page }}</a>
               {% endif %}
-              {% if post_list.current_start_index != page %}
-                  <a href="?page={{ page }}"> {{ page }}</a>
-                {% endif %}
             {% endfor %}
             {% if post_list.has_next %}
                 <a href="?page={{ post_list.next_page_number }}"> 다음페이지</a>

@@ -93,8 +93,14 @@ button:focus {
 }
 
 .friend__header__logo {
+<<<<<<< HEAD
    color: #3D74AA;
    font-weight: 700;
+=======
+	margin: 0;
+	color: #3D74AA;
+	font-weight: 700;
+>>>>>>> 05557bb341908f590c9b7ca73d53123d1420b7db
 }
 
 /* Header */
@@ -103,8 +109,17 @@ button:focus {
 
 /* Friend Header */
 
+<<<<<<< HEAD
 .friend__header {
    align-items: center;
+=======
+.friend__header__form {
+	align-items: center;
+>>>>>>> 05557bb341908f590c9b7ca73d53123d1420b7db
+}
+
+.friend__header__search {
+	width: 75%;
 }
 
 .friend__header__form {
@@ -204,6 +219,12 @@ button:focus {
 }
 
 /* Friend Request Nav End */
+
+/* Friend__My__Profile Start */
+
+
+
+/* Friend__My__Profile End */
 
 /* Friend Your Request */
 
