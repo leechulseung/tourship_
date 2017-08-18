@@ -44,8 +44,8 @@ class Address(models.Model):
 
 class Photo(models.Model):
     post = models.ForeignKey('Post')
-    file = models.ImageField('사진', blank=True, upload_to='sub_photo/%Y/%m/%d/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+    file = models.ImageField('서브사진', blank=True, upload_to='sub_photo/%Y/%m/%d/')
+    uploaded_at =  models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.post.title
