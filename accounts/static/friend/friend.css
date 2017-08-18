@@ -93,6 +93,7 @@ button:focus {
 }
 
 .friend__header__logo {
+	margin: 0;
 	color: #3D74AA;
 	font-weight: 700;
 }
@@ -103,8 +104,12 @@ button:focus {
 
 /* Friend Header */
 
-.friend__header {
+.friend__header__form {
 	align-items: center;
+}
+
+.friend__header__search {
+	width: 75%;
 }
 
 .friend__header__form {
@@ -200,6 +205,12 @@ button:focus {
 }
 
 /* Friend Request Nav End */
+
+/* Friend__My__Profile Start */
+
+
+
+/* Friend__My__Profile End */
 
 /* Friend Your Request */
 

@@ -25,9 +25,9 @@
       pk.push($(this).attr('name'));
     });
     // var pk = $('.check_destroy').attr('name'); //선택된 요소의 부모의 name속성 캐치
-    console.log(pk);
+    
     var url = $(this).attr('value');
-    console.log(url);
+    
     var csrf = getCookie("csrftoken");
     if(pk==0){
 
@@ -52,7 +52,7 @@
               alert("삭제 되었습니다.")
               location.reload();
             }else{
-              console.log("오제웅촐싹맨");
+              
             }
             //append(data);
            },
@@ -77,43 +77,78 @@
   });
 
 
-  $('#searchs').on("click", SearchaddAnswer);
-
-          function SearchaddAnswer(e){
+  $(document).on("click",'#searchs', function(e){
 
           e.submit;
           e.stopPropagation(); // 같은 영역에 속해있는 중복 클릭 방지
           e.preventDefault();  // 이벤트 진행 중지
-
+          var url = $('.pagination_page').attr('href')
           searchs = $("#search_content").val();
-          console.log(searchs);
-          var csrf = getCookie("csrftoken");
-          var user = userLocations;
+    
 
           $.ajax({
-                 type : 'get', // get 방식으로 전송
-                 url : "", // 서버로 보낼 url 주소
-                 data : {  // 서버로 보낼 데이터들 dict형식
-                  'search':searchs,
-                  'csrfmiddlewaretoken': csrf,
-                  },
-                  // dataType : 'html',
-
-                 //서버에서 무사히 html을 리턴하였다면 실행
-                 success : function(data, states, J){
+            type: 'get',
+            url: url,
+            data:{
+              'search':searchs,
+              
+            },
+            success : function(data, states, J){
                   $('#pagination_index').remove();
-                  // $('#check_destroys').html(data);
-                  console.log(data);
-                  console.log("실행")
-                },
+                  $('#check_destroys').html(data);
+            },
                  //서버에서 html을 리턴해주지 못했다면
-                 error : function(response){
+           error : function(response){
 
-                  // console.log(response);
-                  e.preventDefault();
-                  alert("실패 하였다.");
 
-                 },
+              e.preventDefault();
+              alert("실패 하였다.");
 
-             });
-         }
+             },
+          });
+  });
+
+$(document).on('click','.pagination_page', function(e){
+  e.stopPropagation(); // 같은 영역에 속해있는 중복 클릭 방지
+  e.preventDefault();  // 이벤트 진행 중지
+  var search = $('#search-flag').val()
+  var url = $(this).attr('href')
+  var page = $(this).text()
+  if(search){
+    $.ajax({
+      type: "get",
+      url: url,
+      data : {  // 서버로 보낼 데이터들 dict형식 
+        'page':page,
+        'search':search,
+      },
+
+      dataType: "html",
+      success: function(data){
+          $('#pagination_index').remove();
+          $('#check_destroys').html(data);
+      },
+      error: function(){
+          alert("error");
+      }
+    });
+  }else{
+    $.ajax({
+      type: "get",
+      url: url,
+      data : {  // 서버로 보낼 데이터들 dict형식 
+        'search': search,
+        'page': page,
+      },
+      dataType: "html",
+      success: function(data){
+          $('#pagination_index').remove();
+          $('#check_destroys').html(data);
+      },
+      error: function(){
+          alert("error");
+      }
+    });
+  }
+  
+});

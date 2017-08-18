@@ -251,7 +251,7 @@
 </div>
 
 <!--마이너스 아이콘 눌렀을 시 : 추억삭제 modal-->
-  <div class="modal fade" id="del_memory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="del_memory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -277,23 +277,25 @@
               {% endfor %}
             </ul>
             <div id="pagination_index">
-            {% if post_list.has_previous %}
-              <a href="?page={{ post_list.previous_page_number }}"> 이전페이지</a>
-            {% endif %}
-            {% for page in total_page %}
-              {% if post_list.current_start_index == page %}
-                    <a href="?page={{ page }}" style="font-weight: blod"> {{ page }} </a>
+              <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+              {% if post_list.has_previous %}
+                <li class="page-item"><a href="?page={{ post_list.previous_page_number }}" class="pagination_page page-link"> 이전페이지</a></li>
               {% endif %}
-              {% if post_list.current_start_index != page %}
-                  <a href="?page={{ page }}"> {{ page }}</a>
+              {% for page in total_page %}
+                {% if page == current_page %}
+                  <li class="page-item"><a class="pagination_page page-link" href="{% url 'index' %}" style="font-weight:bold"> {{ page }} </a></li>
+                {% else %}
+                  <li class="page-item"><a class="pagination_page page-link" href="{% url 'index' %}"> {{ page }}</a></li>
                 {% endif %}
-            {% endfor %}
-            {% if post_list.has_next %}
-                <a href="?page={{ post_list.next_page_number }}"> 다음페이지</a>
-            {% endif %}
+              {% endfor %}
+              {% if post_list.has_next %}
+                  <li class="page-item"><a href="?page={{ post_list.next_page_number }}" class="pagination_page page-link"> 다음페이지</a></li>
+                </ul>
+              </nav>
             </div>
+            {% endif %}
           </div>
-
       </div>
       <div class="modal-footer">
         <button type="button" class="del_bt fa fa-trash-o fa-2x" id="destroy" value="{% url 'delete' %}"></button>
