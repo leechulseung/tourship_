@@ -181,12 +181,14 @@
           <div class="form-group">
             {{form.content}}
           </div>
-          <p>메인사진 : </p>{{ form.main_photo }}
-          <p>서브사진 : </p>{{forms.as_table}}
-          <div class="form-group row mb-0">
-            <label for="example-date-input" class="col-3 col-form-label pr-0">공개설정</label>
-            <div class="form-group mr-2 col-5">
-              {{form.privacy}}
+          <div class="container">
+            <label class="photo_type">메인사진 : </label>{{ form.main_photo }}
+            <label class="photo_type">서브사진 : </label>{{ forms.file }}
+            <div class="form-group row mb-0 mt-3">
+              <label for="example-date-input" class="col-3 col-form-label pr-0">공개설정</label>
+              <div class="form-group mr-2 col-5">
+                {{form.privacy}}
+              </div>
             </div>
           </div>
         </div>

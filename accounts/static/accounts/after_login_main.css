@@ -180,6 +180,10 @@ button:focus {
     color:#3C74AA;
 }
 
+#id_main_photo{
+    width: 300px;
+}
+
 .memory_icon label {
     position:relative;
     cursor:pointer;
@@ -200,8 +204,6 @@ button:focus {
     overflow:hidden;
 }
 
-#exampleTextarea {
-}
 
 .upload_bt {
     margin-left: 180px;
@@ -220,6 +222,11 @@ button:focus {
     color: #FFF;
     outline: none;
     transition: all 0.3s ease-in-out;
+}
+
+.photo_type {
+    width: 70px;
+    margin:0;
 }
 
 /*추억삭제 modal*/
