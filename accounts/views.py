@@ -4,6 +4,7 @@ from news.models import Photo, Block_user
 from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, get_user_model
+from .models import Profile
 from django.http import HttpResponse, JsonResponse
 from django.db.models import F,Q
 from django.core.paginator import Paginator, EmptyPage,PageNotAnInteger
@@ -87,7 +88,10 @@ def index(request): #게시글 등록
 		return render(request,'accounts/index_search_modal.html',{'post_list':post_list, 'total_page':range(1, paginator.num_pages + 1)})
 
 	paginator = Paginator(post_list, 3)
+<<<<<<< HEAD
 	
+=======
+>>>>>>> e2c14d6bfc6ab15b9a54d6ee7fcc28146ceb1d8b
 	if request.method == 'POST':
 		form = PostForm(request.user,request.POST,request.FILES)
 		if form.is_valid():
@@ -221,12 +225,30 @@ def sign_out(request, pk):
 def friend_list(request):
 	requests_uesr = Friend.objects.requests(request.user) #받은 리스트
 	friendlist= Friend.objects.friends(request.user) #친구 리스트
-	sent_requests = Friend.objects.sent_requests(request.user) #보낸 리스트		
+	sent_requests = Friend.objects.sent_requests(request.user) #보낸 리스트
+	search = request.GET.get('search', None) #검색
+	returns = request.GET.get('returns', None) #친구목록보기
+
+
+	if search:  #전체유저(이름) 검색하기
+		user_model = get_user_model()
+		search_user = user_model.objects.filter(Q(first_name__icontains=search) | Q(username__icontains=search))
+		return render(request, 'friend/friend_list.html',{
+					'requests_uesr':requests_uesr,
+					'sent_requests':sent_requests,
+					'friend_list':friendlist,
+					'search_user' : search_user,
+					})
+
+
+	if returns:
+		return redirect('/index/friend')
+
 
 	return render(request, 'friend/friend_list.html',{
 		'requests_uesr':requests_uesr,
 		'sent_requests':sent_requests,
-		'friend_list':friendlist
+		'friend_list':friendlist,
 		})
 
 #친구 요청하기
@@ -238,6 +260,7 @@ def friend_add(request,pk):
 		from_user = request.user
 		Friend.objects.add_friend(from_user,to_user)
 		return redirect('friend_list')
+
 
 #즐겨찾기
 @login_required
@@ -251,7 +274,7 @@ def block_list(request):
 	#if block_cancle:
 
 	block_user = Block_user.objects.filter(author = request.user)
-	
+
 	return render(request, 'friend/block_list.html',{'block_list':block_user,})
 
 def block_cancle(request,pk): #차단취소
