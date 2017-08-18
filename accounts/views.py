@@ -88,10 +88,7 @@ def index(request): #게시글 등록
 		return render(request,'accounts/index_search_modal.html',{'post_list':post_list, 'total_page':range(1, paginator.num_pages + 1)})
 
 	paginator = Paginator(post_list, 3)
-<<<<<<< HEAD
-	
-=======
->>>>>>> e2c14d6bfc6ab15b9a54d6ee7fcc28146ceb1d8b
+
 	if request.method == 'POST':
 		form = PostForm(request.user,request.POST,request.FILES)
 		if form.is_valid():

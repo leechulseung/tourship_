@@ -9,9 +9,9 @@
 {% block content %}
 	<main id="main mt-5">
         <section class="container mt-5">
-            <header class="friend__header row justify-content-between pt-5">
-                <h1 class="friend__header__logo">Tour Friend</h1>
-                <form class="friend__header__form px-2" action="#">
+            <header class="friend__header pt-5">
+                <form class="friend__header__form  row justify-content-between px-2" action="#">
+                    <h1 class="friend__header__logo">Tour Friend</h1>
                     <input type="text" class="friend__header__search form-control" id="tour__search" placeholder="여행자 검색 (아이디, 이름)" name="search">
                     <button type="submit" class="friend__header__btn px-3 py-1">Search</button>
                 </form>
@@ -25,10 +25,28 @@
                       <a class="nav-link all-light-gray-font" href="{% url 'block_list' %}">차단관리</a>
                     </nav>
                 </header>
+
+                <article class="friend__my__profile row pt-4">
+                  <div class="my__profile__img card col-12 col-md-4 col-lg-4">
+                    <img class="card-img-top" src="{% static 'accounts/logo3.png' %}" alt="Card image cap">
+                  </div>
+                  <div class="my__profile__content card col-12 col-md-8 col-lg-8">
+                    <div class="card-block">
+                      <h4 class="card-title">프로필 <a class="fa-gear fa" href="#"></a></h4>
+                      <p class="card-text">이름 : </p>
+                      <p class="card-text">주소 : </p>
+                      <p class="card-text">이메일 : </p>
+                      <p class="card-text">폰번호 : </p>
+                      <p class="card-text">생년월일 : </p>
+                    </div>
+                  </div>
+                </article>
+
                 <article class="friend__body__request pt-4">
                     <nav class="frined__request__nav nav">
                       <a class="nav-link mr-2 px-3" data-toggle="collapse" href="#friend__your__request">나에게 신청한 친구</a>
                       <a class="nav-link mx-2 px-3" data-toggle="collapse" href="#friend__me__request">내가 신청한 친구</a>
+                      <a class="nav-link mx-2 px-3" data-toggle="collapse" href="#friend_list">여행자 친구 리스트</a>
                     </nav>
                     <div class="pt-4 collapse" id="friend__your__request">
                         <h2 class="all-gray-font">나에게 신청한 친구</h2>
@@ -81,7 +99,7 @@
                 </article>
                 <hr>
                 <article class="friend__body__list">
-                    <div class="pt-4">
+                    <div class="pt-4 collapse" id="friend_list">
                         <h2>여행자 친구 리스트</h2>
                         <article class="friend__me__request row">
                             {% for friend in friend_list %}
