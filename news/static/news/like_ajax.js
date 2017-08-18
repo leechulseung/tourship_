@@ -1,4 +1,4 @@
-$(".like").click(function(e){
+$(document).on('click','.like', function(e){
     e.stopPropagation(); // 같은 영역에 속해있는 중복 클릭 방지 
     e.preventDefault();  // 이벤트 진행 중지 
     var pk = $(this).attr('name');
@@ -14,9 +14,18 @@ $(".like").click(function(e){
       // {'likes_count': post.like_count, 'message': message }
 
       success: function(response){ // 통신 성공시 - 좋아요 갯수 변경, 유저 목록 변경
-        
-        $("#count-"+pk).html("<string>좋아요</strong> :"+response.like_count);
-
+        if(response.message == 'like'){
+          $("#count-"+pk).html("<string>좋아요</strong> :"+response.like_count);
+          $("#count-modal"+pk).html("<string>좋아요</strong> :"+response.like_count);
+          $("button[name="+pk+"]").attr('class',"fa fa-heart fa-2x px-2 pb-2 heart like")
+          console.log("clear")
+        }
+        else{
+          $("#count-"+pk).html("<string>좋아요</strong> :"+response.like_count);
+          $("#count-modal"+pk).html("<string>좋아요</strong> :"+response.like_count);
+          $("button[name="+pk+"]").attr('class','fa fa-heart-o fa-2x px-2 pb-2 heart_o like')
+          console.log('clear 취소')
+        }
         //var users = $("#like-user-"+pk).text();
       },
      error: function(request, status, error){ // 통신 실패시 - 로그인 페이지 리다이렉트

@@ -1,0 +1,124 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}
+	{{user.get_short_name}}님의 여행지도
+{% endblock title %}
+
+{% block style %}
+	<link rel="stylesheet" href="{% static 'friend/other_map.css' %}">
+  <link rel="stylesheet" href="{% static 'news/newspeed_custom.css' %}">
+{% endblock style %}
+
+{% block content %}
+	<main class="main mt-5">
+    <!-- 지도 -->
+    <div id="map" style="width:100%;height:100vh;">
+    <div class="main__content">
+      <!-- 로고 -->
+      <h1 class="logo ml-4 pt-3">
+        <img src="/assets/img/logo3.png" style="width: 20%;"></img>
+      </h1>
+    </div>
+
+  </main>
+  <!-- // main -->
+
+  <!-- 아이콘 -->
+  <div class="fixed-bottom mr-4 mb-2">
+    
+    <div class="d-flex justify-content-end user">
+        <nav class="nav">
+          <!-- 여행자 상태 -->
+          <a class="nav-link user_nav py-0 pl-3">여행중</a>
+          <!-- 여행자 이름 -->
+          <a class="nav-link user_nav py-0 pl-3">{{user_.get_short_name}} 여행자님의 지도</a>
+        </nav>
+        <!--<div class="px-2 user_state">여행중</div>-->
+        <!--<div class="px-2 user_name">임현경 여행자님의 지도</div>-->
+    </div>
+    <!-- 좌측 하단 버튼 -->
+    <div class="btn-group dropup d-flex justify-content-start ml-2">
+      <div class="p-2">
+        <!-- 1. 친구 검색 버튼 -->
+        <button type="button" class="fa fa-compass icons fa-3x main__btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <!-- 친구 검색 -->
+        <div class="dropdown-menu search-friend">
+          <form class="form-inline ml-2 mb-3">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search">
+            <button class="btn btn-outline-success search-friend-bt my-2 my-sm-0 mr-2" type="submit">Search</button>
+          </form>
+          <!-- 친구 검색 내 기능 -->
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <!-- 즐겨 찾기 -->
+            <button type="button" class="fa fa-star fa-2x fa-star-icon icon ml-2 mr-2"></button>
+            <!-- 친구 요청 -->
+            <button type="button" class="fa fa-smile-o friend-icon icon fa-2x mr-2"></button>
+            <!-- TOP 10 -->
+            <button type="button" class="icon-top icon">Top 10</button>
+          </div>
+          <!-- 검색 목록 -->
+          <div class="list-group friend-list mt-3">
+            <a href="#" class="list-group-item list-group-item-action"><img class="mr-3" src="assets/img/my.jpg" alt>이유림 여행자님</a>
+            <a href="#" class="list-group-item list-group-item-action"><img class="mr-3" src="assets/img/my.jpg" alt>장근열 여행자님</a>
+            <a href="#" class="list-group-item list-group-item-action"><img class="mr-3" src="assets/img/my.jpg" alt>박기철 여행자님</a>
+            <a href="#" class="list-group-item list-group-item-action"><img class="mr-3" src="assets/img/my.jpg" alt>오제웅 여행자님</a>
+          </div>
+        </div>
+      </div>
+      <!-- 2. 공유 버튼 -->
+      <button type="button" class="fa fa-share-alt icons fa-3x main__btn" data-trigger="focus" data-toggle="popover_other_share" data-placement="top">
+          <span class="sr-only">Toggle Dropdown</span>
+      </button>
+      <!-- 공유 -->
+      <div class="dropdown-menu mr-3 pl-1 hide" id="popover-share-other-content">
+        <ul class="pl-0">
+          <!-- 트위터 -->
+          <li><a href="#" class="twitter_l fa fa-twitter-square fa-3x"></a></li>
+          <!-- 페이스북 -->
+          <li><a href="#" class="fa fa-facebook-square fa-3x"></a></li>
+        </ul>
+      </div>
+      <!-- 우측 하단 버튼 -->
+      <div class="ml-auto p-2">
+        <!-- 1. 친구 추가 -->
+          {% if user_ in friend_list %}
+            <!--친구일 경우 친구 삭제-->
+            <a class="fa fa-user-times icons_friend fa-3x" href="{% url 'friend_remove' user_.id %}"></a>
+          {% elif user_ in sent_requests %}
+            <!--요청 상태인 경우-->
+            <a class="fa fa-spinner icons_friend fa-3x"></a>
+          {% else %}
+            <!--친구 아닌 경우-->
+            <a class="fa fa-user-plus icons_friend fa-3x" href="{% url 'friend_add' user_.id %}"></a> 
+          {% endif %}  
+        
+        <!-- 2. 즐겨 찾기 -->
+        <a class="fa fa-star icons_star fa-3x" href="#"></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal content -->
+   <div id="post-modal" class="modal fade bd-example-modal-lg show " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content post-modal-content">
+              <!-- Modal content-->
+          </div>
+      </div>
+  </div>
+  <!-- /Modal content -->
+
+{% endblock content %}
+  
+{% block script %}
+  <script>
+      var userLocations = {'locations':{{locations|safe}},
+        'userid':{{user_.id}},'url':"{% url 'news:modal' %}",
+       };
+  </script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=06220f2994a97769a8f7ba53ca9f39b8&libraries=services,clusterer"></script>
+  <script type="text/javascript" src="{% static 'accounts/other_map.js' %}"></script>
+{% endblock script %}

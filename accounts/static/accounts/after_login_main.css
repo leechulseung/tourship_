@@ -10,7 +10,7 @@ html {
 
 button, a {
 	cursor: pointer;/*버튼 위에 올렸을때 커서모양이 바뀐다.*/
-     border: none;
+    border: none;
 }
 
 a:hover , a:focus {

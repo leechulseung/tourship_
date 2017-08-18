@@ -12,7 +12,10 @@ class Post(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	main_photo = models.ImageField('사진', blank=True,upload_to='main_photo/%Y/%m/%d/')
-
+	like_user_set = models.ManyToManyField(settings.AUTH_USER_MODEL,
+                                           blank=True,
+                                           related_name='like_user_set',
+                                           through='Like') # post.like_set 으로 접근 가능
 
 	def __str__(self):
 		return self.title

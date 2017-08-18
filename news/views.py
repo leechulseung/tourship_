@@ -3,17 +3,24 @@ from .models import Post, Comment, Block_user, Report_Post
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .forms import CommentForm, BlockForm, ReportForm
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.db.models import F,Q
 
 import json
 
 @login_required
 def news_list(request,
 	template='news/news_list.html'):
+	search = request.GET.get('search', None) #검색
+	like_list = [user.post for user in request.user.like_set.all()]
 	like_first = request.GET.get('like_first') #좋아요 순서
 	block_form = BlockForm(request.POST) #차단 폼
 	report_form = ReportForm(request.POST) #신고 폼
 	report_id = request.POST.get('report_id', None) # 신고id
 	post_list = Post.objects.all()
+
+	if search:  #검색하기
+		post_list = post_list.filter(title__icontains=search)
+
 	if request.GET.get('real', None):
 		template='news/news_list2.html'
 
@@ -67,7 +74,9 @@ def news_list(request,
 	'post_list':posts,
 	'block_form':block_form,
 	'report_form':report_form,
+	'like_list':like_list,
 	} #템플릿에 넘겨줄 변수
+
 	if request.is_ajax(): #만약 ajax로 왔을떄
 		if request.POST.get('page',None): #page변수가 왔다면
 			template = 'news/new_page_ajax.html' #해당 템플릿을
@@ -84,8 +93,8 @@ def modal(request, template='news/post_modal.html'):
 
 	comments = Comment.objects.filter(post=post) #댓글들
 	form = CommentForm(request.POST or None) #댓글 폼
-
-	context = {'post':post,'form':form, 'comments':comments, }
+	like_list = [user.post for user in request.user.like_set.all()]
+	context = {'post':post,'form':form, 'comments':comments, 'like_list':like_list, }
 
 	if request.POST.get('message', None):
 		if form.is_valid():
@@ -120,9 +129,9 @@ def news_like(request):
 
     if not post_like_created:
         post_like.delete()
-        message = "좋아요 취소"
+        message = "like_del"
     else:
-        message = "좋아요"
+        message = "like"
 
     context = {'like_count': post.like_count,
                'message': message,

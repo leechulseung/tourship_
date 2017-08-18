@@ -15,7 +15,8 @@
                             <p class="post_user ml-2 pt-1"><a href="#">'{{ post.author.first_name }}</a> 여행자님'</p>
                             <div class="d-flex flex-nowrap ml-2">
                                 <p class="post_upload">UPLOAD DATE</p>
-                                <p class="post_date ml-2 pl-1">{{post.updated_at}}</p>
+                                <p class="post_date ml-2 pl-1">{{post.updated_at}}</p>      
+                                <p class="like ml-2"><strong id="count-modal{{post.id}}">좋아요: {{post.like_set.count}}</strong></p>
                             </div>
                         </div>
                         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -53,8 +54,11 @@
                     </div>
                     <div class="col-sm-4 col-12">
                         <div class="icon pt-3 pr-3 row justify-content-end">
-                            <button type="button" class="fa fa-heart-o fa-2x px-2 pb-2" aria-hidden="true"></button>
-                            <button type="button" class="fa fa-heart fa-2x px-2 pb-2" aria-hidden="true"></button>
+                                {% if post in like_list %}
+                                    <button name="{{post.id}}" href="{% url 'news:post_like' %}" type="button" class="fa fa-heart fa-2x px-2 pb-2 heart like" aria-hidden="true"></button>
+                                {% else %}
+                                    <button name="{{post.id}}" href="{% url 'news:post_like' %}" type="button" class="fa fa-heart-o fa-2x px-2 pb-2 heart_o like" aria-hidden="true"></button>
+                                {% endif %}
                             <a href="#"><i class="fa fa-map-marker fa-2x px-1" aria-hidden="true"></i></a>
                             <div class="dropdown">
                                 <button class="btn_option" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -1,0 +1,23 @@
+{% for post in post_list %}
+  <li class="list_ck btn btn-primary mb-1" id="searchdata">
+     <input type="checkbox" name="{{post.id}}" class="check_destroy"> <b>우리들의 추억 : </b> {{ post.title }} <b> 날짜 : </b> {{ post.tourday }}
+  </li>
+
+{% endfor %}
+</ul>
+<div id="pagination_index" class="mt-3">
+  {% if post_list.has_previous %}
+    <a href="?page={{ post_list.previous_page_number }}"> 이전페이지</a>
+  {% endif %}
+  {% for page in total_page %}
+  {% if post_list.current_start_index == page %}
+    <a href="?page={{ page }}" style="font-weight: blod"> {{ page }} </a>
+  {% endif %}
+  {% if post_list.current_start_index != page %}
+    <a href="?page={{ page }}"> {{ page }}</a>
+  {% endif %}
+  {% endfor %}
+  {% if post_list.has_next %}
+    <a href="?page={{ post_list.next_page_number }}"> 다음페이지</a>
+  {% endif %}
+</div>

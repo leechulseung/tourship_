@@ -12,10 +12,9 @@
             <header class="friend__header row justify-content-between pt-5">
                 <h1 class="friend__header__logo">Tour Friend</h1>
                 <form class="friend__header__form px-2" action="#">
-                    <input type="text" class="friend__header__search form-control" id="tour__search" placeholder="여행자 검색" name="search">
+                    <input type="text" class="friend__header__search form-control" id="tour__search" placeholder="여행자 검색 (아이디, 이름)" name="search">
                     <button type="submit" class="friend__header__btn px-3 py-1">Search</button>
                 </form>
-
             </header>
 
             <section class="friend__body">
@@ -28,171 +27,117 @@
                 </header>
                 <article class="friend__body__request pt-4">
                     <nav class="frined__request__nav nav">
-
                       <a class="nav-link mr-2 px-3" data-toggle="collapse" href="#friend__your__request">나에게 신청한 친구</a>
                       <a class="nav-link mx-2 px-3" data-toggle="collapse" href="#friend__me__request">내가 신청한 친구</a>
-
                     </nav>
                     <div class="pt-4 collapse" id="friend__your__request">
                         <h2 class="all-gray-font">나에게 신청한 친구</h2>
-                        <article class="friend__your__request row">
+                        <article class="friend__your__request row"><p>
+                          <!--받은요청 -->
+                          {% for rq in requests_uesr %}
                             <div class="col-12 col-sm-12 col-md-6 col-lg-4 pt-2 px-1">
-                                <div class="card row all__friend__card mx-0">
-                                  <img class="card-img-top" src="/assets/img/logo.PNG" alt="Card image cap">
-                                  <div class="card-block row justify-content-center align-items-center">
-                                    <div>
-                                      <h4 class="card-title all-gray-font"><a href="#">임현경 여행자님</a></h4>
-                                      <button class="all-blue-button py-2 px-4">수락</button>
-                                      <button class="all-red-button py-2 px-4">거절</button>
-                                    </div>
+                              <div class="card row all__friend__card mx-0">
+                                <img class="card-img-top" src="/assets/img/logo.PNG" alt="Card image cap">
+                                <div class="card-block row justify-content-center align-items-center">
+                                  <div>
+                                    <h4 class="card-title all-gray-font"><a href="#">{{rq.to_user.get_short_name}} 여행자님</a></h4>
+                                    <a href="{% url 'friend_accept' rq.id %}">
+                                    <button class="all-blue-button py-2 px-4" >수락</button>
+                                    </a>
+                                    <a href="{% url 'friend_reject' rq.id %}">
+                                    <button class="all-red-button py-2 px-4" >거절</button>
+                                    </a>
                                   </div>
                                 </div>
+                              </div>
                             </div>
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 pt-2 px-1">
-                                <div class="card row all__friend__card mx-0">
-                                  <img class="card-img-top" src="/assets/img/logo.PNG" alt="Card image cap">
-                                  <div class="card-block row justify-content-center align-items-center">
-                                    <div>
-                                      <h4 class="card-title all-gray-font"><a href="#">임현경 여행자님</a></h4>
-                                      <button class="all-blue-button py-2 px-4">수락</button>
-                                      <button class="all-red-button py-2 px-4">거절</button>
-                                    </div>
-                                  </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 pt-2 px-1">
-                                <div class="card row all__friend__card mx-0">
-                                  <img class="card-img-top" src="/assets/img/logo.PNG" alt="Card image cap">
-                                  <div class="card-block row justify-content-center align-items-center">
-                                    <div>
-                                      <h4 class="card-title all-gray-font"><a href="#">임현경 여행자님</a></h4>
-                                      <button class="all-blue-button py-2 px-4">수락</button>
-                                      <button class="all-red-button py-2 px-4">거절</button>
-                                    </div>
-                                  </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 pt-2 px-1">
-                                <div class="card row all__friend__card mx-0">
-                                  <img class="card-img-top" src="/assets/img/logo.PNG" alt="Card image cap">
-                                  <div class="card-block row justify-content-center align-items-center">
-                                    <div>
-                                      <h4 class="card-title all-gray-font"><a href="#">임현경 여행자님</a></h4>
-                                      <button class="all-blue-button py-2 px-4">수락</button>
-                                      <button class="all-red-button py-2 px-4">거절</button>
-                                    </div>
-                                  </div>
-                                </div>
-                            </div>
+                          {% endfor %}
+                          <!--// 받은요청 -->
                         </article>
                     </div>
                     <div class="pt-4 collapse" id="friend__me__request">
                         <h2 class="all-gray-font">내가 신청한 친구</h2>
                         <article class="friend__me__request row">
+                          <!--내가 신청한 친구 -->
+                          {% for rq in sent_requests %}
                             <div class="col-12 col-sm-12 col-md-6 col-lg-4 pt-2 px-1">
-                                <div class="card row all__friend__card mx-0">
-                                  <img class="card-img-top" src="/assets/img/logo.PNG" alt="Card image cap">
-                                  <div class="card-block row justify-content-center align-items-center">
-                                    <div>
-                                      <h4 class="card-title all-gray-font"><a href="#">임현경 여행자님</a></h4>
-                                      <button class="all-red-button py-2 px-4">신청취소</button>
-                                    </div>
+                              <div class="card row all__friend__card mx-0">
+                                <img class="card-img-top" src="/assets/img/logo.PNG" alt="Card image cap">
+                                <div class="card-block row justify-content-center align-items-center">
+                                  <div>
+                                    <h4 class="card-title all-gray-font"><a href="#">{{rq.to_user.get_short_name}} 여행자님</a></h4>
+                                    <a  href="{% url 'friend_cancel' rq.id %}">
+                                    <button class="all-red-button py-2 px-4">신청취소</button>
+                                    </a>
                                   </div>
                                 </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 pt-2 px-1">
-                                <div class="card row all__friend__card mx-0">
-                                  <img class="card-img-top" src="/assets/img/logo.PNG" alt="Card image cap">
-                                  <div class="card-block row justify-content-center align-items-center">
-                                    <div>
-                                      <h4 class="card-title all-gray-font"><a href="#">임현경 여행자님</a></h4>
-                                      <button class="all-red-button py-2 px-4">신청취소</button>
-                                    </div>
-                                  </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 pt-2 px-1">
-                                <div class="card row all__friend__card mx-0">
-                                  <img class="card-img-top" src="/assets/img/logo.PNG" alt="Card image cap">
-                                  <div class="card-block row justify-content-center align-items-center">
-                                    <div>
-                                      <h4 class="card-title all-gray-font"><a href="#">임현경 여행자님</a></h4>
-                                      <button class="all-red-button py-2 px-4">신청취소</button>
-                                    </div>
-                                  </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 pt-2 px-1">
-                                <div class="card row all__friend__card mx-0">
-                                  <img class="card-img-top" src="/assets/img/logo.PNG" alt="Card image cap">
-                                  <div class="card-block row justify-content-center align-items-center">
-                                    <div>
-                                      <h4 class="card-title all-gray-font"><a href="#">임현경 여행자님</a></h4>
-                                      <button class="all-red-button py-2 px-4">신청취소</button>
-                                    </div>
-                                  </div>
-                                </div>
-                            </div>
+                              </div>
+                          </div>
+                          {% endfor %}
+
+                            <!--// 내가 신청한 친구-->
                         </article>
                     </div>
                 </article>
-
+                <hr>
                 <article class="friend__body__list">
                     <div class="pt-4">
                         <h2>여행자 친구 리스트</h2>
                         <article class="friend__me__request row">
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 pt-2 px-1">
+                            {% for friend in friend_list %}
+                              <div class="col-12 col-sm-12 col-md-6 col-lg-4 pt-2 px-1">
                                 <div class="card row all__friend__card mx-0">
                                   <img class="card-img-top" src="/assets/img/my.jpg" alt="Card image cap">
                                   <div class="card-block row justify-content-center align-items-center">
                                     <div>
-                                      <h4 class="card-title all-gray-font"><a href="#">박기철 여행자님</a></h4>
-                                      <p class="card-text all-light-gray-font">함께아는 친구 0명</p>
-                                      <button class="all-red-button py-2 px-4">친구끊기</button>
-                                    </div>
-                                  </div>
-                                </div>
 
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 pt-2 px-1">
-                                <div class="card row all__friend__card mx-0">
-                                  <img class="card-img-top" src="/assets/img/logo.PNG" alt="Card image cap">
-                                  <div class="card-block row justify-content-center align-items-center">
-                                    <div>
-                                      <h4 class="card-title all-gray-font"><a href="#">임현경 여행자님</a></h4>
+                                      <h4 class="card-title all-gray-font"><a href="{% url 'other_map' friend %}">{{friend.first_name}} 여행자님</a></h4>
+                                      <h6>{{ friend.username }}<h6>
                                       <p class="card-text all-light-gray-font">함께아는 친구 0명</p>
+
+
+                                      <a href="{% url 'friend_remove' friend.id %}">
                                       <button class="all-red-button py-2 px-4">친구끊기</button>
+                                      </a>
                                     </div>
                                   </div>
                                 </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 pt-2 px-1">
-                                <div class="card row all__friend__card mx-0">
-                                  <img class="card-img-top" src="/assets/img/logo.PNG" alt="Card image cap">
-                                  <div class="card-block row justify-content-center align-items-center">
-                                    <div>
-                                      <h4 class="card-title all-gray-font"><a href="#">임현경 여행자님</a></h4>
-                                      <p class="card-text all-light-gray-font">함께아는 친구 0명</p>
-                                      <button class="all-red-button py-2 px-4">친구끊기</button>
-                                    </div>
-                                  </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 pt-2 px-1">
-                                <div class="card row all__friend__card mx-0">
-                                  <img class="card-img-top" src="/assets/img/logo.PNG" alt="Card image cap">
-                                  <div class="card-block row justify-content-center align-items-center">
-                                    <div>
-                                      <h4 class="card-title all-gray-font"><a href="#">임현경 여행자님</a></h4>
-                                      <p class="card-text all-light-gray-font">함께아는 친구 0명</p>
-                                      <button class="all-red-button py-2 px-4">친구끊기</button>
-                                    </div>
-                                  </div>
-                                </div>
-                            </div>
+                              </div>
+                            {% endfor %}
                         </article>
                     </div>
                 </article>
+
+                {% if search_user %}
+                <hr>
+                <article class="friend__body__list">
+                    <div class="pt-4">
+                        <h2>검색 유저 리스트</h2>
+                        <article class="friend__me__request row">
+                            {% for search in search_user %}
+                              <div class="col-12 col-sm-12 col-md-6 col-lg-4 pt-2 px-1">
+                                <div class="card row all__friend__card mx-0">
+                                  <img class="card-img-top" src="/assets/img/my.jpg" alt="Card image cap">
+                                  <div class="card-block row justify-content-center align-items-center">
+                                    <div>
+
+                                      <h4 class="card-title all-gray-font"><a href="{% url 'other_map' search %}">{{search.first_name}} 여행자님</a></h4>
+                                      <h6>{{ search.username }}<h6>
+                                      <p class="card-text all-light-gray-font">함께아는 친구 0명</p>
+
+
+                                      <!--<a href="#">
+                                      <button class="all-red-button py-2 px-4">친구추가</button>
+                                      </a>-->
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            {% endfor %}
+                        </article>
+                    </div>
+                </article>
+                {% endif %}
             </section>
         </section>
     </main>
