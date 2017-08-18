@@ -87,10 +87,7 @@ def index(request): #게시글 등록
 		return render(request,'accounts/index_search_modal.html',{'post_list':post_list, 'total_page':range(1, paginator.num_pages + 1)})
 
 	paginator = Paginator(post_list, 3)
-<<<<<<< HEAD
-=======
 
->>>>>>> 91620c61cdc7f8ce49a7f02bcb386ae83bbe53bf
 	if request.method == 'POST':
 		form = PostForm(request.user,request.POST,request.FILES)
 		if form.is_valid():
@@ -224,7 +221,7 @@ def sign_out(request, pk):
 def friend_list(request):
 	requests_uesr = Friend.objects.requests(request.user) #받은 리스트
 	friendlist= Friend.objects.friends(request.user) #친구 리스트
-	sent_requests = Friend.objects.sent_requests(request.user) #보낸 리스트		
+	sent_requests = Friend.objects.sent_requests(request.user) #보낸 리스트
 
 	return render(request, 'friend/friend_list.html',{
 		'requests_uesr':requests_uesr,
@@ -254,7 +251,7 @@ def block_list(request):
 	#if block_cancle:
 
 	block_user = Block_user.objects.filter(author = request.user)
-	
+
 	return render(request, 'friend/block_list.html',{'block_list':block_user,})
 
 def block_cancle(request,pk): #차단취소
