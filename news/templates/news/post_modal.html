@@ -15,7 +15,7 @@
                             <p class="post_user ml-2 pt-1"><a href="#">'{{ post.author.first_name }}</a> 여행자님'</p>
                             <div class="d-flex flex-nowrap ml-2">
                                 <p class="post_upload">UPLOAD DATE</p>
-                                <p class="post_date ml-2 pl-1">{{post.updated_at}}</p>      
+                                <p class="post_date ml-2 pl-1">{{post.updated_at}}</p>
                                 <p class="like ml-2"><strong id="count-modal{{post.id}}">좋아요: {{post.like_set.count}}</strong></p>
                             </div>
                         </div>
@@ -28,19 +28,16 @@
                             <div class="carousel-inner" role="listbox">
                                 <div class="carousel-item active">
                                     <a href="#" class="card-img_container d-flex justify-content-center align-items-center">
-                                        <img class="card-img-top height-fix" src="{{post.main_photo.url}}" alt="First slide">
+                                        <img style="height:345px;width:481px;" class="card-img-top height-fix" src="{{post.main_photo.url}}" alt="First slide">
                                     </a>
                                 </div>
+                                {% for photo in post.photo_set.all %}
                                 <div class="carousel-item">
                                     <a href="#" class="card-img_container d-flex justify-content-center align-items-center">
-                                        <img class="card-img-top height-fix" src="http://www.mypetnews.net/news/photo/201312/447_288_511.jpg" alt="First slide">
+                                        <img style="height:345px;width:481px;" class="card-img-top height-fix" src="{{ photo.file.url }}" alt="slide">
                                     </a>
                                 </div>
-                                <div class="carousel-item">
-                                    <a href="#" class="card-img_container d-flex justify-content-center align-items-center">
-                                        <img class="card-img-top height-fix" src="http://www.petzine.co.kr/news/photo/201701/885_2223_5221.jpg" alt="First slide">
-                                    </a>
-                                </div>
+                                {% endfor %}
                             </div>
                         </div>
                         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -75,9 +72,9 @@
                                             <a class="dropdown-item" href="#"><i class="fa fa-ban" aria-hidden="true"></i> 신고하기 </a>
                                         </div>
                                     {% endif %}
-                                       
+
                                 </div>
-                                    
+
                             </div>
                         </div>
                         <p class="post_content pt-4">{{post.content}}</p>

@@ -28,11 +28,11 @@
 
                 <article class="friend__my__profile row pt-4">
                   <div class="my__profile__img card col-12 col-md-4 col-lg-4">
-                    <img class="card-img-top" src="{% static 'accounts/logo3.png' %}" alt="Card image cap">
+                    <img style="width:360px;height:327px;border-radius: 10px" class="card-img-top" src="{{ user.profile.photo.url }}" alt="Card image cap">
                   </div>
                   <div class="my__profile__content card col-12 col-md-8 col-lg-8">
                     <div class="card-block">
-                      <h4 class="card-title">프로필 <a class="fa-gear fa" href="#"></a></h4>
+                      <h4 class="card-title">프로필 <a class="fa-gear fa" href="{% url 'setup_auth' %}"></a></h4>
                       <p class="card-text">이름 : {{user.first_name}}</p>
                       <p class="card-text">주소 : {{user.profile.address}}</p>
                       <p class="card-text">이메일 : {{user}}</p>
@@ -138,15 +138,9 @@
                                   <img class="card-img-top" src="/assets/img/my.jpg" alt="Card image cap">
                                   <div class="card-block row justify-content-center align-items-center">
                                     <div>
-
                                       <h4 class="card-title all-gray-font"><a href="{% url 'other_map' search %}">{{search.first_name}} 여행자님</a></h4>
                                       <h6>{{ search.username }}<h6>
                                       <p class="card-text all-light-gray-font">함께아는 친구 0명</p>
-
-
-                                      <!--<a href="#">
-                                      <button class="all-red-button py-2 px-4">친구추가</button>
-                                      </a>-->
                                     </div>
                                   </div>
                                 </div>
@@ -156,8 +150,37 @@
                     </div>
                 </article>
                 {% endif %}
+
+
+
+                <article class="friend__body__list">
+                    <div class="pt-4">
+                        <h2>전체 유저 리스트</h2>
+                        <article class="friend__me__request row">
+                            {% for users in users_list %}
+                              <div class="col-12 col-sm-12 col-md-6 col-lg-4 pt-2 px-1">
+                                <div class="card row all__friend__card mx-0">
+                                  <img class="card-img-top" src="{{ users.photo.url }}" alt="Card image cap">
+                                  <div class="card-block row justify-content-center align-items-center">
+                                    <div>
+
+                                      <h4 class="card-title all-gray-font"><a href="{% url 'other_map' users %}">{{ users.user.first_name }} 여행자님</a></h4>
+                                      <h6>{{ users }}<h6>
+                                      <p class="card-text all-light-gray-font">함께아는 친구 0명</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            {% endfor %}
+
+                        </article>
+                    </div>
+                </article>
+
+
             </section>
         </section>
+        <p></p>
     </main>
 {% endblock content %}
 

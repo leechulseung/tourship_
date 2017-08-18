@@ -86,7 +86,6 @@ def news_list(request,
 
 	if request.GET.get('real', None):
 		lists = Post.objects.order_by('-created_at').filter(Q(author=request.user) | Q(author__friends__from_user=request.user) | Q(author__friends__to_user=request.user)).distinct()
-		print(lists)
 
 		template='news/news_list2.html'
 		context = {
