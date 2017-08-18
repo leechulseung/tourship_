@@ -15,7 +15,7 @@ from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.templatetags.socialaccount import get_providers
 
 #Form
-from .forms import LoginForm,SignUpForm,CheckForm,SetupForm
+from .forms import LoginForm,SignUpForm,CheckForm,SetupForm, BookingPostForm
 #Post
 from news.models import Post
 
@@ -60,11 +60,25 @@ def login(request):
 @login_required
 def index(request): #게시글 등록
 	forms = Multi_PhotoForm(request.POST, request.FILES)#다중사진
+
+
+	bookingform= BookingPostForm(request.user, request.POST or None)
 	post_list= request.user.post_set.all().order_by('-id')
 	locations= []
+	if request.method == 'POST':
+		if request.is_ajax():
+			if bookingform.is_valid():
+				bpost = bookingform.save(commit=False)
+				return redirect('index')
+
+	booking_locations = []
+	bpost_list = request.user.news_bookingposts_from.all()
 
 	for post in post_list:
 		locations.append({'title':post.title, 'content':post.content,'post_id':post.id,'location':post.location})
+
+	for bpost in bpost_list:
+		booking_locations.append({'title':bpost.title, 'content':bpost.content,'post_id':bpost.id,'username':bpost.from_user.username,'location':bpost.location})
 
 	#페이지 네이션을 위한 페이지 변수 ajax로 전달
 	page = request.GET.get('page')
@@ -157,10 +171,11 @@ def index(request): #게시글 등록
 		'form':form,
 		'forms':forms,
 		'locations':locations,
+		'booking_locations':booking_locations,
 		'post_list':post_list,
 		'current_page':page_enc,
 		'total_page':range(1, paginator.num_pages + 1),
-
+		'bookingform':bookingform,
 		})
 
 @login_required
@@ -268,8 +283,13 @@ def friend_list(request):
 	sent_requests = Friend.objects.sent_requests(request.user) #보낸 리스트
 	search = request.GET.get('search', None) #검색
 	returns = request.GET.get('returns', None) #친구목록보기
-
-
+	users = Profile.objects.all()
+	lists = Post.objects.order_by('-created_at').filter(Q(author=request.user) | Q(author__friends__from_user=request.user) | Q(author__friends__to_user=request.user)).distinct()
+	print(type(request.user))
+	user_list=[]
+	for user in users:
+		if not str(request.user)==str(user):
+			user_list.append(user)
 	if search:  #전체유저(이름) 검색하기
 		user_model = get_user_model()
 		search_user = user_model.objects.filter(Q(first_name__icontains=search) | Q(username__icontains=search))
@@ -278,6 +298,7 @@ def friend_list(request):
 					'sent_requests':sent_requests,
 					'friend_list':friendlist,
 					'search_user' : search_user,
+					'users_list':user_list
 					})
 	if returns:
 		return redirect('/index/friend')
@@ -287,6 +308,7 @@ def friend_list(request):
 		'requests_uesr':requests_uesr,
 		'sent_requests':sent_requests,
 		'friend_list':friendlist,
+		'users_list':user_list
 		})
 
 #친구 요청하기

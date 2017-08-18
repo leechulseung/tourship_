@@ -1,6 +1,6 @@
 /* commit setting */
-@font-face { 
-     font-family: "SeoulNamsan";  
+@font-face {
+     font-family: "SeoulNamsan";
      src:url('/static/font/SeoulNamsanM/SeoulNamsanM.eot');
     src:url('/static/font/SeoulNamsanM/SeoulNamsanM.eot?#iefix') format('embedded-opentype'), /* IE 6,7,8 적용, embedded-opentype -> IE 8,9 적용 */
     url('/static/font/SeoulNamsanM/SeoulNamsanM.woff') format('woff'), /* IE 제외한 나머지 (크롬 등등) */
@@ -9,8 +9,8 @@
 
 
 html {
-    font-size: 15px;
-	line-height: 1.6;
+  font-size: 15px;
+  line-height: 1.6;
 }
 
 * {
@@ -99,16 +99,8 @@ a:hover, a:focus {
 	background-color: transparent;
 }
 
-.btn-primary {
-	background-color: #3D74AA;
-	border: none;
-	color: #ffffff;
-}
-
-.btn-primary:hover,
-.btn-primary:focus {
-	background-color: #3D719E;
-	outline: none
+.btn {
+  cursor: pointer;
 }
 
 .nav-menu {
@@ -122,6 +114,9 @@ a:hover, a:focus {
 }
 
 /* main */
+.btn_font {
+  font-family: 'SeoulNamsan';
+}
 .btn-secondary:focus {
   background-color: #ccc;
 }

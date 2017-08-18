@@ -44,8 +44,8 @@ class Address(models.Model):
 
 class Photo(models.Model):
     post = models.ForeignKey('Post')
-    file = models.ImageField('사진', blank=True, upload_to='sub_photo/%Y/%m/%d/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+    file = models.ImageField('서브사진', blank=True, upload_to='sub_photo/%Y/%m/%d/')
+    uploaded_at =  models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.post.title
@@ -82,3 +82,16 @@ class Report_Post(models.Model):
 
     def __str__(self):
         return self.content
+
+class Bookingpost(models.Model):
+	from_user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='%(app_label)s_%(class)ss_from')
+	to_user = models.ForeignKey(settings.AUTH_USER_MODEL,blank=True,null=True, related_name='%(app_label)s_%(class)ss_to')
+	title = models.CharField('제목',max_length=120)
+	content = models.TextField('내용')
+	address = models.TextField('주소')
+	location = models.TextField('위도/경도')
+	created_at = models.DateTimeField(auto_now_add=True)
+	updated_at = models.DateTimeField(auto_now=True)
+
+	def __str__(self):
+		return self.title	        
