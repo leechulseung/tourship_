@@ -17,82 +17,83 @@ html {
 }
 
 a {
-	color: inherit;
+   color: inherit;
 }
 
 a:hover, a:focus {
-	color: inherit;
-	text-decoration: none;
+   color: inherit;
+   text-decoration: none;
 }
 
 button {
-	border: none;
-	cursor: pointer;
+   border: none;
+   cursor: pointer;
 }
 
 button:focus {
-	outline: none;
+   outline: none;
 }
 
 
 
 /* 수락버튼 특정색 */
 .all-blue-button {
-	color: #3D74AA;
-	border: 1px solid #3d74aa;
-	border-radius: 5px;
-	transition: all 0.2s ease-in-out;
-	background-color: white;
+   color: #3D74AA;
+   border: 1px solid #3d74aa;
+   border-radius: 5px;
+   transition: all 0.2s ease-in-out;
+   background-color: white;
 }
 
 .all-blue-button:hover {
-	color:#fff;
-	background-color: #3D74AA;
+   color:#fff;
+   background-color: #3D74AA;
 }
 
 .all-blue-button:focus {
-	border: 1px solid #3d74aa;
+   border: 1px solid #3d74aa;
 }
 
 /* 거절버튼 빨간색 */
 .all-red-button {
-	color: #d9534f;
-	border: 1px solid #d9534f;
-	border-radius: 5px;
-	transition: all 0.2s ease-in-out;
-	background-color: white;
+   color: #d9534f;
+   border: 1px solid #d9534f;
+   border-radius: 5px;
+   transition: all 0.2s ease-in-out;
+   background-color: white;
 }
 
 .all-red-button:hover {
-	color:#fff;
-	background-color: #d9534f;
+   color:#fff;
+   background-color: #d9534f;
 }
 
 .all-red-button:focus {
-	border: 1px solid #d9534f;
+   border: 1px solid #d9534f;
 }
 
 /* 글씨 공통 회색 */
 .all-gray-font {
-	color: #666666 !important;
+   color: #666666 !important;
 }
 
 /* 글씨 공통 연한 회색*/
 .all-light-gray-font {
-	color: #8a8a8a !important;
+   color: #8a8a8a !important;
 }
 
 /* 친구 카드 부분 */
 .all__friend__card {
-	flex-flow: inherit;
+   flex-flow: inherit;
 }
 
 .all__friend__card img {
-	width: 40%;
-	height: 178px;
+   width: 40%;
+   height: 178px;
 }
 
 .friend__header__logo {
+
 	margin: 0;
 	color: #3D74AA;
 	font-weight: 700;
@@ -104,6 +105,8 @@ button:focus {
 
 /* Friend Header */
 
+
+
 .friend__header__form {
 	align-items: center;
 }
@@ -112,32 +115,40 @@ button:focus {
 	width: 75%;
 }
 
+.friend__header__search {
+	width: 75%;
+}
+
 .friend__header__form {
-	flex-grow: 1;
+   flex-grow: 1;
+}
+
+.friend__header__logo, .friend__header__form {
+   margin-bottom: 0;
 }
 
 .friend__body__header a {
-	border-left: 5px solid #dadada;
-	padding-bottom: 0;
-	padding-top: 0;
-	padding-left: 0.5rem;
+   border-left: 5px solid #dadada;
+   padding-bottom: 0;
+   padding-top: 0;
+   padding-left: 0.5rem;
 }
 
 .friend__header__btn {
-	color: #3D74AA;
-	border: 1px solid #3d74aa;
-	border-radius: 5px;
-	transition: all 0.2s ease-in-out;
-	background-color: white;
+   color: #3D74AA;
+   border: 1px solid #3d74aa;
+   border-radius: 5px;
+   transition: all 0.2s ease-in-out;
+   background-color: white;
 }
 
 .friend__header__btn:hover {
-	color: #fff;
-	background-color: #3D74AA;
+   color: #fff;
+   background-color: #3D74AA;
 }
 
 .friend__header__btn:focus {
-	border: 1px solid #3d74aa;
+   border: 1px solid #3d74aa;
 }
 
 /* Friend Header End*/
@@ -145,18 +156,18 @@ button:focus {
 /* Friend Body */
 
 .frined__body__nav a {
-	transition: all 0.2s ease-in-out;
-	font-size: 1.2rem;
+   transition: all 0.2s ease-in-out;
+   font-size: 1.2rem;
 }
 
 .frined__body__nav a:hover{
-	color: #3d74aa !important;
-	font-weight: 500;
+   color: #3d74aa !important;
+   font-weight: 500;
 }
 
 .active {
-	color: #3d74aa !important;
-	font-weight: 500;
+   color: #3d74aa !important;
+   font-weight: 500;
 }
 
 /* Friend Body End*/
@@ -164,43 +175,43 @@ button:focus {
 /* Friend Request Nav */
 
 .frined__request__nav a {
-	border: 2px solid #dadada;
-	border-radius: 100px;
+   border: 2px solid #dadada;
+   border-radius: 100px;
 }
 
 .frined__request__nav a:nth-child(1){
-	color: #3D74AA;
+   color: #3D74AA;
     border: 1px solid #3D74AA;
     border-radius: 100px;
     transition: all 0.2s ease-in-out;
 }
 
 .frined__request__nav a:nth-child(1):hover{
-	color: #fff;
+   color: #fff;
     background-color: #3D74AA;
 }
 
 .frined__request__nav a:nth-child(2){
-	color: #3D74AA;
+   color: #3D74AA;
     border: 1px solid #3D74AA;
     border-radius: 100px;
     transition: all 0.2s ease-in-out;
 }
 
 .frined__request__nav a:nth-child(2):hover{
-	color: #fff;
+   color: #fff;
     background-color: #3D74AA;
 }
 
 .frined__request__nav a:nth-child(3){
-	color: #3D74AA;
+   color: #3D74AA;
     border: 1px solid #3D74AA;
     border-radius: 100px;
     transition: all 0.2s ease-in-out;
 }
 
 .frined__request__nav a:nth-child(3):hover{
-	color: #fff;
+   color: #fff;
     background-color: #3D74AA;
 }
 
@@ -215,7 +226,7 @@ button:focus {
 /* Friend Your Request */
 
 #friend__your__request h2 {
-	font-size: 1.5rem;
+   font-size: 1.5rem;
 }
 
 /* Friend Your Request End */
@@ -223,7 +234,7 @@ button:focus {
 /* Friend Me Request */
 
 #friend__me__request h2 {
-	font-size: 1.5rem;
+   font-size: 1.5rem;
 }
 
 /* Friend Me Request End */
@@ -231,7 +242,7 @@ button:focus {
 /* Friend Body List */
 
 .friend__body__list h2 {
-	color: #3D74AA !important;
+   color: #3D74AA !important;
 }
 
 /* Friend Body List End */

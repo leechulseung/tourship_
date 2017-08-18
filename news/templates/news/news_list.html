@@ -26,15 +26,25 @@
     <main class="main">
         <div class="container pt-5 mt-5">
             <div class="btn-group d-flex row justify-content-end" role="group" aria-label="Basic example" data-toggle="bottons">
-            <a href="{% url 'news:news_list' %}"><button type="button" class="btn btn-secondary">실시간 순</button></a>
+            <form action="" method="GET">
+                <button type="submit" class="btn btn-secondary btn_font">전체 보기</button>
+            </form>
+            <a href="{% url 'news:news_list' %}"><button type="button" class="btn btn-secondary btn_font">실시간 순</button></a>
             <form action="#" method="GET">
                 <input type="hidden" name="like_first" value="like">
-                <button type="submit" class="btn btn-secondary">좋아요 순</button>
+                    <button type="submit" class="btn btn-secondary btn_font">좋아요 순</button>
             </form>
+        	<form action="" method="GET">
+            	<button type="submit" class="btn btn-secondary btn_font">실시간 타임라인 보기</button>
+            	<input type="hidden" value="realTime" name="real">
+            </form>
+<<<<<<< HEAD
+=======
             	<form action="" method="get">
-                	<button type="submit" class="btn btn-secondary">실시간 타임라인 보기</button>
+                	<button type="submit" class="btn btn-secondary">실시간 타임라인</button>
                 	<input type="hidden" value="realTime" name="real">
                 </form>
+>>>>>>> dd32b24ebd5aadd16aefbd4d17cca1a2f641c722
             </div>
 
             {% for post in post_list %}
@@ -47,13 +57,13 @@
                             <div class="post pl-3 pt-1">
                                 <div class="d-flex flex-nowrap">
                                     <a href="#" class="card_profile d-flex justify-content-center align-items-center">
-                                        <img class="card-img-top height-fix" src="/assets/img/my.jpg" alt>
+                                        <img class="card-img-top height-fix" src="" alt>
                                     </a>
                                     <p class="post_user mt-2 ml-2"><a href="#">'{{ post.author.first_name }}</a> 여행자님'</p>
                                 </div>
                                 <div class="d-flex flex-nowrap pt-2">
                                     <p class="post_upload">UPLOAD DATE</p>
-                                    <p class="post_date ml-2 pl-1">2017.07.01 PM 03:15</p>
+                                    <p class="post_date ml-2 pl-1">{{post.updated_at}}</p>
                                 </div>
                             </div>
                         </li>
@@ -139,7 +149,7 @@
                                 </div>
                                 <div class="d-flex flex-nowrap pt-2">
                                     <p class="post_upload">UPLOAD DATE</p>
-                                    <p class="post_date ml-2 pl-1">2017.07.01 PM 03:15</p>
+                                    <p class="post_date ml-2 pl-1">{{post.updated_at}}</p>
                                 </div>
                             </div>
                         </li>
@@ -229,7 +239,7 @@
                                 </div>
                                 <div class="d-flex flex-nowrap pt-2">
                                     <p class="post_upload">UPLOAD DATE</p>
-                                    <p class="post_date ml-2 pl-1">2017.07.01 PM 03:15</p>
+                                    <p class="post_date ml-2 pl-1">{{post.updated_at}}</p>
                                 </div>
                             </div>
                         </li>
@@ -327,7 +337,7 @@
                                 </div>
                                 <div class="d-flex flex-nowrap pt-2">
                                     <p class="post_upload">UPLOAD DATE</p>
-                                    <p class="post_date ml-2 pl-1">2017.07.01 PM 03:15</p>
+                                    <p class="post_date ml-2 pl-1">{{post.updated_at}}</p>
                                 </div>
                             </div>
                         </li>
@@ -441,7 +451,7 @@
                 </div>
               </div>
             </div>
-<!-- 차단하기 모달 끝-->
+            <!-- 차단하기 모달 끝-->
 
 <!-- 신고하기 모달  -->
             <div class="modal fade" id="{{ post.id }}report" tabindex="-1" role="dialog"  aria-hidden="true">

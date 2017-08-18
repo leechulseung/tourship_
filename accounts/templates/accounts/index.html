@@ -3,8 +3,13 @@
 
 <!--스타일 적용-->
 {% block style %}
+<<<<<<< HEAD
   <link rel="stylesheet" href="{% static 'accounts/after_login_main.css' %}">
   <!-- <link rel="stylesheet" href="{% static 'news/newspeed_custom.css' %}"> -->
+=======
+	<link rel="stylesheet" href="{% static 'accounts/after_login_main.css' %}">
+  <link rel="stylesheet" href="{% static 'news/newspeed_custom.css' %}">
+>>>>>>> c1a53d6126f24dd0a5fc2d11504b7456344c4de8
 {% endblock style %}
 
 <!--내용 시작-->
@@ -229,12 +234,14 @@
           <div class="form-group">
             {{form.content}}
           </div>
-          <p>메인사진 : </p>{{ form.main_photo }}
-          <p>서브사진 : </p>{{forms.as_table}}
-          <div class="form-group row mb-0">
-            <label for="example-date-input" class="col-3 col-form-label pr-0">공개설정</label>
-            <div class="form-group mr-2 col-5">
-              {{form.privacy}}
+          <div class="container">
+            <label class="photo_type">메인사진 : </label>{{ form.main_photo }}
+            <label class="photo_type">서브사진 : </label>{{ forms.file }}
+            <div class="form-group row mb-0 mt-3">
+              <label for="example-date-input" class="col-3 col-form-label pr-0">공개설정</label>
+              <div class="form-group mr-2 col-5">
+                {{form.privacy}}
+              </div>
             </div>
           </div>
         </div>
@@ -299,7 +306,7 @@
 </div>
 
 <!--마이너스 아이콘 눌렀을 시 : 추억삭제 modal-->
-  <div class="modal fade" id="del_memory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="del_memory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -324,6 +331,7 @@
                 </li>
               {% endfor %}
             </ul>
+<<<<<<< HEAD
             <div id="pagination_index">
             {% if post_list.has_previous %}
               <a href="?page={{ post_list.previous_page_number }}"> 이전페이지</a>
@@ -338,9 +346,28 @@
             {% if post_list.has_next %}
                 <a href="?page={{ post_list.next_page_number }}"> 다음페이지</a>
             {% endif %}
+=======
+            <div id="pagination_index" class="mt-3">
+              <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+              {% if post_list.has_previous %}
+                <li class="page-item"><a href="?page={{ post_list.previous_page_number }}" class="pagination_page page-link"> 이전페이지</a></li>
+              {% endif %}
+              {% for page in total_page %}
+                {% if page == current_page %}
+                  <li class="page-item"><a class="pagination_page page-link" href="{% url 'index' %}" style="font-weight:bold"> {{ page }} </a></li>
+                {% else %}
+                  <li class="page-item"><a class="pagination_page page-link" href="{% url 'index' %}"> {{ page }}</a></li>
+                {% endif %}
+              {% endfor %}
+              {% if post_list.has_next %}
+                  <li class="page-item"><a href="?page={{ post_list.next_page_number }}" class="pagination_page page-link"> 다음페이지</a></li>
+                </ul>
+              </nav>
+>>>>>>> c1a53d6126f24dd0a5fc2d11504b7456344c4de8
             </div>
+            {% endif %}
           </div>
-
       </div>
       <div class="modal-footer">
         <button type="button" class="del_bt fa fa-trash-o fa-2x" id="destroy" value="{% url 'delete' %}"></button>
