@@ -28,6 +28,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^index/', include('accounts.urls')),
+    url(r'^accounts/', include('allauth.urls')),
     url(r'^newspeed/', include('news.urls', namespace= 'news')),
     url(r'^group/', include('group.urls', namespace='group')),
 

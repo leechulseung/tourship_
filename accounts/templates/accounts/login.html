@@ -77,6 +77,26 @@
                   <input class="form-check-input " type="checkbox"> 아이디를 기억하시겠습니까?
                 </label>
               </div>
+              <div class="container">
+                <ul>
+                  {% for provider in providers %}
+                  {% if provider.social_app.name == 'facebook'%}
+                      <div>
+                        <a href="{% provider_login_url provider.id %}" class="fa fa-facebook btn btn-primary active facebook-btn link-btn" role="button" aria-pressed="true">Sign in with {{ provider.name }} </a>
+                      </div>
+                  {% elif provider.social_app.name == 'naver'%}
+                    <div>
+                        <a href="{% provider_login_url provider.id %}" class="btn btn-primary active naver-btn link-btn" role="button" aria-pressed="true"><img src="{% static 'accounts/naver2.png' %}" class="naver-img"></img> Sign in with {{ provider.name }}</a>
+                    <div>
+                  {% else %}
+                     <a href="{% provider_login_url provider.id %}" class="fa fa-comment btn btn-primary active kakao-btn link-btn" role="button" aria-pressed="true">     Sign in with {{ provider.name }}</a>
+                  {% endif %}
+
+
+
+                  {% endfor %}
+                </ul>
+              </div>
             <div class="modal-footer">
               <a href="{% url 'joinus'%}"><button type="button" class="log_bt btn-primary">Join us</button></a>
               <button type="sumit" class="log_bt btn-primary" data-dismiss="modal" id="login">Login</button>

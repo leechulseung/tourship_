@@ -25,9 +25,9 @@
       pk.push($(this).attr('name'));
     });
     // var pk = $('.check_destroy').attr('name'); //선택된 요소의 부모의 name속성 캐치
-    
+
     var url = $(this).attr('value');
-    
+
     var csrf = getCookie("csrftoken");
     if(pk==0){
 
@@ -52,7 +52,7 @@
               alert("삭제 되었습니다.")
               location.reload();
             }else{
-              
+
             }
             //append(data);
            },
@@ -84,14 +84,14 @@
           e.preventDefault();  // 이벤트 진행 중지
           var url = $('.pagination_page').attr('href')
           searchs = $("#search_content").val();
-    
+
 
           $.ajax({
             type: 'get',
             url: url,
             data:{
               'search':searchs,
-              
+
             },
             success : function(data, states, J){
                   $('#pagination_index').remove();
@@ -118,7 +118,7 @@ $(document).on('click','.pagination_page', function(e){
     $.ajax({
       type: "get",
       url: url,
-      data : {  // 서버로 보낼 데이터들 dict형식 
+      data : {  // 서버로 보낼 데이터들 dict형식
         'page':page,
         'search':search,
       },
@@ -136,7 +136,7 @@ $(document).on('click','.pagination_page', function(e){
     $.ajax({
       type: "get",
       url: url,
-      data : {  // 서버로 보낼 데이터들 dict형식 
+      data : {  // 서버로 보낼 데이터들 dict형식
         'search': search,
         'page': page,
       },
@@ -150,5 +150,5 @@ $(document).on('click','.pagination_page', function(e){
       }
     });
   }
-  
+
 });

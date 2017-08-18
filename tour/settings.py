@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'accounts',
     'group',
     'news',
-    
+
     'friendship',
 
     'django.contrib.sites',
@@ -59,6 +59,12 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.kakao',
     'allauth.socialaccount.providers.naver',
 
+
+]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 
 ]
 

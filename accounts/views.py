@@ -53,7 +53,6 @@ def login(request):
 				})
 	else:
 		form = LoginForm(request)
-
 	return render(request, 'accounts/login.html',{
 		'providers':providers, 'form':form
 		})
@@ -61,9 +60,9 @@ def login(request):
 @login_required
 def index(request): #게시글 등록
 	forms = Multi_PhotoForm(request.POST, request.FILES)#다중사진
-	post_list= request.user.post_set.all()
+	post_list= request.user.post_set.all().order_by('-id')
 	locations= []
-	
+
 	for post in post_list:
 		locations.append({'title':post.title, 'content':post.content,'post_id':post.id,'location':post.location})
 
@@ -80,8 +79,8 @@ def index(request): #게시글 등록
 	#검색을 했을 경우
 	if request.is_ajax():
 		if search:
-			post_list = post_list.filter(Q(title__icontains=search) | Q(tourday__icontains=search))
-			paginator = Paginator(post_list, 3)
+			post_list = post_list.order_by('-id').filter(Q(title__icontains=search) | Q(tourday__icontains=search))
+			paginator = Paginator(post_list, 2)
 
 			try:
 				#현재 페이지 number와 앞,뒤 페이지 정보를 가짐
@@ -99,8 +98,8 @@ def index(request): #게시글 등록
 				'current_page':page_enc,
 				})
 		else:
-			post_list = post_list.filter(Q(title__icontains=search) | Q(tourday__icontains=search))
-			paginator = Paginator(post_list, 3)
+			post_list = post_list.order_by('-id').filter(Q(title__icontains=search) | Q(tourday__icontains=search))
+			paginator = Paginator(post_list, 2)
 
 			try:
 				#현재 페이지 number와 앞,뒤 페이지 정보를 가짐
@@ -118,7 +117,7 @@ def index(request): #게시글 등록
 				'current_page':page_enc,
 				})
 
-	paginator = Paginator(post_list, 3)
+	paginator = Paginator(post_list, 2)
 
 	if request.method == 'POST':
 		form = PostForm(request.user,request.POST,request.FILES)
@@ -142,7 +141,8 @@ def index(request): #게시글 등록
 		#범위를 넘는 큰 수를 입력 할 경우 마지막 페이지로 이동
 		post_list = paginator.page(paginator.num_pages)
 
-	#페이지 네이션 에러 검출
+	#페이지 네이션 에러 검출ㄱ
+	print("캬캬캬ㅑ캬캬캬ㅑ캬ㅑ캬")
 
 
 	if page:
@@ -152,6 +152,7 @@ def index(request): #게시글 등록
 			'current_page':page_enc,
 
 			})
+
 	return render(request, 'accounts/index.html', {
 		'form':form,
 		'forms':forms,

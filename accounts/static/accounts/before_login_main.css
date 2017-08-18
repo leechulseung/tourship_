@@ -92,6 +92,38 @@ button:focus {
     transition: all 0.3s ease-in-out;
 }
 
+/*페이스북 , 네이버 ,카카오톡으로 로그인하기 버튼*/
+
+.naver-img{
+    width:22px;
+    height:22px;
+}
+
+.naver-btn{
+    background-color: #00C73C !important ;
+    border-color:#00C73C !important;
+}
+
+.facebook-btn {
+    background-color: #3B5998 !important ;
+    border-color:#3B5998 !important;
+}
+
+.fa-comment {
+    color : #725253 !important;
+}
+.kakao-btn {
+    background-color:#FBE300 !important ;
+    border-color:#FBE300 !important;
+    color:#FBE300;
+}
+
+.link-btn {
+    width:440px;
+    margin-left:10px;
+    margin-bottom:10px;
+}
+
 .errorlist{
     font-size: 12px;
     color: red;

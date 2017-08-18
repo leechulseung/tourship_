@@ -266,13 +266,14 @@
                     <input class="form-control" type="text" placeholder="Search" name="search" id="search_content">
                     <button class="btn friend__btn_blue mx-1" type="submit" id="searchs">Search</button>
                 </form>
-                <small>추억의 제목 또는 날짜, 지역을 검색하세요.</small>
+                <small>추억의 제목 또는 날짜를 검색하세요.</small><br>
+                <small> ex) 맛집 탐방 or 2015-08-09 </small>
             </div>
           <div class="list"><!--추억삭제 목록들-->
             <ul class="list pl-0" data-toggle="buttons" id="check_destroys">
               {% for post in post_list %}
                 <li class="list_ck btn btn-primary mb-1" id="searchdata">
-                   <input type="checkbox" name="{{post.id}}" class="check_destroy"> <b>우리들의 추억 : </b> {{ post.title }} <b> 날짜 : </b> {{ post.tourday }}
+                   <input type="checkbox" name="{{post.id}}" class="check_destroy"> <b>우리들의 추억 : </b> {{ post.title }}
                 </li>
               {% endfor %}
             </ul>
