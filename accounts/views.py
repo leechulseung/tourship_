@@ -265,7 +265,6 @@ def friend_list(request):
 	requests_uesr = Friend.objects.requests(request.user) #받은 리스트
 	friendlist= Friend.objects.friends(request.user) #친구 리스트
 	sent_requests = Friend.objects.sent_requests(request.user) #보낸 리스트
-
 	search = request.GET.get('search', None) #검색
 	returns = request.GET.get('returns', None) #친구목록보기
 

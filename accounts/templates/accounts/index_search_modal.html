@@ -5,7 +5,7 @@
 
 {% endfor %}
 </ul>
-<div id="pagination_index">
+<div id="pagination_index" class="mt-3">
   <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
     {% if post_list.has_previous %}
@@ -24,5 +24,6 @@
   </nav>
 </div>
   {% endif %}
+
 </div>
 <input id="search-flag" type="hidden" value="{{search}}" name="search-flag">
