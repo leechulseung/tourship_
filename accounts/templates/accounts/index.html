@@ -4,7 +4,7 @@
 <!--스타일 적용-->
 {% block style %}
 	<link rel="stylesheet" href="{% static 'accounts/after_login_main.css' %}">
-  <link rel="stylesheet" href="{% static 'news/newspeed_custom.css' %}">
+  <!-- <link rel="stylesheet" href="{% static 'news/newspeed_custom.css' %}"> -->
 {% endblock style %}
 
 <!--내용 시작-->
@@ -309,6 +309,7 @@
   <script>
       var userLocations = {'locations':{{locations|safe}},
         'userid':{{user.id}},'url':"{% url 'news:modal' %}",
+        'more_url':"{% url 'news:comment_more' %}"
        };
   </script>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=06220f2994a97769a8f7ba53ca9f39b8&libraries=services,clusterer"></script>

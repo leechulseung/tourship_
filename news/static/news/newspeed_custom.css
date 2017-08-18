@@ -47,7 +47,7 @@ a:hover, a:focus {
 }
 
 .dropdown-menu {
-	right: 0;
+	/*right: 0;*/
 	left: inherit;
 }
 

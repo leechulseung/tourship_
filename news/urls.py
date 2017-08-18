@@ -14,4 +14,5 @@ urlpatterns +=[
 	url(r'^more/$', views.comment_more, name="comment_more"),
 	#post 좋아요
 	url(r'^like/$', views.news_like, name='post_like'),
+	
 ]

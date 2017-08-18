@@ -4,9 +4,8 @@ from news.models import Photo, Block_user
 from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, get_user_model
-from django.http import HttpResponse
 from .models import Profile
-
+from django.http import HttpResponse, JsonResponse
 from django.db.models import F,Q
 from django.core.paginator import Paginator, EmptyPage,PageNotAnInteger
 
@@ -74,8 +73,6 @@ def index(request): #게시글 등록
 
 	#검색을 했을 경우
 	if search:
-		print("들어와라 얍")
-		print(search)
 		post_list = post_list.filter(Q(title__icontains=search) | Q(tourday__icontains=search))
 		paginator = Paginator(post_list, 3)
 
@@ -91,8 +88,6 @@ def index(request): #게시글 등록
 		return render(request,'accounts/index_search_modal.html',{'post_list':post_list, 'total_page':range(1, paginator.num_pages + 1)})
 
 	paginator = Paginator(post_list, 3)
-
-
 	if request.method == 'POST':
 		form = PostForm(request.user,request.POST,request.FILES)
 		if form.is_valid():
@@ -275,7 +270,7 @@ def block_list(request):
 	#if block_cancle:
 
 	block_user = Block_user.objects.filter(author = request.user)
-	print(block_user)
+
 	return render(request, 'friend/block_list.html',{'block_list':block_user,})
 
 def block_cancle(request,pk): #차단취소
@@ -339,3 +334,14 @@ def other_map(request, username):
 		'sent_requests':sent_requests_list,
 		'requests':requests_uesr,
 		})
+
+def tour_flag(request):
+	if request.is_ajax():
+		if request.user.profile.is_tour:
+			request.user.profile.is_tour =False
+			request.user.profile.save()
+			return JsonResponse({'message':'휴식중'})
+		else:
+			request.user.profile.is_tour = True
+			request.user.profile.save()
+			return JsonResponse({'message':'여행중'})

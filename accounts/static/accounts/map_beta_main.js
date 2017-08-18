@@ -83,6 +83,70 @@ function getCookie(name) {
         });
     });
 
+    $(document).on("click",".ajaxButton",function(e){
+        e.submit
+        e.stopPropagation(); // 같은 영역에 속해있는 중복 클릭 방지 
+        e.preventDefault();  // 이벤트 진행 중지 
+        
+        var pk = parseInt($("area[shape=poly]")[0].title);
+        var message = $('#id_message').val()
+
+        var csrf = getCookie("csrftoken");
+        if($('.message'+pk+' #id_message').val()==''){
+
+        }else{
+            $.ajax({
+               type : 'post', // post방식으로 전송
+               url : user.url, // 서버로 보낼 url 주소
+               data : {  // 서버로 보낼 데이터들 dict형식 
+                'pk':pk,
+                'message': message,
+                'csrfmiddlewaretoken': csrf,
+                },
+                // 서버에서 리턴받아올 데이터 형식
+               dataType : 'html',  
+
+               //서버에서 무사히 html을 리턴하였다면 실행 
+               success : function(data, textStatus, jqXHR){ 
+                $('#id_message').val("")
+                $('#ajax-comment').append(data);
+                //append(data);
+               },
+
+               //서버에서 html을 리턴해주지 못했다면 
+               error : function(data, textStatus, jqXHR){
+                alert("실패 하였다.");
+               },
+               
+           });}
+    });
+
+    $(document).on('click', '#comment-more', function(){
+         var pk = parseInt($("area[shape=poly]")[0].title);
+         // var url = $(this).attr('href');
+         var csrf = getCookie("csrftoken");
+
+         $.ajax({
+           type: "POST",
+           url: user.more_url,
+           data: {
+             'pk': pk,
+             'csrfmiddlewaretoken': csrf,
+           },
+           dataType: "html",
+     
+           success: function(data, textStatus, jqXHR){
+             $('#ajax-comment').append(data);
+             $("#comment-more").remove()
+           },
+     
+           error: function(request, status, error){
+             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+             alert("문제가 발생했습니다.");
+           },
+         })
+       })
+
     function markerOver(map, userMarker, infowindow){
         return function(){
             infowindow.open(map, userMarker);

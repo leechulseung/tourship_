@@ -5,6 +5,8 @@ from accounts import views
 urlpatterns = [
 	url(r'^$', views.index, name="index"),
 	url(r'^user/(?P<username>[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3})/$', views.other_map , name="other_map"),
+	#tour_flag
+	url(r'^tour_flag/$', views.tour_flag, name='tour_flag'),
 ]
 
 #로그인 전 url
