@@ -11,7 +11,7 @@ class Post(models.Model):
 	location = models.TextField('위도/경도')
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
-	main_photo = models.ImageField('사진', blank=True,upload_to='main_photo/%Y/%m/%d/')
+	main_photo = models.ImageField('사진',upload_to='main_photo/%Y/%m/%d/')
 	like_user_set = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                            blank=True,
                                            related_name='like_user_set',

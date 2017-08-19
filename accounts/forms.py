@@ -115,7 +115,7 @@ class DateInput(forms.DateInput):
 
 class PostForm(forms.ModelForm):
 	address = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'주소를 입력하세요.'}),required=True)
-
+	main_photo = forms.ImageField(required=True)
 	def __init__(self, user=False, *args, **kwargs):
 		self.user = user
 		super().__init__(*args,**kwargs)

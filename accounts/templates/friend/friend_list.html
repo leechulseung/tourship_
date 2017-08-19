@@ -16,7 +16,6 @@
                     <button type="submit" class="friend__header__btn px-3 py-1">Search</button>
                 </form>
             </header>
-
             <section class="friend__body">
                 <header class="friend__body__header pt-4">
                     <nav class="frined__body__nav nav">
@@ -28,7 +27,12 @@
 
                 <article class="friend__my__profile row pt-4">
                   <div class="my__profile__img card col-12 col-md-4 col-lg-4">
-                    <img style="width:360px;height:327px;border-radius: 10px" class="card-img-top" src="{{ user.profile.photo.url }}" alt="Card image cap">
+                    {% if user.profile.photo %}
+                      <img style="width:360px;height:327px;border-radius: 10px" class="card-img-top" src="{{ user.profile.photo.url }}" alt="upload IMG">
+                    {% else %}
+                    <img style="width:360px;height:327px;border-radius: 10px" class="card-img-top" src="#" alt="Card image cap">
+                    {% endif %}
+                    
                   </div>
                   <div class="my__profile__content card col-12 col-md-8 col-lg-8">
                     <div class="card-block">

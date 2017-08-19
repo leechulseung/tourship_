@@ -152,3 +152,37 @@ $(document).on('click','.pagination_page', function(e){
   }
 
 });
+
+$(document).on('click','#booking-sent',function(e){
+  e.submit
+  e.stopPropagation(); // 같은 영역에 속해있는 중복 클릭 방지
+  e.preventDefault();  // 이벤트 진행 중지
+
+  var title = $('#id_title').val()
+  var content = $('#id_content').val()
+  var location = $('#booking__hidden').val()
+  var address = $('#memoryBooking__address').val()
+  var to_user = $('#id_to_user').val()
+  var csrf = getCookie("csrftoken");
+
+  $.ajax({
+    type : 'post',
+    url : '',
+    data : {
+      'title':title,
+      'content':content,
+      'location':location,
+      'address':address,
+      'to_user':to_user,
+      'csrfmiddlewaretoken': csrf,
+    },
+    
+    success : function(data, states, J){
+      $('#memoryBooking').modal('hide')
+    },
+                 //서버에서 html을 리턴해주지 못했다면
+    error : function(response){
+      alert("실패 하였다.");
+    },
+  });
+})
